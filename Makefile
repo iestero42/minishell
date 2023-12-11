@@ -6,13 +6,13 @@
 #    By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/07 10:56:39 by yunlovex          #+#    #+#              #
-#    Updated: 2023/12/11 07:29:00 by iestero-         ###   ########.fr        #
+#    Updated: 2023/12/11 11:12:08 by iestero-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # Variable
 
-NAME				=	fractol
+NAME				=	minishell
 BONUS				=	fractol_bonus
 
 GREEN 				= 	\033[0;32m
@@ -58,16 +58,16 @@ MAIN_DIR			=	main
 UTILS_DIR			=	utils
 PARSE_DIR			=	parse
 
-LDLIBS				=	$(LIBFRACTOL) $(LIBFT)
+LDLIBS				=	$(LIBMINISHELL) $(LIBFT) -lreadline
 LDLIBS_BONUS		=	$(LIBFRACTOL_BONUS) $(LIBFT)
 
 CC					=	gcc
 
 CFLAGS				=	-g -Wall -Werror -Wextra $(INCLUDES) 
 CFLAGS_BONUS		=	-g -Wall -Werror -Wextra $(INCLUDES_BONUS)
-LDFLAGS				=   $(LDLIBS) -L$(MINILIBX_DIR)
+LDFLAGS				=   $(LDLIBS)
 LDFLAGS_BONUS		=	$(LDLIBS_BONUS) -L$(MINILIBX_DIR) -lmlx -framework OpenGL -framework AppKit
-INCLUDES			=	-I$(INC_DIR) -I$(addsuffix $(INC_DIR), $(LIBFT_DIR)/) -I$(MINILIBX_DIR)
+INCLUDES			=	-I$(INC_DIR) -I$(addsuffix $(INC_DIR), $(LIBFT_DIR)/)
 INCLUDES_BONUS		=	-I$(INCBONUS_DIR) -I$(addsuffix $(INC_DIR), $(LIBFT_DIR)/) -I$(MINILIBX_DIR)
 
 SANITIZE			=	-fsanitize=address
@@ -80,19 +80,11 @@ ARFLAGS 			= 	rsc
 
 # Source
 
-MAIN_FILES	=	fract-ol.c
+MAIN_FILES	=	minishell.c
 
-PARSE_FILES	=	fractal_init.c			\
-				fractal_render.c		\
-				colors.c				\
-				choose_ft.c				\
-				ft_julia.c				\
-				events.c				\
+PARSE_FILES	=	parse_data.c
 
-UTILS_FILES	=	math_utils.c		\
-				pixel_put.c			\
-				events_utils.c		\
-				ft_atod.c			\
+UTILS_FILES	=	
 
 
 SRCS_FILES	= 	$(addprefix $(MAIN_DIR)/, $(MAIN_FILES)) 	\
@@ -141,7 +133,6 @@ bonus:				$(BONUS)
 
 clean:
 	@make -s fclean -C $(LIBFT_DIR)
-	@make -s clean -C $(MINILIBX_DIR)
 	@$(RM) -r $(LIBS_DIR)
 	@$(RM) -r $(OBJ_DIR)
 	@$(RM) -r $(OBJBNS_DIR)
