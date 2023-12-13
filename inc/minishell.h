@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 07:29:23 by iestero-          #+#    #+#             */
-/*   Updated: 2023/12/12 11:38:31 by iestero-         ###   ########.fr       */
+/*   Updated: 2023/12/13 10:47:18 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,13 @@
 # define OUTPUT 0
 # define INPUT 	1
 
+# define UNQUOTED 	0
+# define QUOTED 	1
+
 typedef struct s_command
 {
 	char	**args;
-	char	*command;
+	char	*name;
 	char	*options;
 	int		redirection[2];
 }	t_command;
@@ -58,14 +61,22 @@ typedef struct s_minishell
 	int			*pipes;
 }	t_minishell;
 
-void	parse_data(const char *command_line, t_minishell *data);
+void		parse_data(const char *command_line, t_minishell *data);
 
-int		ft_strcmp(char *s1, char *s2);
+int			ft_strcmp(char *s1, char *s2);
 
-char	**ft_substr_array(char **str_array, int start_index, int end_index);
+char		**ft_dsubstr(char **str_array, int start_index, int end_index);
 
-void	double_free(char **str);
+void		double_free(char **str);
 
-int		ft_dstrlen(const char **str);
+int			ft_dstrlen(const char **str);
+
+char		**split_command(const char *s);
+
+t_command	parse_command(char **command);
+
+char		**ft_dstrjoin(char **arr1, char **arr2);
+
+void		error_malloc(void);
 
 #endif

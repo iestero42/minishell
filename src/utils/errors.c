@@ -6,7 +6,13 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 11:53:30 by iestero-          #+#    #+#             */
-/*   Updated: 2023/12/11 11:53:31 by iestero-         ###   ########.fr       */
+/*   Updated: 2023/12/13 10:45:03 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "minishell.h"
+
+void	error_malloc(void)
+{
+	exit(1);
+}

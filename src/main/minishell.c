@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 07:29:18 by iestero-          #+#    #+#             */
-/*   Updated: 2023/12/11 11:56:28 by iestero-         ###   ########.fr       */
+/*   Updated: 2023/12/13 11:46:14 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,9 @@ int	main(void)
 		{
 			parse_data(readline(MINISHELL_ENTRY), &data);
 			minishell();
+			exit(0);
 		}
-		waitpid(pid, NULL, 0);
+		wait(NULL);
 	}
 	return (0);
 }

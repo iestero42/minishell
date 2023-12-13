@@ -6,7 +6,7 @@
 #    By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/07 10:56:39 by yunlovex          #+#    #+#              #
-#    Updated: 2023/12/11 11:12:08 by iestero-         ###   ########.fr        #
+#    Updated: 2023/12/13 10:31:21 by iestero-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -82,10 +82,12 @@ ARFLAGS 			= 	rsc
 
 MAIN_FILES	=	minishell.c
 
-PARSE_FILES	=	parse_data.c
+PARSE_FILES	=	parse_data.c		\
+				parse_command.c		\
 
-UTILS_FILES	=	
-
+UTILS_FILES	=	errors.c			\
+				split_command.c		\
+				string_utils.c		\
 
 SRCS_FILES	= 	$(addprefix $(MAIN_DIR)/, $(MAIN_FILES)) 	\
 				$(addprefix $(UTILS_DIR)/, $(UTILS_FILES)) 	\

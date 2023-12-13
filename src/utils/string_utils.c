@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 10:05:08 by iestero-          #+#    #+#             */
-/*   Updated: 2023/12/12 11:38:20 by iestero-         ###   ########.fr       */
+/*   Updated: 2023/12/13 10:36:58 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	double_free(char **str)
 	free(str);
 }
 
-char	**ft_substr_array(char **str_array, int start_index, int end_index)
+char	**ft_dsubstr(char **str_array, int start_index, int end_index)
 {
 	int		num_elements;
 	char	**sub_array;
@@ -75,4 +75,21 @@ int	ft_dstrlen(const char **str)
 	while (str[i] != '\0')
 		i++;
 	return (i);
+}
+
+char	**ft_dstrjoin(char **arr1, char **arr2)
+{
+	int		len1;
+	int		len2;
+	char	**combined;
+
+	len1 = ft_dstrlen((const char **) arr1);
+	len2 = ft_dstrlen((const char **) arr2);
+	combined = malloc(sizeof(char *) * (len1 + len2 + 1));
+	if (combined == NULL)
+		return (NULL);
+	ft_memcpy(combined, arr1, sizeof(char *) * len1);
+	ft_memcpy(combined + len1, arr2, sizeof(char *) * len2);
+	combined[len1 + len2] = NULL;
+	return (combined);
 }
