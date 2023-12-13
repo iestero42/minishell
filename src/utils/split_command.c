@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 09:30:38 by iestero-          #+#    #+#             */
-/*   Updated: 2023/12/13 11:44:46 by iestero-         ###   ########.fr       */
+/*   Updated: 2023/12/13 11:54:04 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,6 @@ char	**split_command(const char *s)
 			return (NULL);
 		}
 	}
-	substrings[num_substrings] = NULL;
+	substrings[i] = NULL;
 	return (substrings);
 }

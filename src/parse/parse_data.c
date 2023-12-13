@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 10:48:47 by iestero-          #+#    #+#             */
-/*   Updated: 2023/12/13 10:56:51 by iestero-         ###   ########.fr       */
+/*   Updated: 2023/12/13 11:57:50 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ static int	calc_command(char **command)
 	{
 		if (!ft_strcmp(command[i], "|"))
 			size++;
+		i++;
 	}
 	return (size);
 }
@@ -36,7 +37,7 @@ static void	parse_list_command(char **command_list, t_minishell *data)
 	current = -1;
 	prev = 0;
 	i = 0;
-	while (command_list[++current] != '\0')
+	while (command_list[++current] != NULL)
 	{
 		if (!ft_strcmp(command_list[current], "|"))
 		{
@@ -58,11 +59,6 @@ void	parse_data(const char *command_line, t_minishell *data)
 	command_split = split_command(command_line);
 	if (!command_split)
 		error_malloc();
-	for	(int i = 0; i < ft_dstrlen((const char **)command_split); i++)
-	{
-		ft_putstr_fd(command_split[i], 1);
-		ft_putstr_fd("\n", 1);
-	}
 	while (!ft_strcmp(command_split[
 				ft_dstrlen((const char **) command_split) - 1], "|"))
 	{
