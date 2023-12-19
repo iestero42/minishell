@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_command.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 09:30:38 by iestero-          #+#    #+#             */
-/*   Updated: 2023/12/13 11:54:04 by iestero-         ###   ########.fr       */
+/*   Updated: 2023/12/19 10:01:10 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,16 +47,14 @@ static int	size_dstr(const char *s)
 	return (count);
 }
 
-static char	*save_memory(const char *s, size_t len)
+static int	save_memory(const char *s, size_t len, char *substr)
 {
-	char	*substr;
-
 	substr = (char *) malloc(sizeof(char) * (len + 1));
 	if (!substr)
-		return (NULL);
+		return (EXIT_FAILURE);
 	ft_strlcpy(substr, (char *) s, len + 1);
 	substr[len] = '\0';
-	return (substr);
+	return (EXIT_SUCCESS);
 }
 
 /**
@@ -65,7 +63,7 @@ static char	*save_memory(const char *s, size_t len)
  * @param s 
  * @return char* 
  */
-static char	*get_next_substring(int *start, const char *s)
+static int	get_next_substring(int *start, const char *s, char *substring)
 {
 	const char	*start_chr;
 	int			in_quotes;
@@ -88,9 +86,9 @@ static char	*get_next_substring(int *start, const char *s)
 		i++;
 	}
 	if (in_quotes)
-		return (NULL);
+		return (EXIT_FAILURE);
 	*start = *start + i + 1;
-	return (save_memory(start_chr, i + 1));
+	return (save_memory(start_chr, i + 1, substring));
 }
 
 /**
@@ -99,30 +97,28 @@ static char	*get_next_substring(int *start, const char *s)
  * @param s 
  * @return char** 
  */
-char	**split_command(const char *s)
+int	split_command(const char *s, char ***command_split)
 {
 	int			num_substrings;
-	char		**substrings;
 	int			start;
 	int			i;
 
 	if (s == NULL)
-		return (NULL);
+		return (EXIT_FAILURE);
 	num_substrings = size_dstr(s);
-	substrings = malloc(sizeof(char *) * (num_substrings + 1));
-	if (!substrings)
-		return (NULL);
+	*command_split = malloc(sizeof(char *) * (num_substrings + 1));
+	if (!*command_split)
+		return (EXIT_FAILURE);
 	start = 0;
 	i = -1;
 	while (++i < num_substrings)
 	{
-		substrings[i] = get_next_substring(&start, s);
-		if (substrings[i] == NULL)
+		if (get_next_substring(&start, s, *command_split[i]) == EXIT_FAILURE)
 		{
-			double_free(substrings);
-			return (NULL);
+			double_free(*command_split);
+			return (EXIT_FAILURE);
 		}
 	}
-	substrings[i] = NULL;
-	return (substrings);
+	*command_split[i] = NULL;
+	return (EXIT_SUCCESS);
 }

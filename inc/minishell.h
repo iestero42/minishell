@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 07:29:23 by iestero-          #+#    #+#             */
-/*   Updated: 2023/12/13 10:47:18 by iestero-         ###   ########.fr       */
+/*   Updated: 2023/12/19 10:00:32 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,9 @@ void		double_free(char **str);
 
 int			ft_dstrlen(const char **str);
 
-char		**split_command(const char *s);
+int			split_command(const char *s, char ***command_split);
 
-t_command	parse_command(char **command);
+int			parse_command(char **command_str, t_command *command);
 
 char		**ft_dstrjoin(char **arr1, char **arr2);
 

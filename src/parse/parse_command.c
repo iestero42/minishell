@@ -3,20 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   parse_command.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 11:48:07 by iestero-          #+#    #+#             */
-/*   Updated: 2023/12/13 10:49:07 by iestero-         ###   ########.fr       */
+/*   Updated: 2023/12/19 09:43:52 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_command	parse_command(char **command_str)
+int	parse_command(char **command_str, t_command *command)
 {
-	t_command	command;
-
-	command.name = "parse_command";
-	command.args = command_str;
-	return (command);
+	command->name = "parse_command";
+	command->args = command_str;
+	return (EXIT_SUCCESS);
 }

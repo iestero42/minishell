@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_data.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 10:48:47 by iestero-          #+#    #+#             */
-/*   Updated: 2023/12/13 12:04:35 by iestero-         ###   ########.fr       */
+/*   Updated: 2023/12/19 10:02:10 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int	calc_command(char **command)
 
 	size = 0;
 	i = 0;
-	while (command[i] != '\0')
+	while (command[i] != NULL)
 	{
 		if (!ft_strcmp(command[i], "|"))
 			size++;
@@ -41,13 +41,13 @@ static void	parse_list_command(char **command_list, t_minishell *data)
 	{
 		if (!ft_strcmp(command_list[current], "|"))
 		{
-			data->comand_split[i++] = parse_command(ft_dsubstr(command_list,
-						prev, current));
+			parse_command(ft_dsubstr(command_list, prev, current),
+				&data->comand_split[i++]);
 			prev = current + 1;
 		}
 	}
-	data->comand_split[i] = parse_command(ft_dsubstr(command_list,
-				prev, current));
+	parse_command(ft_dsubstr(command_list, prev, current),
+		&data->comand_split[i]);
 }
 
 void	parse_data(const char *command_line, t_minishell *data)
@@ -55,15 +55,12 @@ void	parse_data(const char *command_line, t_minishell *data)
 	char		**command_split;
 	char		**tmp;
 
-
-	command_split = split_command(command_line);
-	if (!command_split)
+	if (split_command(command_line, &command_split) == EXIT_FAILURE)
 		error_malloc();
 	while (!ft_strcmp(command_split[
 				ft_dstrlen((const char **) command_split) - 1], "|"))
 	{
-		tmp = split_command(readline("pipe> "));
-		if (!tmp)
+		if (split_command(readline("pipe> "), &tmp) == EXIT_FAILURE)
 			error_malloc();
 		command_split = ft_dstrjoin(command_split, tmp);
 	}
@@ -71,5 +68,6 @@ void	parse_data(const char *command_line, t_minishell *data)
 			* calc_command(command_split));
 	if (!data->comand_split)
 		error_malloc();
+	ft_putstr_fd("hola", 1);
 	parse_list_command(command_split, data);
 }
