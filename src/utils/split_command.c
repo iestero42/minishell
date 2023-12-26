@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_command.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 09:30:38 by iestero-          #+#    #+#             */
-/*   Updated: 2023/12/19 10:01:10 by yunlovex         ###   ########.fr       */
+/*   Updated: 2023/12/26 11:49:24 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,38 +23,38 @@ static int	size_dstr(const char *s)
 	int		count;
 	int		i;
 	int		in_quotes;
-	char	current_quote;
 
 	count = 0;
 	in_quotes = UNQUOTED;
-	current_quote = '\0';
 	i = -1;
 	while (s[++i] != '\0')
 	{
 		if ((s[i] == '"' || s[i] == '\'') && !in_quotes)
-		{
 			in_quotes = QUOTED;
-			current_quote = s[i];
-		}
-		else if (s[i] == current_quote && in_quotes)
-		{
+		else if ((s[i] == '"' || s[i] == '\'') && in_quotes)
 			in_quotes = UNQUOTED;
+		else if ((s[i] == '|' || s[i + 1] == '\0') && !in_quotes)
+		{
 			count++;
+			if (s[i + 1] == '|')
+				return (-2);
 		}
-		else if ((s[i] == ' ' || s[i + 1] == '\0') && !in_quotes)
-			count++;
 	}
+	if (in_quotes || s[0] == '|' || s[i - 1] == '|')
+		return (-2);
 	return (count);
 }
 
-static int	save_memory(const char *s, size_t len, char *substr)
+static char	*save_memory(const char *s, size_t len)
 {
+	char	*substr;
+
 	substr = (char *) malloc(sizeof(char) * (len + 1));
 	if (!substr)
-		return (EXIT_FAILURE);
+		return (NULL);
 	ft_strlcpy(substr, (char *) s, len + 1);
 	substr[len] = '\0';
-	return (EXIT_SUCCESS);
+	return (substr);
 }
 
 /**
@@ -63,7 +63,7 @@ static int	save_memory(const char *s, size_t len, char *substr)
  * @param s 
  * @return char* 
  */
-static int	get_next_substring(int *start, const char *s, char *substring)
+static char	*get_next_substring(int *start, const char *s)
 {
 	const char	*start_chr;
 	int			in_quotes;
@@ -74,21 +74,20 @@ static int	get_next_substring(int *start, const char *s, char *substring)
 	while (*start_chr == ' ')
 		start_chr++;
 	i = 0;
-	while (start_chr[i] && (in_quotes || start_chr[i] != ' '))
+	while (start_chr[i] && (in_quotes || start_chr[i] != '|'))
 	{
 		if ((start_chr[i] == '"' || start_chr[i] == '\'') && !in_quotes)
 			in_quotes = QUOTED;
 		else if ((start_chr[i] == '"' || start_chr[i] == '\'') && in_quotes)
 		{
 			in_quotes = UNQUOTED;
+			i++;
 			break ;
 		}
 		i++;
 	}
-	if (in_quotes)
-		return (EXIT_FAILURE);
 	*start = *start + i + 1;
-	return (save_memory(start_chr, i + 1, substring));
+	return (save_memory(start_chr, i));
 }
 
 /**
@@ -97,28 +96,30 @@ static int	get_next_substring(int *start, const char *s, char *substring)
  * @param s 
  * @return char** 
  */
-int	split_command(const char *s, char ***command_split)
+char	**split_command(const char *s)
 {
 	int			num_substrings;
+	char		**substrings;
 	int			start;
 	int			i;
 
 	if (s == NULL)
-		return (EXIT_FAILURE);
+		return (NULL);
 	num_substrings = size_dstr(s);
-	*command_split = malloc(sizeof(char *) * (num_substrings + 1));
-	if (!*command_split)
-		return (EXIT_FAILURE);
+	substrings = malloc(sizeof(char *) * (num_substrings + 1));
+	if (!substrings)
+		return (NULL);
 	start = 0;
 	i = -1;
 	while (++i < num_substrings)
 	{
-		if (get_next_substring(&start, s, *command_split[i]) == EXIT_FAILURE)
+		substrings[i] = get_next_substring(&start, s);
+		if (substrings[i] == NULL)
 		{
-			double_free(*command_split);
-			return (EXIT_FAILURE);
+			double_free(substrings);
+			return (NULL);
 		}
 	}
-	*command_split[i] = NULL;
-	return (EXIT_SUCCESS);
+	substrings[num_substrings] = NULL;
+	return (substrings);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 07:29:23 by iestero-          #+#    #+#             */
-/*   Updated: 2023/12/19 10:00:32 by yunlovex         ###   ########.fr       */
+/*   Updated: 2023/12/26 13:08:01 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ typedef struct s_command
 	char	**args;
 	char	*name;
 	char	*options;
-	int		redirection[2];
+	int		*output_redirect;
+	int		input_redirect;
 }	t_command;
 
 typedef struct s_minishell
@@ -71,7 +72,7 @@ void		double_free(char **str);
 
 int			ft_dstrlen(const char **str);
 
-int			split_command(const char *s, char ***command_split);
+char		**split_command(const char *s);
 
 int			parse_command(char **command_str, t_command *command);
 
