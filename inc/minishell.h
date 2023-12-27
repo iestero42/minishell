@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 07:29:23 by iestero-          #+#    #+#             */
-/*   Updated: 2023/12/26 13:08:01 by iestero-         ###   ########.fr       */
+/*   Updated: 2023/12/27 11:43:59 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ typedef struct s_command
 	char	**args;
 	char	*name;
 	char	*options;
-	int		*output_redirect;
+	char	*delimiter;
+	int		output_redirect;
 	int		input_redirect;
 }	t_command;
 
@@ -72,6 +73,8 @@ void		double_free(char **str);
 
 int			ft_dstrlen(const char **str);
 
+char		**split_pipes(const char *s);
+
 char		**split_command(const char *s);
 
 int			parse_command(char **command_str, t_command *command);
@@ -79,5 +82,9 @@ int			parse_command(char **command_str, t_command *command);
 char		**ft_dstrjoin(char **arr1, char **arr2);
 
 void		error_malloc(void);
+
+int			built_redirect(char **tokens, t_command *cmd);
+
+int			built_output(char *token, t_command *cmd, char *nextToken);
 
 #endif

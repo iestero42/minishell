@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   split_command.c                                    :+:      :+:    :+:   */
+/*   split_pipes.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/27 09:03:49 by iestero-          #+#    #+#             */
-/*   Updated: 2023/12/27 09:09:16 by iestero-         ###   ########.fr       */
+/*   Created: 2023/12/13 09:30:38 by iestero-          #+#    #+#             */
+/*   Updated: 2023/12/27 09:09:06 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,15 @@ static int	size_dstr(const char *s)
 		if ((s[i] == '"' || s[i] == '\'') && !in_quotes)
 			in_quotes = QUOTED;
 		else if ((s[i] == '"' || s[i] == '\'') && in_quotes)
-		{
 			in_quotes = UNQUOTED;
+		else if ((s[i] == '|' || s[i + 1] == '\0') && !in_quotes)
+		{
 			count++;
+			if (s[i + 1] == '|')
+				return (-2);
 		}
-		else if ((s[i] == ' ' || s[i + 1] == '\0') && !in_quotes)
-			count++;
 	}
-	if (in_quotes)
+	if (in_quotes || s[0] == '|' || s[i - 1] == '|')
 		return (-2);
 	return (count);
 }
@@ -72,7 +73,7 @@ static char	*get_next_substring(int *start, const char *s)
 	while (*start_chr == ' ')
 		start_chr++;
 	i = 0;
-	while (start_chr[i] && (in_quotes || start_chr[i] != ' '))
+	while (start_chr[i] && (in_quotes || start_chr[i] != '|'))
 	{
 		if ((start_chr[i] == '"' || start_chr[i] == '\'') && !in_quotes)
 			in_quotes = QUOTED;
@@ -84,8 +85,6 @@ static char	*get_next_substring(int *start, const char *s)
 		}
 		i++;
 	}
-	if (in_quotes)
-		return (NULL);
 	*start = *start + i + 1;
 	return (save_memory(start_chr, i));
 }
@@ -96,7 +95,7 @@ static char	*get_next_substring(int *start, const char *s)
  * @param s 
  * @return char** 
  */
-char	**split_command(const char *s)
+char	**split_pipes(const char *s)
 {
 	int			num_substrings;
 	char		**substrings;

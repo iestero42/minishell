@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 07:29:18 by iestero-          #+#    #+#             */
-/*   Updated: 2023/12/26 09:01:53 by iestero-         ###   ########.fr       */
+/*   Updated: 2023/12/27 08:53:22 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,20 @@ static int	minishell(void)
 int	main(void)
 {
 	t_minishell	data;
+	pid_t		pid;
 
 	show_title();
 	data.stat = RUNNING;
 	while (data.stat != STOPPED)
 	{
-		parse_data(readline(MINISHELL_ENTRY), &data);
-		minishell();
+		pid = fork();
+		if (pid == 0)
+		{
+			parse_data(readline(MINISHELL_ENTRY), &data);
+			minishell();
+			exit(0);
+		}
+		wait(NULL);
 	}
 	return (0);
 }

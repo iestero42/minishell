@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: marvin <marvin@student.42.fr>              +#+  +:+       +#+         #
+#    By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/07 10:56:39 by yunlovex          #+#    #+#              #
-#    Updated: 2023/12/19 10:23:21 by marvin           ###   ########.fr        #
+#    Updated: 2023/12/27 09:20:41 by iestero-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -57,6 +57,7 @@ INCBONUS_DIR		=	incbonus
 MAIN_DIR			=	main
 UTILS_DIR			=	utils
 PARSE_DIR			=	parse
+BUILTINS_DIR		=	built-ins
 
 LDLIBS				=	$(LIBMINISHELL) $(LIBFT) -lreadline
 LDLIBS_BONUS		=	$(LIBFRACTOL_BONUS) $(LIBFT)
@@ -87,15 +88,19 @@ PARSE_FILES	=	parse_data.c		\
 
 UTILS_FILES	=	errors.c			\
 				split_command.c		\
+				split_pipes.c		\
 				string_utils.c		\
 
-SRCS_FILES	= 	$(addprefix $(MAIN_DIR)/, $(MAIN_FILES)) 	\
-				$(addprefix $(UTILS_DIR)/, $(UTILS_FILES)) 	\
-				$(addprefix $(PARSE_DIR)/, $(PARSE_FILES)) 	\
+BUILTINS_FILES	=	
+
+SRCS_FILES	= 	$(addprefix $(MAIN_DIR)/, $(MAIN_FILES)) 			\
+				$(addprefix $(UTILS_DIR)/, $(UTILS_FILES)) 			\
+				$(addprefix $(PARSE_DIR)/, $(PARSE_FILES)) 			\
+				$(addprefix $(BUILTINS_DIR)/, $(BUILTINS_FILES)) 	\
 
 SRCS 		=	$(addprefix $(SRC_DIR)/, $(SRCS_FILES))
 OBJS 		=	$(addprefix $(OBJ_DIR)/, $(SRCS_FILES:.c=.o))
-DIRS		=	$(OBJ_DIR)  $(addprefix $(OBJ_DIR)/, $(MAIN_DIR) $(UTILS_DIR) $(PARSE_DIR))
+DIRS		=	$(OBJ_DIR)  $(addprefix $(OBJ_DIR)/, $(MAIN_DIR) $(UTILS_DIR) $(PARSE_DIR) $(BUILTINS_DIR))
 
 OBJ_MAIN	=	$(addprefix $(OBJ_DIR)/, $(addprefix $(MAIN_DIR)/, $(MAIN_FILES:.c=.o)))
 
