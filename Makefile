@@ -6,7 +6,7 @@
 #    By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/07 10:56:39 by yunlovex          #+#    #+#              #
-#    Updated: 2023/12/27 09:20:41 by iestero-         ###   ########.fr        #
+#    Updated: 2023/12/28 10:00:50 by iestero-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,6 +58,7 @@ MAIN_DIR			=	main
 UTILS_DIR			=	utils
 PARSE_DIR			=	parse
 BUILTINS_DIR		=	built-ins
+REDIR_DIR			=	$(BUILTINS_DIR)/redir
 
 LDLIBS				=	$(LIBMINISHELL) $(LIBFT) -lreadline
 LDLIBS_BONUS		=	$(LIBFRACTOL_BONUS) $(LIBFT)
@@ -91,16 +92,17 @@ UTILS_FILES	=	errors.c			\
 				split_pipes.c		\
 				string_utils.c		\
 
-BUILTINS_FILES	=	
+REDIR_FILES	=	built_redir.c	\
+				redir_output.c	\
 
-SRCS_FILES	= 	$(addprefix $(MAIN_DIR)/, $(MAIN_FILES)) 			\
-				$(addprefix $(UTILS_DIR)/, $(UTILS_FILES)) 			\
-				$(addprefix $(PARSE_DIR)/, $(PARSE_FILES)) 			\
-				$(addprefix $(BUILTINS_DIR)/, $(BUILTINS_FILES)) 	\
+SRCS_FILES	= 	$(addprefix $(MAIN_DIR)/, $(MAIN_FILES)) 		\
+				$(addprefix $(UTILS_DIR)/, $(UTILS_FILES)) 		\
+				$(addprefix $(PARSE_DIR)/, $(PARSE_FILES)) 		\
+				$(addprefix $(REDIR_DIR)/,$(REDIR_FILES)) 		\
 
 SRCS 		=	$(addprefix $(SRC_DIR)/, $(SRCS_FILES))
 OBJS 		=	$(addprefix $(OBJ_DIR)/, $(SRCS_FILES:.c=.o))
-DIRS		=	$(OBJ_DIR)  $(addprefix $(OBJ_DIR)/, $(MAIN_DIR) $(UTILS_DIR) $(PARSE_DIR) $(BUILTINS_DIR))
+DIRS		=	$(OBJ_DIR)  $(addprefix $(OBJ_DIR)/, $(MAIN_DIR) $(UTILS_DIR) $(PARSE_DIR) $(BUILTINS_DIR) $(REDIR_DIR))
 
 OBJ_MAIN	=	$(addprefix $(OBJ_DIR)/, $(addprefix $(MAIN_DIR)/, $(MAIN_FILES:.c=.o)))
 

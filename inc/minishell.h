@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 07:29:23 by iestero-          #+#    #+#             */
-/*   Updated: 2023/12/27 11:43:59 by iestero-         ###   ########.fr       */
+/*   Updated: 2023/12/28 09:56:07 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ char		**split_pipes(const char *s);
 
 char		**split_command(const char *s);
 
-int			parse_command(char **command_str, t_command *command);
+int			parse_command(char *command_str, t_command *command);
 
 char		**ft_dstrjoin(char **arr1, char **arr2);
 
