@@ -6,7 +6,7 @@
 #    By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/07 10:56:39 by yunlovex          #+#    #+#              #
-#    Updated: 2023/12/28 10:00:50 by iestero-         ###   ########.fr        #
+#    Updated: 2024/01/11 12:24:36 by iestero-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -59,6 +59,7 @@ UTILS_DIR			=	utils
 PARSE_DIR			=	parse
 BUILTINS_DIR		=	built-ins
 REDIR_DIR			=	$(BUILTINS_DIR)/redir
+CMD_DIR				=	$(BUILTINS_DIR)/command
 
 LDLIBS				=	$(LIBMINISHELL) $(LIBFT) -lreadline
 LDLIBS_BONUS		=	$(LIBFRACTOL_BONUS) $(LIBFT)
@@ -82,27 +83,37 @@ ARFLAGS 			= 	rsc
 
 # Source
 
-MAIN_FILES	=	minishell.c
+MAIN_FILES		=	minishell.c
 
-PARSE_FILES	=	parse_data.c		\
-				parse_command.c		\
+PARSE_FILES		=	parse_data.c		\
+					parse_command.c		\
 
-UTILS_FILES	=	errors.c			\
-				split_command.c		\
-				split_pipes.c		\
-				string_utils.c		\
+UTILS_FILES		=	errors.c			\
+					split_command.c		\
+					split_pipes.c		\
+					string_utils.c		\
 
-REDIR_FILES	=	built_redir.c	\
-				redir_output.c	\
+REDIR_FILES		=	built_redir.c		\
+					redir_output.c		\
+					redir_input.c		\
+
+CMD_FILES		=	built_command.c			\
+					built_envVariable.c		\
+									
 
 SRCS_FILES	= 	$(addprefix $(MAIN_DIR)/, $(MAIN_FILES)) 		\
 				$(addprefix $(UTILS_DIR)/, $(UTILS_FILES)) 		\
 				$(addprefix $(PARSE_DIR)/, $(PARSE_FILES)) 		\
-				$(addprefix $(REDIR_DIR)/,$(REDIR_FILES)) 		\
+				$(addprefix $(REDIR_DIR)/, $(REDIR_FILES)) 		\
+				$(addprefix $(CMD_DIR)/, $(CMD_FILES)) 			\
 
 SRCS 		=	$(addprefix $(SRC_DIR)/, $(SRCS_FILES))
 OBJS 		=	$(addprefix $(OBJ_DIR)/, $(SRCS_FILES:.c=.o))
-DIRS		=	$(OBJ_DIR)  $(addprefix $(OBJ_DIR)/, $(MAIN_DIR) $(UTILS_DIR) $(PARSE_DIR) $(BUILTINS_DIR) $(REDIR_DIR))
+DIRS		=	$(OBJ_DIR)  $(addprefix $(OBJ_DIR)/, 			\
+				$(MAIN_DIR) $(UTILS_DIR) $(PARSE_DIR)			\
+				$(BUILTINS_DIR) 								\
+					$(REDIR_DIR)								\
+					$(CMD_DIR))									\
 
 OBJ_MAIN	=	$(addprefix $(OBJ_DIR)/, $(addprefix $(MAIN_DIR)/, $(MAIN_FILES:.c=.o)))
 

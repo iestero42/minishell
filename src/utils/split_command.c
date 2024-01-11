@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 09:03:49 by iestero-          #+#    #+#             */
-/*   Updated: 2023/12/27 09:09:16 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/01/11 12:23:35 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int	size_dstr(const char *s)
 {
 	int		count;
 	int		i;
-	int		in_quotes;
+	char	in_quotes;
 
 	count = 0;
 	in_quotes = UNQUOTED;
@@ -30,12 +30,9 @@ static int	size_dstr(const char *s)
 	while (s[++i] != '\0')
 	{
 		if ((s[i] == '"' || s[i] == '\'') && !in_quotes)
-			in_quotes = QUOTED;
-		else if ((s[i] == '"' || s[i] == '\'') && in_quotes)
-		{
+			in_quotes = s[i];
+		else if (in_quotes == s[i] && in_quotes)
 			in_quotes = UNQUOTED;
-			count++;
-		}
 		else if ((s[i] == ' ' || s[i + 1] == '\0') && !in_quotes)
 			count++;
 	}
@@ -48,7 +45,7 @@ static char	*save_memory(const char *s, size_t len)
 {
 	char	*substr;
 
-	substr = (char *) malloc(sizeof(char) * (len + 1));
+	substr = (char *) malloc(sizeof(char) * (len + 2));
 	if (!substr)
 		return (NULL);
 	ft_strlcpy(substr, (char *) s, len + 1);
@@ -64,7 +61,7 @@ static char	*save_memory(const char *s, size_t len)
 static char	*get_next_substring(int *start, const char *s)
 {
 	const char	*start_chr;
-	int			in_quotes;
+	char		in_quotes;
 	int			i;
 
 	start_chr = &s[*start];
@@ -75,8 +72,8 @@ static char	*get_next_substring(int *start, const char *s)
 	while (start_chr[i] && (in_quotes || start_chr[i] != ' '))
 	{
 		if ((start_chr[i] == '"' || start_chr[i] == '\'') && !in_quotes)
-			in_quotes = QUOTED;
-		else if ((start_chr[i] == '"' || start_chr[i] == '\'') && in_quotes)
+			in_quotes = start_chr[i];
+		else if (start_chr[i] == in_quotes && in_quotes)
 		{
 			in_quotes = UNQUOTED;
 			i++;

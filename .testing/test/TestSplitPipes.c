@@ -1,30 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   built_redir.c                                      :+:      :+:    :+:   */
+/*   TestSplitPipes.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/27 09:21:16 by iestero-          #+#    #+#             */
-/*   Updated: 2024/01/08 08:37:39 by iestero-         ###   ########.fr       */
+/*   Created: 2024/01/11 10:39:20 by iestero-          #+#    #+#             */
+/*   Updated: 2024/01/11 10:39:22 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h" 
+#include <stddef.h>
 
-int	built_redirect(char **tokens, t_command *cmd)
+#include "unity.h"
+#include "minishell.h"
+
+void	setUp(void)
 {
-	int	i;
 
-	i = 0;
-	cmd->output_redirect = -2;
-	cmd->input_redirect = -2;
-	while (tokens[i] != NULL)
-	{
-		if (built_output(tokens[i], cmd, tokens[i + 1]) == EXIT_FAILURE)
-			return (EXIT_FAILURE);
-		if (built_input(tokens[i], cmd, tokens[i + 1]) == EXIT_FAILURE)
-			return (EXIT_FAILURE);
-	}
-	return (EXIT_SUCCESS);
+}
+
+void	tearDown(void)
+{
+
+}
+
+int	main(void)
+{
+	UNITY_BEGIN();
+	
+	UNITY_END();
 }

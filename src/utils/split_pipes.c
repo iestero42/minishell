@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 09:30:38 by iestero-          #+#    #+#             */
-/*   Updated: 2023/12/27 09:09:06 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/01/11 10:38:17 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int	size_dstr(const char *s)
 {
 	int		count;
 	int		i;
-	int		in_quotes;
+	char	in_quotes;
 
 	count = 0;
 	in_quotes = UNQUOTED;
@@ -30,8 +30,8 @@ static int	size_dstr(const char *s)
 	while (s[++i] != '\0')
 	{
 		if ((s[i] == '"' || s[i] == '\'') && !in_quotes)
-			in_quotes = QUOTED;
-		else if ((s[i] == '"' || s[i] == '\'') && in_quotes)
+			in_quotes = s[i];
+		else if (in_quotes == s[i] && in_quotes)
 			in_quotes = UNQUOTED;
 		else if ((s[i] == '|' || s[i + 1] == '\0') && !in_quotes)
 		{
@@ -65,7 +65,7 @@ static char	*save_memory(const char *s, size_t len)
 static char	*get_next_substring(int *start, const char *s)
 {
 	const char	*start_chr;
-	int			in_quotes;
+	char		in_quotes;
 	int			i;
 
 	start_chr = &s[*start];
@@ -76,8 +76,8 @@ static char	*get_next_substring(int *start, const char *s)
 	while (start_chr[i] && (in_quotes || start_chr[i] != '|'))
 	{
 		if ((start_chr[i] == '"' || start_chr[i] == '\'') && !in_quotes)
-			in_quotes = QUOTED;
-		else if ((start_chr[i] == '"' || start_chr[i] == '\'') && in_quotes)
+			in_quotes = start_chr[i];
+		else if (in_quotes == start_chr[i] && in_quotes)
 		{
 			in_quotes = UNQUOTED;
 			i++;

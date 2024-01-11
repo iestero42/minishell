@@ -6,16 +6,15 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 11:35:45 by iestero-          #+#    #+#             */
-/*   Updated: 2023/12/28 11:42:17 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/01/08 11:47:03 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	open_output_simple(char *token, t_command *cmd, char *nextToken)
+static int	open_output_simple(char *token, t_command *cmd, char *next_token)
 {
 	char	*redir;
-	char	*filename;
 
 	redir = ft_strchr(token, '>');
 	if (redir && !ft_strnstr(token, ">>", ft_strlen(token)))
@@ -23,28 +22,25 @@ static int	open_output_simple(char *token, t_command *cmd, char *nextToken)
 		if (cmd->output_redirect > -1)
 			close(cmd->output_redirect);
 		if (ft_strcmp(redir + 1, ""))
+			cmd->output_redirect = open(redir + 1, O_RDWR | O_CREAT, 0666);
+		else if (next_token != NULL)
 		{
-			filename = redir + 1;
-			cmd->output_redirect = open(filename,
+			cmd->output_redirect = open(next_token,
 					O_RDWR | O_CREAT, 0666);
-			return (EXIT_SUCCESS);
-		}
-		else if (nextToken != NULL)
-		{
-			cmd->output_redirect = open(nextToken,
-					O_RDWR | O_CREAT, 0666);
-			return (EXIT_SUCCESS);
+			next_token = "";
 		}
 		else
 			return (EXIT_FAILURE);
+		*redir = '\0';
 	}
+	if (cmd->output_redirect == -1)
+		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
 
-static int	open_output_double(char *token, t_command *cmd, char *nextToken)
+static int	open_output_double(char *token, t_command *cmd, char *next_token)
 {
 	char	*redir;
-	char	*filename;
 
 	redir = ft_strnstr(token, ">>", ft_strlen(token));
 	if (redir)
@@ -52,21 +48,20 @@ static int	open_output_double(char *token, t_command *cmd, char *nextToken)
 		if (cmd->output_redirect > -1)
 			close(cmd->output_redirect);
 		if (ft_strcmp(redir + 2, ""))
-		{
-			filename = redir + 2;
-			cmd->output_redirect = open(filename,
+			cmd->output_redirect = open(redir + 2,
 					O_RDWR | O_CREAT | O_APPEND, 0666);
-			return (EXIT_SUCCESS);
-		}
-		else if (nextToken != NULL)
+		else if (next_token != NULL)
 		{
-			cmd->output_redirect = open(nextToken,
+			cmd->output_redirect = open(next_token,
 					O_RDWR | O_CREAT | O_APPEND, 0666);
-			return (EXIT_SUCCESS);
+			next_token = "";
 		}
 		else
 			return (EXIT_FAILURE);
+		*redir = '\0';
 	}
+	if (cmd->output_redirect == -1)
+		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
 

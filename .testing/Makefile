@@ -6,7 +6,7 @@
 #    By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/28 09:44:50 by iestero-          #+#    #+#              #
-#    Updated: 2023/12/28 10:33:41 by iestero-         ###   ########.fr        #
+#    Updated: 2024/01/08 07:40:23 by iestero-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,7 +48,7 @@ BUILD_PATHS = $(PATHB) $(PATHD) $(PATHO) $(PATHR)
 SRCT = $(wildcard $(PATHT)*.c)
 
 COMPILE=gcc -c -g
-LINK=gcc -g
+LINK=gcc -g -lreadline
 DEPEND=gcc -MM -MG -MF
 CFLAGS=-I. -I$(PATHU) -I$(PATHS) -I$(LIBFTINC) -I$(MINISHELLINC) -DTEST
 _OBJS = main.o calc.o

@@ -6,13 +6,21 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 11:47:55 by iestero-          #+#    #+#             */
-/*   Updated: 2023/12/28 11:42:34 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/01/08 11:44:21 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	open_input_simple(char *token, t_command *cmd, char *nextToken)
+/**
+ * @brief 
+ * 
+ * @param token 
+ * @param cmd 
+ * @param nextToken 
+ * @return int 
+ */
+static int	open_input_simple(char *token, t_command *cmd, char *next_token)
 {
 	char	*redir;
 	char	*filename;
@@ -26,23 +34,55 @@ static int	open_input_simple(char *token, t_command *cmd, char *nextToken)
 		{
 			filename = redir + 1;
 			cmd->input_redirect = open(filename, O_RDWR, 0666);
-			return (EXIT_SUCCESS);
 		}
-		else if (nextToken != NULL)
+		else if (next_token != NULL)
 		{
-			cmd->input_redirect = open(nextToken, O_RDWR, 0666);
-			return (EXIT_SUCCESS);
+			cmd->input_redirect = open(next_token, O_RDWR, 0666);
+			next_token = "";
 		}
 		else
 			return (EXIT_FAILURE);
+		*redir = '\0';
 	}
+	if (cmd->input_redirect == -1)
+		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
 
-static int	open_input_double(char *token, t_command *cmd, char *nextToken)
+/**
+ * @brief 
+ * 
+ * @param delimiter 
+ * @return int 
+ */
+static int	write_here_doc(char *delimiter)
+{
+	char	*line;
+	int		here_doc;
+
+	line = readline(">");
+	here_doc = open("here_doc", O_RDWR, O_CREAT, 0666);
+	if (here_doc == -1)
+		return (EXIT_FAILURE);
+	while (ft_strcmp(line, delimiter))
+	{
+		ft_putstr_fd(line, here_doc);
+		line = readline(">");
+	}
+	return (here_doc);
+}
+
+/**
+ * @brief 
+ * 
+ * @param token 
+ * @param cmd 
+ * @param nextToken 
+ * @return int 
+ */
+static int	open_input_double(char *token, t_command *cmd, char *next_token)
 {
 	char	*redir;
-	char	*filename;
 
 	redir = ft_strnstr(token, "<<", ft_strlen(token));
 	if (redir)
@@ -53,26 +93,37 @@ static int	open_input_double(char *token, t_command *cmd, char *nextToken)
 			unlink("here_doc");
 		}
 		if (ft_strcmp(redir + 2, ""))
+			cmd->input_redirect = write_here_doc(redir + 2);
+		else if (next_token != NULL)
 		{
-			filename = redir + 2;
-			cmd->output_redirect = open(filename,
-					O_RDWR | O_CREAT | O_APPEND, 0666);
-			return (EXIT_SUCCESS);
-		}
-		else if (nextToken != NULL)
-		{
-			cmd->output_redirect = open(nextToken,
-					O_RDWR | O_CREAT | O_APPEND, 0666);
-			return (EXIT_SUCCESS);
+			cmd->input_redirect = write_here_doc(next_token);
+			next_token = "";
 		}
 		else
 			return (EXIT_FAILURE);
+		*redir = '\0';
 	}
+	if (cmd->input_redirect == -1)
+		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
 
-
-static int	built_input(char *token, t_command *cmd, char *nextToken)
+/**
+ * @brief 
+ * 
+ * @param token 
+ * @param cmd 
+ * @param nextToken 
+ * @return int 
+ */
+int	built_input(char *token, t_command *cmd, char *next_token)
 {
-	
+	if (token[0] != '"' && token[0] != '\'')
+	{
+		if (open_input_double(token, cmd, next_token) == EXIT_FAILURE)
+			return (EXIT_FAILURE);
+		if (open_input_simple(token, cmd, next_token) == EXIT_FAILURE)
+			return (EXIT_FAILURE);
+	}
+	return (EXIT_SUCCESS);
 }

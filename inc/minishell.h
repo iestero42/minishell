@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 07:29:23 by iestero-          #+#    #+#             */
-/*   Updated: 2023/12/28 09:56:07 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/01/11 11:55:45 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,15 +42,19 @@
 # define OUTPUT 0
 # define INPUT 	1
 
-# define UNQUOTED 	0
-# define QUOTED 	1
+# define UNQUOTED 		0
+
+# define PATH_COMMAND	1
+# define OWN_COMMAND	2
+
+# define NUM_COMMANDS	7
 
 typedef struct s_command
 {
 	char	**args;
 	char	*name;
 	char	*options;
-	char	*delimiter;
+	int		type;
 	int		output_redirect;
 	int		input_redirect;
 }	t_command;
@@ -85,6 +89,12 @@ void		error_malloc(void);
 
 int			built_redirect(char **tokens, t_command *cmd);
 
-int			built_output(char *token, t_command *cmd, char *nextToken);
+int			built_output(char *token, t_command *cmd, char *nex_token);
+
+int			built_input(char *token, t_command *cmd, char *next_token);
+
+int			built_command(char **tokens, t_command *command);
+
+int			built_env_variable(char **tokens);
 
 #endif

@@ -1,0 +1,11 @@
+echo"$hola me llamo israel
+'hola
+$hol
+<<tre
+
+adio
+test/TestSplitCommand.c:39:test_split_command:FAIL: Expected 0 Was 1
+
+-----------------------
+1 Tests 1 Failures 0 Ignored 
+FAIL
