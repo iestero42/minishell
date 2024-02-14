@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 11:35:45 by iestero-          #+#    #+#             */
-/*   Updated: 2024/01/08 11:47:03 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/02/08 10:19:13 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,21 +17,25 @@ static int	open_output_simple(char *token, t_command *cmd, char *next_token)
 	char	*redir;
 
 	redir = ft_strchr(token, '>');
-	if (redir && !ft_strnstr(token, ">>", ft_strlen(token)))
+	while (redir != NULL)
 	{
-		if (cmd->output_redirect > -1)
-			close(cmd->output_redirect);
-		if (ft_strcmp(redir + 1, ""))
-			cmd->output_redirect = open(redir + 1, O_RDWR | O_CREAT, 0666);
-		else if (next_token != NULL)
+		if (redir && !ft_strnstr(redir, ">>", ft_strlen(redir)))
 		{
-			cmd->output_redirect = open(next_token,
-					O_RDWR | O_CREAT, 0666);
-			next_token = "";
+			if (cmd->output_redirect > -1)
+				close(cmd->output_redirect);
+			if (*(redir++) != '\0' && *redir != '<')
+				cmd->output_redirect = open(redir, O_RDWR | O_CREAT, 0666);
+			else if (next_token != NULL && *redir != '<')
+			{
+				cmd->output_redirect = open(next_token,
+						O_RDWR | O_CREAT, 0666);
+				next_token = NULL;
+			}
+			else
+				return (EXIT_FAILURE);
+			*redir = '\0';
 		}
-		else
-			return (EXIT_FAILURE);
-		*redir = '\0';
+		redir = ft_strchr(redir, '>');
 	}
 	if (cmd->output_redirect == -1)
 		return (EXIT_FAILURE);
@@ -54,7 +58,7 @@ static int	open_output_double(char *token, t_command *cmd, char *next_token)
 		{
 			cmd->output_redirect = open(next_token,
 					O_RDWR | O_CREAT | O_APPEND, 0666);
-			next_token = "";
+			next_token = NULL;
 		}
 		else
 			return (EXIT_FAILURE);

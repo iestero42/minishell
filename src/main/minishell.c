@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 07:29:18 by iestero-          #+#    #+#             */
-/*   Updated: 2023/12/27 08:53:22 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/02/14 09:16:20 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ int	main(void)
 	pid_t		pid;
 
 	show_title();
-	data.stat = RUNNING;
-	while (data.stat != STOPPED)
+	data.status = RUNNING;
+	while (data.status != STOPPED)
 	{
 		pid = fork();
 		if (pid == 0)

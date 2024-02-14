@@ -6,11 +6,37 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 09:03:49 by iestero-          #+#    #+#             */
-/*   Updated: 2024/01/11 12:23:35 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/02/14 12:08:35 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static int	size_aux(int count, const char *s, int *position)
+{
+	int		i;
+
+	count++;
+	i = *position;
+	if (s[i] == '<' || s[i] == '>' || s[i] == ' ')
+	{
+		if (s[i] == s[i + 1] && (s[i - 1] == ' ' || i == 0))
+			i = i + 2;
+		else if (s[i] == s[i + 1] && s[i - 1] != ' ' && s[i] != ' ')
+			i++;
+		else if (s[i - 1] == ' ')
+			i = i + 1;
+		while (s[i] == ' ')
+			i++;
+	}
+	if (s[*position] == ' ' && s[i] == '\0')
+		count--;
+	if (s[*position] == ' ' || s[*position - 1] == ' ' || *position == 0)
+		*position = i - 1;
+	else
+		*position =	i;
+	return (count);
+}
 
 /**
  * @brief 
@@ -32,19 +58,31 @@ static int	size_dstr(const char *s)
 		if ((s[i] == '"' || s[i] == '\'') && !in_quotes)
 			in_quotes = s[i];
 		else if (in_quotes == s[i] && in_quotes)
+		{
 			in_quotes = UNQUOTED;
-		else if ((s[i] == ' ' || s[i + 1] == '\0') && !in_quotes)
 			count++;
+		}
+		else if ((s[i] == ' ' || s[i + 1] == '\0'
+				|| s[i] == '<' || s[i] == '>') && !in_quotes)
+			count = size_aux(count, s, &i);
 	}
 	if (in_quotes)
 		return (-2);
 	return (count);
 }
 
-static char	*save_memory(const char *s, size_t len)
+static char	*save_memory(const char *s, size_t len, int *start)
 {
 	char	*substr;
 
+	if (s[0] == '<' || s[0] == '>')
+	{
+		if (s[0] == s[1])
+			len = 2;
+		else
+			len = 1;
+	}
+	*start = *start + len;
 	substr = (char *) malloc(sizeof(char) * (len + 2));
 	if (!substr)
 		return (NULL);
@@ -64,12 +102,13 @@ static char	*get_next_substring(int *start, const char *s)
 	char		in_quotes;
 	int			i;
 
-	start_chr = &s[*start];
 	in_quotes = UNQUOTED;
-	while (*start_chr == ' ')
-		start_chr++;
-	i = 0;
-	while (start_chr[i] && (in_quotes || start_chr[i] != ' '))
+	while (s[*start] == ' ')
+		*start = *start + 1;
+	start_chr = &s[*start];
+	i = -1;
+	while (start_chr[++i] && (in_quotes || (start_chr[i] != ' '
+				&& start_chr[i] != '<' && start_chr[i] != '>')))
 	{
 		if ((start_chr[i] == '"' || start_chr[i] == '\'') && !in_quotes)
 			in_quotes = start_chr[i];
@@ -79,12 +118,10 @@ static char	*get_next_substring(int *start, const char *s)
 			i++;
 			break ;
 		}
-		i++;
 	}
 	if (in_quotes)
 		return (NULL);
-	*start = *start + i + 1;
-	return (save_memory(start_chr, i));
+	return (save_memory(start_chr, i, start));
 }
 
 /**

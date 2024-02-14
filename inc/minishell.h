@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 07:29:23 by iestero-          #+#    #+#             */
-/*   Updated: 2024/01/11 11:55:45 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/02/14 10:34:46 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,9 @@ typedef struct s_command
 {
 	char	**args;
 	char	*name;
-	char	*options;
 	int		type;
 	int		output_redirect;
+	int		last_status;
 	int		input_redirect;
 }	t_command;
 
@@ -63,7 +63,7 @@ typedef struct s_minishell
 {
 	t_command	*comand_split;
 	int			n_comands;
-	int			stat;
+	int			status;
 	int			*pipes;
 }	t_minishell;
 
@@ -95,6 +95,6 @@ int			built_input(char *token, t_command *cmd, char *next_token);
 
 int			built_command(char **tokens, t_command *command);
 
-int			built_env_variable(char **tokens);
+int			built_env_variable(char **tokens, int last_status);
 
 #endif
