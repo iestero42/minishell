@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 07:29:23 by iestero-          #+#    #+#             */
-/*   Updated: 2024/02/14 10:34:46 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/02/19 11:39:04 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ typedef struct s_minishell
 	t_command	*comand_split;
 	int			n_comands;
 	int			status;
+	int			std_fileno[2];
 	int			*pipes;
 }	t_minishell;
 

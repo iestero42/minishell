@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 09:30:38 by iestero-          #+#    #+#             */
-/*   Updated: 2024/01/11 10:38:17 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/02/19 11:59:14 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,9 @@ static char	*get_next_substring(int *start, const char *s)
 
 	start_chr = &s[*start];
 	in_quotes = UNQUOTED;
-	while (*start_chr == ' ')
-		start_chr++;
+	while (s[*start] == ' ')
+		*start = *start + 1;
+	start_chr = &s[*start];
 	i = 0;
 	while (start_chr[i] && (in_quotes || start_chr[i] != '|'))
 	{
@@ -102,9 +103,9 @@ char	**split_pipes(const char *s)
 	int			start;
 	int			i;
 
-	if (s == NULL)
-		return (NULL);
 	num_substrings = size_dstr(s);
+	if (num_substrings == 0 || num_substrings == -2)
+		return (NULL);
 	substrings = malloc(sizeof(char *) * (num_substrings + 1));
 	if (!substrings)
 		return (NULL);

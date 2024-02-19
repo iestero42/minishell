@@ -1,0 +1,117 @@
+Test 1:
+
+-- posicion: 0 string: echo -- 
+-- posicion: 1 string: hola -- 
+-- posicion: 2 string: > -- 
+-- posicion: 3 string: como -- 
+-- posicion: 4 string: << -- 
+-- posicion: 5 string: adios -- 
+
+
+Test 2:
+
+-- posicion: 0 string: echo -- 
+-- posicion: 1 string: $hola -- 
+-- posicion: 2 string: < -- 
+-- posicion: 3 string: como -- 
+-- posicion: 4 string: << -- 
+-- posicion: 5 string: adios -- 
+
+
+Test 3:
+
+-- posicion: 0 string: echo -- 
+-- posicion: 1 string: $? -- 
+-- posicion: 2 string: como -- 
+-- posicion: 3 string: << -- 
+-- posicion: 4 string: adios -- 
+
+
+Test 4:
+
+-- posicion: 0 string: echo -- 
+-- posicion: 1 string: >> -- 
+-- posicion: 2 string: como -- 
+-- posicion: 3 string: << -- 
+-- posicion: 4 string: adios -- 
+
+
+Test 5:
+
+-- posicion: 0 string: << -- 
+-- posicion: 1 string: $adios -- 
+-- posicion: 2 string: 1234 -- 
+-- posicion: 3 string: >> -- 
+
+
+Test 6:
+
+-- posicion: 0 string: << -- 
+-- posicion: 1 string: $adios -- 
+-- posicion: 2 string: 1234 -- 
+-- posicion: 3 string: < -- 
+-- posicion: 4 string: >> -- 
+
+
+Test 7:
+
+-- posicion: 0 string: << -- 
+-- posicion: 1 string: hola -- 
+-- posicion: 2 string: << -- 
+-- posicion: 3 string: $adios -- 
+-- posicion: 4 string: 1234 -- 
+-- posicion: 5 string: < -- 
+-- posicion: 6 string: >> -- 
+
+
+Test 8:
+
+-- posicion: 0 string: << -- 
+-- posicion: 1 string: $adios -- 
+-- posicion: 2 string: "hola < como te >>" -- 
+
+
+Test 9:
+
+-- posicion: 0 string: << -- 
+-- posicion: 1 string: $adios -- 
+-- posicion: 2 string: 'hola < como te >>' -- 
+
+
+Test 10:
+
+-- posicion: 0 string: << -- 
+-- posicion: 1 string: $adios -- 
+-- posicion: 2 string: 'hola < como te >>' -- 
+-- posicion: 3 string:  -- 
+
+
+Test 11:
+
+-- posicion: 0 string: << -- 
+-- posicion: 1 string: $adios -- 
+-- posicion: 2 string: 'hola < como te >>' -- 
+-- posicion: 3 string: << -- 
+-- posicion: 4 string: hola -- 
+-- posicion: 5 string:  -- 
+
+
+Test 12:
+
+-- posicion: 0 string: << -- 
+-- posicion: 1 string: $adios -- 
+-- posicion: 2 string: 'hola < como te >>' -- 
+-- posicion: 3 string: << -- 
+-- posicion: 4 string: hola -- 
+
+
+Test 13:
+
+-- posicion: 0 string: << -- 
+-- posicion: 1 string: $adios -- 
+-- posicion: 2 string: 'hola < como te >>' -- 
+-- posicion: 3 string: << -- 
+-- posicion: 4 string: hola -- 
+-- posicion: 5 string:  -- 
+
+

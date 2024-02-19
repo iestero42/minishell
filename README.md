@@ -10,8 +10,11 @@ Cosas generales:
 
 proximo dia:
 
-	testear que se parsea bien los pipes
+	mirar si redifinir cuando un error es un error y por ejemplo cuando hay un error con memoria 
+	liberar memoria y punto sin decir un error como tal
 
-	testear las variables de entorno y las redirecciones 
+	testear las variables de entorno y las redirecciones
 
-	si se puede y hay tiempo empezar con 
+	testear las variables de entorno y corregir sus errores
+
+	

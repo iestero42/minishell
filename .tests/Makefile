@@ -6,7 +6,7 @@
 #    By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/08 11:44:59 by iestero-          #+#    #+#              #
-#    Updated: 2024/02/14 10:48:21 by iestero-         ###   ########.fr        #
+#    Updated: 2024/02/19 10:40:44 by iestero-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,12 +25,16 @@ MINISHELLINC = ../inc
 
 # Flags de compilación
 INCLUDES = -I$(LIBFTINC) -I$(MINISHELLINC)
-CC = gcc
+CC = gcc -fsanitize=address
 CFLAGS = -g $(INCLUDES)
-LINK = gcc -lreadline 
+LINK = gcc -lreadline -fsanitize=address
 
 # Fuentes y objetos
-SRC_FILES = TestSplitCommand.c
+SRC_FILES 	= 	TestSplitCommand.c	\
+				TestSplitPipes.c	\
+				TestEnvVariable.c	\
+
+
 SRCS = $(addprefix $(PATHS),$(SRC_FILES))
 OBJS = $(patsubst $(PATHS)%.c,$(PATHO)%.o,$(SRCS))
 OUTS = $(patsubst $(PATHO)%.o,$(PATHR)%.out,$(OBJS))

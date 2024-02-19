@@ -6,7 +6,7 @@
 #    By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/07 10:56:39 by yunlovex          #+#    #+#              #
-#    Updated: 2024/02/14 10:34:51 by iestero-         ###   ########.fr        #
+#    Updated: 2024/02/19 10:39:33 by iestero-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -66,9 +66,9 @@ LDLIBS_BONUS		=	$(LIBFRACTOL_BONUS) $(LIBFT)
 
 CC					=	gcc
 
-CFLAGS				=	-g -Wall -Werror -Wextra $(INCLUDES) 
+CFLAGS				=	-g -Wall -Werror -Wextra $(INCLUDES) $(SANATIZE)
 CFLAGS_BONUS		=	-g -Wall -Werror -Wextra $(INCLUDES_BONUS)
-LDFLAGS				=   $(LDLIBS)
+LDFLAGS				=   $(LDLIBS) $(SANATIZE)
 LDFLAGS_BONUS		=	$(LDLIBS_BONUS) -L$(MINILIBX_DIR) -lmlx -framework OpenGL -framework AppKit
 INCLUDES			=	-I$(INC_DIR) -I$(addsuffix $(INC_DIR), $(LIBFT_DIR)/)
 INCLUDES_BONUS		=	-I$(INCBONUS_DIR) -I$(addsuffix $(INC_DIR), $(LIBFT_DIR)/) -I$(MINILIBX_DIR)

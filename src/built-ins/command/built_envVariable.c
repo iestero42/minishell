@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 10:24:02 by iestero-          #+#    #+#             */
-/*   Updated: 2024/02/14 09:25:54 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/02/19 12:02:09 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ static char	*expand_env_variable(char *token, int *start, int *position,
 	char	*str;
 	char	*env_var;
 
-	i = -1;
 	if (token[0] == '?')
 	{
 		i = *position;
@@ -37,19 +36,20 @@ static char	*expand_env_variable(char *token, int *start, int *position,
 		*start = *position;
 		return (special_env_variable(last_status));
 	}
+	i = 0;
 	while (token[i] != '\0' && ft_isalnum(token[i]))
 		i++;
-	str = ft_substr(token, 0, i + 1);
+	str = ft_substr(token, 0, i);
 	if (str == NULL)
 		return (NULL);
-	env_var = getenv(str);
+	env_var = "getenv(str)";
 	free(str);
-	*position += i;
+	*position += i + 1;
 	*start = *position;
 	return (env_var);
 }
 
-static int	check_token(char *token, int last_status)
+static char	*check_token(char *token, int last_status)
 {
 	char	*new_token;
 	char	*tmp;
@@ -66,21 +66,22 @@ static int	check_token(char *token, int last_status)
 			tmp = ft_substr(token, start, i);
 			new_token = ft_strjoin(new_token, tmp);
 			free(tmp);
-			tmp = expand_env_variable(&token[i] + 1, &start, &i, last_status);
+			tmp = expand_env_variable(&token[i] + 1, &start, &i,
+					last_status);
 			new_token = ft_strjoin(new_token, tmp);
-			free(tmp);
 			if (!new_token)
-				return (EXIT_FAILURE);
+				return (NULL);
 		}
 	}
 	if (start < i && new_token)
-		token = ft_strjoin(new_token, &token[i]);
-	return (EXIT_SUCCESS);
+		new_token = ft_strjoin(new_token, &token[i]);
+	return (new_token);
 }
 
 int	built_env_variable(char **tokens, int last_status)
 {
-	int	i;
+	int		i;
+	char	*new_token;
 
 	i = -1;
 	while (tokens[++i] != NULL)
@@ -88,8 +89,10 @@ int	built_env_variable(char **tokens, int last_status)
 		if (tokens[i][0] == '\'')
 			return (EXIT_SUCCESS);
 		else
-			if (check_token(tokens[i], last_status) == EXIT_FAILURE)
-				return (EXIT_FAILURE);
+		{
+			new_token = check_token(tokens[i], last_status);
+			tokens[i] = new_token;
+		}
 	}
 	return (EXIT_SUCCESS);
 }
