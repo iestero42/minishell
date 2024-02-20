@@ -6,7 +6,7 @@
 #    By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/08 11:44:59 by iestero-          #+#    #+#              #
-#    Updated: 2024/02/19 10:40:44 by iestero-         ###   ########.fr        #
+#    Updated: 2024/02/20 11:30:09 by iestero-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,8 @@ CFLAGS = -g $(INCLUDES)
 LINK = gcc -lreadline -fsanitize=address
 
 # Fuentes y objetos
-SRC_FILES 	= 	TestSplitCommand.c	\
+SRC_FILES 	= 	TestTrimCommand.c	\
+				TestSplitCommand.c	\
 				TestSplitPipes.c	\
 				TestEnvVariable.c	\
 

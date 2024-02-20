@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 10:24:02 by iestero-          #+#    #+#             */
-/*   Updated: 2024/02/19 12:02:09 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/02/20 10:53:04 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,9 @@ static char	*expand_env_variable(char *token, int *start, int *position,
 	str = ft_substr(token, 0, i);
 	if (str == NULL)
 		return (NULL);
-	env_var = "getenv(str)";
+	env_var = getenv(str);
 	free(str);
-	*position += i + 1;
+	*position += i;
 	*start = *position;
 	return (env_var);
 }
@@ -52,7 +52,6 @@ static char	*expand_env_variable(char *token, int *start, int *position,
 static char	*check_token(char *token, int last_status)
 {
 	char	*new_token;
-	char	*tmp;
 	int		i;
 	int		start;
 
@@ -63,18 +62,17 @@ static char	*check_token(char *token, int last_status)
 	{
 		if (token[i] == '$')
 		{
-			tmp = ft_substr(token, start, i);
-			new_token = ft_strjoin(new_token, tmp);
-			free(tmp);
-			tmp = expand_env_variable(&token[i] + 1, &start, &i,
-					last_status);
-			new_token = ft_strjoin(new_token, tmp);
+			if (i > start)
+				new_token = ft_copy(token, new_token, start + 1, i - start);
+			new_token = ft_strjoin(new_token,
+					expand_env_variable(&token[i] + 1, &start, &i,
+						last_status));
 			if (!new_token)
 				return (NULL);
 		}
 	}
 	if (start < i && new_token)
-		new_token = ft_strjoin(new_token, &token[i]);
+		new_token = ft_copy(token, new_token, start + 1, i - start - 1);
 	return (new_token);
 }
 

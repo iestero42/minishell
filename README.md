@@ -10,11 +10,15 @@ Cosas generales:
 
 proximo dia:
 
+	terminar de parsear bien el trim de los comandos para quitar las quotes para luego la ejecucion
+
+	testear las redirecciones
+
+
+para futuro:
+
+	mirar todos los errores de parseo y definir sus respectivos errores
+
 	mirar si redifinir cuando un error es un error y por ejemplo cuando hay un error con memoria 
 	liberar memoria y punto sin decir un error como tal
-
-	testear las variables de entorno y las redirecciones
-
-	testear las variables de entorno y corregir sus errores
-
 	

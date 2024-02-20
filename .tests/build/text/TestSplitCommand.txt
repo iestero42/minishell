@@ -1,4 +1,4 @@
-Test 1:
+Test 1: echo hola> como <<adios 
 
 -- posicion: 0 string: echo -- 
 -- posicion: 1 string: hola -- 
@@ -8,7 +8,7 @@ Test 1:
 -- posicion: 5 string: adios -- 
 
 
-Test 2:
+Test 2: echo $hola < como << adios 
 
 -- posicion: 0 string: echo -- 
 -- posicion: 1 string: $hola -- 
@@ -18,7 +18,7 @@ Test 2:
 -- posicion: 5 string: adios -- 
 
 
-Test 3:
+Test 3: echo $? como <<adios 
 
 -- posicion: 0 string: echo -- 
 -- posicion: 1 string: $? -- 
@@ -27,7 +27,7 @@ Test 3:
 -- posicion: 4 string: adios -- 
 
 
-Test 4:
+Test 4: echo >> como <<adios 
 
 -- posicion: 0 string: echo -- 
 -- posicion: 1 string: >> -- 
@@ -36,7 +36,7 @@ Test 4:
 -- posicion: 4 string: adios -- 
 
 
-Test 5:
+Test 5: << $adios 1234 >> 
 
 -- posicion: 0 string: << -- 
 -- posicion: 1 string: $adios -- 
@@ -44,7 +44,7 @@ Test 5:
 -- posicion: 3 string: >> -- 
 
 
-Test 6:
+Test 6: << $adios 1234 <>> 
 
 -- posicion: 0 string: << -- 
 -- posicion: 1 string: $adios -- 
@@ -53,7 +53,7 @@ Test 6:
 -- posicion: 4 string: >> -- 
 
 
-Test 7:
+Test 7: <<hola <<$adios 1234 <>> 
 
 -- posicion: 0 string: << -- 
 -- posicion: 1 string: hola -- 
@@ -64,21 +64,21 @@ Test 7:
 -- posicion: 6 string: >> -- 
 
 
-Test 8:
+Test 8:  << $adios "hola < como te >>" 
 
 -- posicion: 0 string: << -- 
 -- posicion: 1 string: $adios -- 
 -- posicion: 2 string: "hola < como te >>" -- 
 
 
-Test 9:
+Test 9: << $adios 'hola < como te >>' 
 
 -- posicion: 0 string: << -- 
 -- posicion: 1 string: $adios -- 
 -- posicion: 2 string: 'hola < como te >>' -- 
 
 
-Test 10:
+Test 10: <<  $adios        'hola < como te >>'  
 
 -- posicion: 0 string: << -- 
 -- posicion: 1 string: $adios -- 
@@ -86,7 +86,7 @@ Test 10:
 -- posicion: 3 string:  -- 
 
 
-Test 11:
+Test 11: << $adios 'hola < como te >>' <<hola 
 
 -- posicion: 0 string: << -- 
 -- posicion: 1 string: $adios -- 
@@ -96,7 +96,7 @@ Test 11:
 -- posicion: 5 string:  -- 
 
 
-Test 12:
+Test 12: << $adios 'hola < como te >>'<<hola  
 
 -- posicion: 0 string: << -- 
 -- posicion: 1 string: $adios -- 
@@ -105,7 +105,7 @@ Test 12:
 -- posicion: 4 string: hola -- 
 
 
-Test 13:
+Test 13: << $adios 'hola < como te >>' <<hola       
 
 -- posicion: 0 string: << -- 
 -- posicion: 1 string: $adios -- 
@@ -113,5 +113,26 @@ Test 13:
 -- posicion: 3 string: << -- 
 -- posicion: 4 string: hola -- 
 -- posicion: 5 string:  -- 
+
+
+Test 14: << $adios $hola'hola < como te >>' <<hola 
+
+-- posicion: 0 string: << -- 
+-- posicion: 1 string: $adios -- 
+-- posicion: 2 string: $hola'hola < como te >>' -- 
+-- posicion: 3 string: << -- 
+-- posicion: 4 string: hola -- 
+-- posicion: 5 string:  -- 
+
+
+Test 15: << $adios $hola'hola < como te >>'"comote" <<hola 
+
+-- posicion: 0 string: << -- 
+-- posicion: 1 string: $adios -- 
+-- posicion: 2 string: $hola'hola < como te >>'"comote" -- 
+-- posicion: 3 string: << -- 
+-- posicion: 4 string: hola -- 
+-- posicion: 5 string:  -- 
+-- posicion: 6 string:  -- 
 
 

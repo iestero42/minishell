@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 09:03:49 by iestero-          #+#    #+#             */
-/*   Updated: 2024/02/19 09:36:21 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/02/20 09:41:37 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,11 +111,7 @@ static char	*get_next_substring(int *start, const char *s)
 		if ((start_chr[i] == '"' || start_chr[i] == '\'') && !in_quotes)
 			in_quotes = start_chr[i];
 		else if (start_chr[i] == in_quotes && in_quotes)
-		{
 			in_quotes = UNQUOTED;
-			i++;
-			break ;
-		}
 	}
 	if (in_quotes)
 		return (NULL);

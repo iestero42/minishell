@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 07:29:23 by iestero-          #+#    #+#             */
-/*   Updated: 2024/02/19 11:39:04 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/02/20 10:47:55 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,5 +97,7 @@ int			built_input(char *token, t_command *cmd, char *next_token);
 int			built_command(char **tokens, t_command *command);
 
 int			built_env_variable(char **tokens, int last_status);
+
+char		*ft_copy(const char *token, const char *new_token, int start, int len);
 
 #endif
