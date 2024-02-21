@@ -6,7 +6,7 @@
 #    By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/07 10:56:39 by yunlovex          #+#    #+#              #
-#    Updated: 2024/02/19 10:39:33 by iestero-         ###   ########.fr        #
+#    Updated: 2024/02/21 09:29:21 by iestero-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -92,6 +92,8 @@ UTILS_FILES		=	errors.c			\
 					split_command.c		\
 					split_pipes.c		\
 					string_utils.c		\
+					string_utils2.c		\
+					trim_command.c		\
 
 REDIR_FILES		=	built_redir.c		\
 					redir_output.c		\

@@ -6,7 +6,7 @@
 #    By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/08 11:44:59 by iestero-          #+#    #+#              #
-#    Updated: 2024/02/20 11:30:09 by iestero-         ###   ########.fr        #
+#    Updated: 2024/02/21 11:02:16 by iestero-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,6 +34,8 @@ SRC_FILES 	= 	TestTrimCommand.c	\
 				TestSplitCommand.c	\
 				TestSplitPipes.c	\
 				TestEnvVariable.c	\
+				TestRedirOutput.c	\
+				TestRedirInput.c	\
 
 
 SRCS = $(addprefix $(PATHS),$(SRC_FILES))

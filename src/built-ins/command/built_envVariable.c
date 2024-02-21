@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 10:24:02 by iestero-          #+#    #+#             */
-/*   Updated: 2024/02/20 10:53:04 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/02/21 10:15:59 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ static char	*expand_env_variable(char *token, int *start, int *position,
 	if (str == NULL)
 		return (NULL);
 	env_var = getenv(str);
+	if (!env_var)
+		return (ft_strdup(""));
 	free(str);
 	*position += i;
 	*start = *position;

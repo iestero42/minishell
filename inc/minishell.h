@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 07:29:23 by iestero-          #+#    #+#             */
-/*   Updated: 2024/02/20 10:47:55 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/02/21 11:30:11 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ typedef struct s_minishell
 	int			n_comands;
 	int			status;
 	int			std_fileno[2];
+	char		*cmd_list[NUM_COMMANDS];
 	int			*pipes;
 }	t_minishell;
 
@@ -82,7 +83,8 @@ char		**split_pipes(const char *s);
 
 char		**split_command(const char *s);
 
-int			parse_command(char *command_str, t_command *command);
+int			parse_command(char *command_str, t_command *command,
+				char **cmd_list);
 
 char		**ft_dstrjoin(char **arr1, char **arr2);
 
@@ -94,10 +96,16 @@ int			built_output(char *token, t_command *cmd, char *nex_token);
 
 int			built_input(char *token, t_command *cmd, char *next_token);
 
-int			built_command(char **tokens, t_command *command);
+int			built_command(char **tokens, t_command *command, char **cmd_list);
 
 int			built_env_variable(char **tokens, int last_status);
 
-char		*ft_copy(const char *token, const char *new_token, int start, int len);
+char		*ft_copy(const char *token, char *new_token, int start, int len);
+
+int			trim_command(char **tokens);
+
+char		**ft_append(char **arr1, char *str);
+
+int			built_args(t_command *cmd, char **tokens);
 
 #endif

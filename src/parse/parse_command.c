@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 11:48:07 by iestero-          #+#    #+#             */
-/*   Updated: 2024/02/20 11:54:03 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/02/21 11:32:09 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static int	error_command(char *msg)
 	return (EXIT_FAILURE);
 }
 
-int	parse_command(char *command_str, t_command *cmd)
+int	parse_command(char *command_str, t_command *cmd, char **cmd_list)
 {
 	char	**tokens;
 	char	*cmd_trimmed;
@@ -35,8 +35,10 @@ int	parse_command(char *command_str, t_command *cmd)
 		return (error_command("fuc"));
 	if (trim_command(tokens) == EXIT_FAILURE)
 		return (error_command("fuc"));
-	if (built_command(tokens, cmd) == EXIT_FAILURE)
+	if (built_command(tokens, cmd, cmd_list) == EXIT_FAILURE)
 		return (error_command("fuc"));
-	free(tokens);
+	if (built_args(cmd, tokens) == EXIT_FAILURE)
+		return (error_command("fuc"));
+	double_free(tokens);
 	return (EXIT_SUCCESS);
 }

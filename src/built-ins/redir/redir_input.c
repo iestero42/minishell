@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 11:47:55 by iestero-          #+#    #+#             */
-/*   Updated: 2024/01/08 11:44:21 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/02/21 10:57:37 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,23 +26,19 @@ static int	open_input_simple(char *token, t_command *cmd, char *next_token)
 	char	*filename;
 
 	redir = ft_strchr(token, '<');
-	if (redir && !ft_strnstr(token, "<<", ft_strlen(token)))
+	if (redir)
 	{
 		if (cmd->input_redirect > -1)
 			close(cmd->input_redirect);
-		if (ft_strcmp(redir + 1, ""))
-		{
-			filename = redir + 1;
-			cmd->input_redirect = open(filename, O_RDWR, 0666);
-		}
-		else if (next_token != NULL)
+		if (next_token != NULL && ft_strcmp(next_token, "")
+			&& !ft_strchr(next_token, '>') && !ft_strchr(next_token, '<'))
 		{
 			cmd->input_redirect = open(next_token, O_RDWR, 0666);
-			next_token = "";
+			*next_token = '\0';
+			*token = '\0';
 		}
 		else
 			return (EXIT_FAILURE);
-		*redir = '\0';
 	}
 	if (cmd->input_redirect == -1)
 		return (EXIT_FAILURE);
@@ -92,16 +88,15 @@ static int	open_input_double(char *token, t_command *cmd, char *next_token)
 			close(cmd->output_redirect);
 			unlink("here_doc");
 		}
-		if (ft_strcmp(redir + 2, ""))
-			cmd->input_redirect = write_here_doc(redir + 2);
-		else if (next_token != NULL)
+		else if (next_token != NULL && !ft_strchr(next_token, '>')
+			&& !ft_strchr(next_token, '<'))
 		{
 			cmd->input_redirect = write_here_doc(next_token);
-			next_token = "";
+			*next_token = '\0';
+			*token = '\0';
 		}
 		else
 			return (EXIT_FAILURE);
-		*redir = '\0';
 	}
 	if (cmd->input_redirect == -1)
 		return (EXIT_FAILURE);

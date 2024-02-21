@@ -10,9 +10,9 @@ Cosas generales:
 
 proximo dia:
 
-	terminar de parsear bien el trim de los comandos para quitar las quotes para luego la ejecucion
-
 	testear las redirecciones
+
+	testear que se pilla bien el comando y que se guardan bien los argumentos de ese comando
 
 
 para futuro:
