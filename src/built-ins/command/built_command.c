@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 08:18:57 by iestero-          #+#    #+#             */
-/*   Updated: 2024/02/21 11:16:12 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/03/04 09:22:33 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static int	check_path(char *token, char **dirs, t_command *cmd)
 			ft_strlcat(abs_path, token, sizeof(abs_path));
 			if (!access(abs_path, X_OK))
 			{
-				cmd->name = abs_path;
+				cmd->name = ft_strdup(abs_path);
 				cmd->type = PATH_COMMAND;
 			}
 		}
@@ -44,24 +44,23 @@ static int	check_relative_path(char *token, t_command *cmd)
 	{
 		if (!access(token, X_OK))
 		{
-			cmd->name = token;
+			cmd->name = ft_strdup(token);
 			cmd->type = PATH_COMMAND;
 		}
 	}
 	return (EXIT_SUCCESS);
 }
 
-static int	check_own_command(char *token, t_command *cmd)
+static int	check_own_command(char *token, t_command *cmd, char **cmd_list)
 {
-	char	*list_commands[NUM_COMMANDS];
 	int		i;
 
-	i = 0;
-	while (i < NUM_COMMANDS)
+	i = -1;
+	while (++i < NUM_COMMANDS)
 	{
-		if (!ft_strcmp(token, list_commands[i]))
+		if (!ft_strcmp(token, cmd_list[i]))
 		{
-			cmd->name = token;
+			cmd->name = ft_strdup(token);
 			cmd->type = OWN_COMMAND;
 		}
 	}
@@ -78,17 +77,17 @@ int	built_command(char **tokens, t_command *cmd, char **cmd_list)
 	cmd->type = -1;
 	path = getenv("PATH");
 	dirs = ft_split(path, ':');
-	if (!dirs)
-		return (EXIT_FAILURE);
-	while (tokens[i][0] != '\0')
+	i = 0;
+	while (tokens[i][0] == '\0')
 		i++;
-	if (check_own_command(tokens[i], cmd) == EXIT_FAILURE
+	if (check_own_command(tokens[i], cmd, cmd_list) == EXIT_FAILURE
 		|| check_relative_path(tokens[i], cmd) == EXIT_FAILURE
 		|| check_path(tokens[i], dirs, cmd) == EXIT_FAILURE)
 	{
 		double_free(dirs);
 		return (EXIT_FAILURE);
 	}
-	double_free(dirs);
+	if (dirs)
+		double_free(dirs);
 	return (EXIT_SUCCESS);
 }

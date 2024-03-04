@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 11:47:55 by iestero-          #+#    #+#             */
-/*   Updated: 2024/02/21 10:57:37 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/03/04 08:06:10 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@
 static int	open_input_simple(char *token, t_command *cmd, char *next_token)
 {
 	char	*redir;
-	char	*filename;
 
 	redir = ft_strchr(token, '<');
 	if (redir)

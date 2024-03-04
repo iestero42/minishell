@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 10:48:47 by iestero-          #+#    #+#             */
-/*   Updated: 2024/02/21 10:01:33 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/03/04 09:27:46 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static void	parse_list_command(char **command_list, t_minishell *data)
 {
 	int	i;
 
-	i = 0;
+	i = -1;
 	while (command_list[++i] != NULL)
 		parse_command(command_list[i], &data->comand_split[i], data->cmd_list);
 }
@@ -34,4 +34,5 @@ void	parse_data(const char *command_line, t_minishell *data)
 	if (!data->comand_split)
 		error_malloc();
 	parse_list_command(command_list, data);
+	double_free(command_list);
 }

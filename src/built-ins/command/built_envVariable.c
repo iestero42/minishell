@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 10:24:02 by iestero-          #+#    #+#             */
-/*   Updated: 2024/02/21 10:15:59 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/03/04 08:45:42 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,8 @@ static char	*check_token(char *token, int last_status)
 		}
 	}
 	if (start < i && new_token)
-		new_token = ft_copy(token, new_token, start + 1, i - start - 1);
-	return (new_token);
+		return (ft_copy(token, new_token, start + 1, i - start - 1));
+	return (token);
 }
 
 int	built_env_variable(char **tokens, int last_status)

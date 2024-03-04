@@ -1,0 +1,20 @@
+Test 1: "hola""hola" 
+
+-- string: holahola -- 
+
+
+Test 2: ""hola""hola"" 
+
+-- string: holahola -- 
+
+
+Test 3: "'hola'""hola"hola 
+
+-- string: 'hola'holahola -- 
+
+
+Test 4: adios'"hola"'"hola" 
+
+-- string: adios"hola"hola -- 
+
+

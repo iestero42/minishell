@@ -6,13 +6,13 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 11:53:17 by iestero-          #+#    #+#             */
-/*   Updated: 2024/02/21 09:40:31 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/03/04 09:02:01 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*parse_segment(char *result, const char *input,
+static char	*parse_segment(const char *input,
 	int *position, int *start)
 {
 	char	*segment;
@@ -32,7 +32,7 @@ static char	*parse_segment(char *result, const char *input,
 	return (segment);
 }
 
-static char	*parse_quotes(const char *input, size_t len)
+static char	*parse_quotes(char *input, int len)
 {
 	char	*result;
 	int		i;
@@ -48,14 +48,14 @@ static char	*parse_quotes(const char *input, size_t len)
 			if (i > start)
 				result = ft_copy(input, result, start + 1, i - start);
 			result = ft_strjoin(result,
-					parse_segment(result, input, &i, &start));
+					parse_segment(input, &i, &start));
 			if (!result)
 				return (NULL);
 		}
 	}
 	if (start < i && result)
-		result = ft_copy(input, result, start + 1, i - start - 1);
-	return (result);
+		return (ft_copy(input, result, start + 1, i - start - 1));
+	return (input);
 }
 
 int	trim_command(char **tokens)
@@ -63,14 +63,13 @@ int	trim_command(char **tokens)
 	int		i;
 	char	*new_token;
 
-	i = 0;
-	while (tokens[i] != NULL)
+	i = -1;
+	while (tokens[++i] != NULL)
 	{
-		new_token = remove_quote_pairs(tokens[i], ft_strlen(tokens[i]));
+		new_token = parse_quotes(tokens[i], ft_strlen(tokens[i]));
 		if (!new_token)
-			return (NULL);
+			return (EXIT_FAILURE);
 		tokens[i] = new_token;
-		free(new_token);
 	}
 	return (EXIT_SUCCESS);
 }

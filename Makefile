@@ -6,7 +6,7 @@
 #    By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/07 10:56:39 by yunlovex          #+#    #+#              #
-#    Updated: 2024/02/21 09:29:21 by iestero-         ###   ########.fr        #
+#    Updated: 2024/03/04 08:08:48 by iestero-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -101,6 +101,7 @@ REDIR_FILES		=	built_redir.c		\
 
 CMD_FILES		=	built_command.c			\
 					built_envVariable.c		\
+					built_args.c			\
 									
 
 SRCS_FILES	= 	$(addprefix $(MAIN_DIR)/, $(MAIN_FILES)) 		\

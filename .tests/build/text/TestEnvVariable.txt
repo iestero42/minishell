@@ -1,2 +1,55 @@
 Test 1: $PATH 
 
+-- string: /usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki:/Users/iestero-/.fzf/bin -- 
+
+
+Test 2: $hola 
+
+-- string: ola -- 
+
+
+Test 3: $? 
+
+-- string: 42 -- 
+
+
+Test 4: $PATH$PATH 
+
+-- string: /usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki:/Users/iestero-/.fzf/binP/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki:/Users/iestero-/.fzf/bin -- 
+
+
+Test 5: $ROOT 
+
+-- string: OOT -- 
+
+
+Test 6: $$ 
+
+-- string:  -- 
+
+
+Test 7: $ 
+
+-- string:  -- 
+
+
+Test 8: $ 
+
+-- string:  -- 
+
+
+Test 9: hola$PATH 
+
+-- string: la$P/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki:/Users/iestero-/.fzf/bin -- 
+
+
+Test 10: $PATH"hola" 
+
+-- string: /usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki:/Users/iestero-/.fzf/binhola" -- 
+
+
+Test 11: "hola $PATH como"$PATH 
+
+-- string: ola $P/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki:/Users/iestero-/.fzf/bincomo"$P/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki:/Users/iestero-/.fzf/bin -- 
+
+

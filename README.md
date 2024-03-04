@@ -10,8 +10,6 @@ Cosas generales:
 
 proximo dia:
 
-	testear las redirecciones
-
 	testear que se pilla bien el comando y que se guardan bien los argumentos de ese comando
 
 

@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 07:29:18 by iestero-          #+#    #+#             */
-/*   Updated: 2024/02/21 10:06:48 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/03/04 09:39:16 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,29 +41,37 @@ static void	init_data(t_minishell *data)
 	data->cmd_list[6] = "exit";
 }
 
-static int	minishell(void)
+int	open_pipes(t_minishell *pipex_args)
 {
-	return 1;
+	int	i;
+
+	i = 0;
+	while (i < pipex_args->pipes)
+	{
+		if (pipe(pipex_args->end + 2 * i) < 0)
+			return (-1);
+		i++;
+	}
+	return (0);
+}
+
+static int	minishell(t_minishell *data)
+{
+	data->pipes = (int *) malloc(sizeof(int) * (data->n_comands - 1));
+	
 }
 
 int	main(void)
 {
 	t_minishell	data;
-	pid_t		pid;
 
 	show_title();
 	init_data(&data);
 	while (data.status != STOPPED)
 	{
-		pid = fork();
-		if (pid == 0)
-		{
-			init_data(&data);
-			parse_data(readline(MINISHELL_ENTRY), &data);
-			minishell();
-			exit(0);
-		}
-		wait(NULL);
+		init_data(&data);
+		parse_data("echo hola> como >>adios", &data);
+		minishell(&data);
 	}
 	return (0);
 }
