@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 07:29:18 by iestero-          #+#    #+#             */
-/*   Updated: 2024/03/04 09:39:16 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/03/04 09:52:20 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,24 +41,32 @@ static void	init_data(t_minishell *data)
 	data->cmd_list[6] = "exit";
 }
 
-int	open_pipes(t_minishell *pipex_args)
+static int	open_pipes(t_minishell *data)
 {
 	int	i;
 
 	i = 0;
-	while (i < pipex_args->pipes)
+	while (i < data->n_comands - 1)
 	{
-		if (pipe(pipex_args->end + 2 * i) < 0)
-			return (-1);
+		if (pipe(data->pipes + 2 * i) < 0)
+			return (EXIT_FAILURE);
 		i++;
 	}
-	return (0);
+	return (EXIT_SUCCESS);
 }
 
 static int	minishell(t_minishell *data)
 {
+	pid_t	*pids;
+	int		i;
+
 	data->pipes = (int *) malloc(sizeof(int) * (data->n_comands - 1));
-	
+	open_pipes(data);
+	pids = (pid_t *) malloc(sizeof(pid_t) * data->n_comands);
+	i = -1;
+	while (++i < data->n_comands)
+		pids[i] = create_process(data->comand_split[i], data->pipes);
+	controller(pids, data);
 }
 
 int	main(void)

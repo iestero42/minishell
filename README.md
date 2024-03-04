@@ -10,7 +10,7 @@ Cosas generales:
 
 proximo dia:
 
-	testear que se pilla bien el comando y que se guardan bien los argumentos de ese comando
+	emepzar con el pipe entero y constuir los diferentes builts-in de cada comando
 
 
 para futuro:
