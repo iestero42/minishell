@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 07:29:23 by iestero-          #+#    #+#             */
-/*   Updated: 2024/02/21 11:30:11 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/03/11 11:25:17 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,15 @@
 
 # define UNQUOTED 		0
 
-# define PATH_COMMAND	1
-# define OWN_COMMAND	2
+# define PATH_COMMAND	0
+
+# define ECHO_COMMAND	1
+# define CD_COMMAND		2
+# define PWD_COMMAND	3
+# define EXPORT_COMMAND	4
+# define UNSET_COMMAND	5
+# define ENV_COMMAND	6
+# define EXIT_COMMAND	7
 
 # define NUM_COMMANDS	7
 
@@ -67,6 +74,7 @@ typedef struct s_minishell
 	int			std_fileno[2];
 	char		*cmd_list[NUM_COMMANDS];
 	int			*pipes;
+	char		**env;
 }	t_minishell;
 
 void		parse_data(const char *command_line, t_minishell *data);
@@ -107,5 +115,9 @@ int			trim_command(char **tokens);
 char		**ft_append(char **arr1, char *str);
 
 int			built_args(t_command *cmd, char **tokens);
+
+void		exec_command(t_command cmd, char **env);
+
+void		exec_command_special(t_command cmd, char **env);
 
 #endif

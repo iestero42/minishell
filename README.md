@@ -10,7 +10,9 @@ Cosas generales:
 
 proximo dia:
 
-	emepzar con el pipe entero y constuir los diferentes builts-in de cada comando
+	contruir los built-ins y programar las señales de interaccion
+
+	y si todo va bien hacer lo de los errores y la liberacion de memoria
 
 
 para futuro:

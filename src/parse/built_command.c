@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 08:18:57 by iestero-          #+#    #+#             */
-/*   Updated: 2024/03/04 09:22:33 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/03/11 10:47:18 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static int	check_own_command(char *token, t_command *cmd, char **cmd_list)
 		if (!ft_strcmp(token, cmd_list[i]))
 		{
 			cmd->name = ft_strdup(token);
-			cmd->type = OWN_COMMAND;
+			cmd->type = i + 1;
 		}
 	}
 	return (EXIT_SUCCESS);
