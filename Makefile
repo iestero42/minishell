@@ -6,7 +6,7 @@
 #    By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/07 10:56:39 by yunlovex          #+#    #+#              #
-#    Updated: 2024/03/11 11:47:53 by iestero-         ###   ########.fr        #
+#    Updated: 2024/03/18 11:18:06 by iestero-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -105,6 +105,11 @@ UTILS_FILES		=	errors.c			\
 
 BUILTINS_FILES	=	built_cd.c		\
 					built_echo.c	\
+					built_env.c		\
+					built_exit.c	\
+					built_export.c	\
+					built_pwd.c		\
+					built_unset.c	\
 									
 
 SRCS_FILES	= 	$(addprefix $(MAIN_DIR)/, $(MAIN_FILES)) 		\
@@ -115,7 +120,7 @@ SRCS 		=	$(addprefix $(SRC_DIR)/, $(SRCS_FILES))
 OBJS 		=	$(addprefix $(OBJ_DIR)/, $(SRCS_FILES:.c=.o))
 DIRS		=	$(OBJ_DIR)  $(addprefix $(OBJ_DIR)/, 			\
 				$(MAIN_DIR) $(UTILS_DIR) $(PARSE_DIR)			\
-				$(BUILTINS_DIR) 								\
+				$(BUILTINS_DIR))								\
 
 OBJ_MAIN	=	$(addprefix $(OBJ_DIR)/, $(addprefix $(MAIN_DIR)/, $(MAIN_FILES:.c=.o)))
 

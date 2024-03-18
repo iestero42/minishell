@@ -10,9 +10,7 @@ Cosas generales:
 
 proximo dia:
 
-	contruir los built-ins y programar las señales de interaccion
-
-	y si todo va bien hacer lo de los errores y la liberacion de memoria
+	hacer las primeras pruebas del conjunto entero y corregir errores y temas de liberar memoria
 
 
 para futuro:

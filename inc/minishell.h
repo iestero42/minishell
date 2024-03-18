@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 07:29:23 by iestero-          #+#    #+#             */
-/*   Updated: 2024/03/11 11:25:17 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/03/18 11:27:40 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,11 +71,14 @@ typedef struct s_minishell
 	t_command	*comand_split;
 	int			n_comands;
 	int			status;
+	int			last_status_cmd;
 	int			std_fileno[2];
 	char		*cmd_list[NUM_COMMANDS];
 	int			*pipes;
 	char		**env;
 }	t_minishell;
+
+volatile sig_atomic_t	g_signal = 0;
 
 void		parse_data(const char *command_line, t_minishell *data);
 
@@ -92,7 +95,7 @@ char		**split_pipes(const char *s);
 char		**split_command(const char *s);
 
 int			parse_command(char *command_str, t_command *command,
-				char **cmd_list);
+				char **cmd_list, int last_status);
 
 char		**ft_dstrjoin(char **arr1, char **arr2);
 
@@ -118,6 +121,33 @@ int			built_args(t_command *cmd, char **tokens);
 
 void		exec_command(t_command cmd, char **env);
 
-void		exec_command_special(t_command cmd, char **env);
+void		exec_command_special(t_command cmd, char **env, t_minishell *data);
+
+void		*ft_realloc(void *ptr, size_t new_size);
+
+void		signal_handler(int signum);
+
+pid_t		create_process(t_command cmd, int *pipes,
+				int pos, t_minishell *data);
+
+void		controller(t_minishell *data, pid_t *pid);
+
+int			execute_command(t_command cmd, t_minishell *data);
+
+void		exec_command(t_command cmd, char **env);
+
+int		built_cd(char **args);
+
+int		built_echo(char **args);
+
+int		built_env(void);
+
+int		built_exit(char **args);
+
+int		built_export(char **args);
+
+int		built_pwd(void);
+
+int		built_unset(char **args);
 
 #endif

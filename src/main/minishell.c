@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 07:29:18 by iestero-          #+#    #+#             */
-/*   Updated: 2024/03/11 11:49:45 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/03/18 11:21:54 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,23 +72,35 @@ static int	minishell(t_minishell *data)
 		while (++i < data->n_comands)
 			pids[i] = create_process(data->comand_split[i], data->pipes, i,
 					data);
+		controller(data, pids);
 	}
 	else
 		execute_command(data->comand_split[0], data);
+	return (EXIT_SUCCESS);
 }
 
 int	main(int argc, char **argv, char **env)
 {
 	t_minishell	data;
+	char		*line;
 
+	signal(SIGINT, signal_handler);
+	signal(SIGQUIT, signal_handler);
+	signal(SIGTERM, signal_handler);
 	if (argc != 1 || argv == NULL)
 		return (-1);
 	show_title();
 	init_data(&data, env);
 	while (data.status != STOPPED)
 	{
-		parse_data("echo hola> como >>adios", &data);
-		minishell(&data);
+		line = readline("minishell~$ ");
+		if (line != NULL)
+		{
+			parse_data("line", &data);
+			minishell(&data);
+		}
+		else
+			return (0);
 	}
 	return (0);
 }

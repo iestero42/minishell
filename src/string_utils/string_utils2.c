@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 09:31:16 by iestero-          #+#    #+#             */
-/*   Updated: 2024/03/04 09:23:23 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/03/18 09:48:05 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,4 +42,23 @@ char	**ft_append(char **arr1, char *str)
 	combined[len1 + 1] = NULL;
 	free(arr1);
 	return (combined);
+}
+
+void	*ft_realloc(void *ptr, size_t new_size)
+{
+	void	*new_ptr;
+
+	if (ptr == NULL)
+		return (malloc(new_size));
+	if (new_size == 0)
+	{
+		free(ptr);
+		return (NULL);
+	}
+	new_ptr = malloc(new_size);
+	if (new_ptr == NULL)
+		return (NULL);
+	memcpy(new_ptr, ptr, new_size);
+	free(ptr);
+	return (new_ptr);
 }
