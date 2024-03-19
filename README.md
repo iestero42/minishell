@@ -10,7 +10,11 @@ Cosas generales:
 
 proximo dia:
 
-	hacer las primeras pruebas del conjunto entero y corregir errores y temas de liberar memoria
+	meter todas la liberaciones de memoria
+
+	hacer las primeras pruebas del conjunto entero y corregir errores
+
+	proxima dia arreglar las señales, porque creo que he cambiado cosas de la terminal y puede que eso haya rayado la terminal entera
 
 
 para futuro:
@@ -20,3 +24,10 @@ para futuro:
 	mirar si redifinir cuando un error es un error y por ejemplo cuando hay un error con memoria 
 	liberar memoria y punto sin decir un error como tal
 	
+
+
+si hay tiempo:
+
+	ver como personalizar un poco la minishell
+
+

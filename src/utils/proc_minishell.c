@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 09:23:36 by iestero-          #+#    #+#             */
-/*   Updated: 2024/03/18 11:24:03 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/03/19 10:00:25 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,8 @@ pid_t	create_process(t_command cmd, int *pipes, int pos, t_minishell *data)
 			childs(pipes[2 * (pos - 1)], data->std_fileno[1]);
 		else
 			childs(pipes[2 * (pos - 1)], pipes[pos * 2 + 1]);
-		close_pipes(pipes);
+		close_pipes(data);
 		exec_command(cmd, data->env);
-		full_free();
 		exit(0);
 	}
 	return (child);
@@ -61,6 +60,6 @@ int	execute_command(t_command cmd, t_minishell *data)
 		childs(cmd.input_redirect, data->std_fileno[1]);
 	else
 		childs(data->std_fileno[0], data->std_fileno[1]);
-	exec_command_special(cmd, data->env, &data);
-	full_free();
+	exec_command_special(cmd, data->env, data);
+	return (EXIT_SUCCESS);
 }

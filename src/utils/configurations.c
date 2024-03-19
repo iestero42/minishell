@@ -1,28 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   built_env.c                                        :+:      :+:    :+:   */
+/*   configurations.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/11 10:58:52 by iestero-          #+#    #+#             */
-/*   Updated: 2024/03/19 10:09:38 by iestero-         ###   ########.fr       */
+/*   Created: 2024/03/19 10:55:57 by iestero-          #+#    #+#             */
+/*   Updated: 2024/03/19 12:33:50 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	built_env(void)
+static void	hide_eof_symbol(struct termios *term)
 {
-	extern char	**environ;
-	int			i;
 
-	i = 0;
-	while (environ[i] != NULL)
+	if (tcgetattr(STDIN_FILENO, term) == -1)
 	{
-		ft_putstr_fd(environ[i], 1);
-		ft_putchar_fd('\n', 1);
-		i++;
+		perror("tcgetattr");
+		exit(1);
 	}
-	return (EXIT_SUCCESS);
+	cfmakeraw(term);
+	if (tcsetattr(STDIN_FILENO, TCSANOW, term) == -1)
+	{
+		perror("tcsetattr");
+		exit(1);
+	}
+}
+
+void	configurations(void)
+{
+	struct termios	term;
+
+	hide_eof_symbol(&term);
 }

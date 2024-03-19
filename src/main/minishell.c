@@ -6,11 +6,13 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 07:29:18 by iestero-          #+#    #+#             */
-/*   Updated: 2024/03/18 11:21:54 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/03/19 12:32:57 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+volatile sig_atomic_t	g_signal = 0;
 
 static void	show_title(void)
 {
@@ -29,6 +31,7 @@ static void	show_title(void)
 
 static void	init_data(t_minishell *data, char **env)
 {
+	show_title();
 	data->status = RUNNING;
 	data->std_fileno[1] = dup(STDOUT_FILENO);
 	data->std_fileno[0] = dup(STDIN_FILENO);
@@ -40,6 +43,10 @@ static void	init_data(t_minishell *data, char **env)
 	data->cmd_list[5] = "env";
 	data->cmd_list[6] = "exit";
 	data->env = env;
+	tcgetattr(STDIN_FILENO, &data->original_term);
+	configurations();
+	signal(SIGINT, signal_handler);
+	signal(SIGQUIT, SIG_IGN);
 }
 
 static int	open_pipes(t_minishell *data)
@@ -63,7 +70,9 @@ static int	minishell(t_minishell *data)
 
 	if (data->n_comands > 1)
 	{
-		data->pipes = (int *) malloc(sizeof(int) * (data->n_comands - 1));
+		data->pipes = (int *) malloc(sizeof(int) * 2 * (data->n_comands - 1));
+		if (!data->pipes)
+			return (EXIT_FAILURE);
 		open_pipes(data);
 		pids = (pid_t *) malloc(sizeof(pid_t) * data->n_comands);
 		if (!pids)
@@ -76,6 +85,7 @@ static int	minishell(t_minishell *data)
 	}
 	else
 		execute_command(data->comand_split[0], data);
+	full_free(data);
 	return (EXIT_SUCCESS);
 }
 
@@ -84,23 +94,28 @@ int	main(int argc, char **argv, char **env)
 	t_minishell	data;
 	char		*line;
 
-	signal(SIGINT, signal_handler);
-	signal(SIGQUIT, signal_handler);
-	signal(SIGTERM, signal_handler);
 	if (argc != 1 || argv == NULL)
 		return (-1);
-	show_title();
 	init_data(&data, env);
 	while (data.status != STOPPED)
 	{
 		line = readline("minishell~$ ");
-		if (line != NULL)
+		if (line == NULL)
 		{
-			parse_data("line", &data);
-			minishell(&data);
+			ft_putstr_fd("exit\n", 1);
+			break ;
 		}
-		else
-			return (0);
+		if (*line != '\0')
+		{
+			parse_data(line, &data);
+			minishell(&data);
+			add_history(line);
+			free(line);
+		}
 	}
+	clear_history();
+	tcsetattr(STDIN_FILENO, TCSANOW, &data.original_term);
+	    // Restaurar los atributos a los valores por defecto
+    cfmakeraw(&data.original_term);
 	return (0);
 }

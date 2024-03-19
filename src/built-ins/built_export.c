@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 10:58:12 by iestero-          #+#    #+#             */
-/*   Updated: 2024/03/18 11:27:15 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/03/19 10:11:19 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,14 @@
 static int	replace_environ_aux(char *arg)
 {
 	extern char	**environ;
-	char		**env;
 
 	environ = ft_realloc(environ,
-			(ft_dstrlen(environ) + 2) * sizeof(char *));
+			(ft_dstrlen((const char **) environ) + 2) * sizeof(char *));
 	if (environ == NULL)
 		return (EXIT_FAILURE);
-	environ[ft_dstrlen(environ)] = arg;
-	environ[ft_dstrlen(environ) + 1] = NULL;
+	environ[ft_dstrlen((const char **) environ)] = arg;
+	environ[ft_dstrlen((const char **) environ) + 1] = NULL;
+	return (EXIT_SUCCESS);
 }
 
 static int	replace_environ(char *arg)
@@ -52,7 +52,6 @@ static int	replace_environ(char *arg)
 
 int	built_export(char **args)
 {
-	char		**var;
 	int			i;
 
 	i = 1;
@@ -64,6 +63,7 @@ int	built_export(char **args)
 			ft_putstr_fd(args[i], 2);
 			ft_putstr_fd(": not a valid identifier", 2);
 			ft_putchar_fd('\n', 2);
+			return (EXIT_FAILURE);
 		}
 		else
 			replace_environ(args[i]);

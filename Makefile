@@ -6,7 +6,7 @@
 #    By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/07 10:56:39 by yunlovex          #+#    #+#              #
-#    Updated: 2024/03/18 11:18:06 by iestero-         ###   ########.fr        #
+#    Updated: 2024/03/19 11:39:55 by iestero-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -60,7 +60,7 @@ STRING_UTILS_DIR	=	string_utils
 PARSE_DIR			=	parse
 BUILTINS_DIR		=	built-ins
 
-LDLIBS				=	$(LIBMINISHELL) $(LIBFT) -lreadline
+LDLIBS				=	$(LIBMINISHELL) $(LIBFT) -L/Users/$(USER)/.brew/opt/readline/lib -lreadline 
 LDLIBS_BONUS		=	$(LIBFRACTOL_BONUS) $(LIBFT)
 
 CC					=	gcc
@@ -69,7 +69,7 @@ CFLAGS				=	-g -Wall -Werror -Wextra $(INCLUDES) $(SANATIZE)
 CFLAGS_BONUS		=	-g -Wall -Werror -Wextra $(INCLUDES_BONUS)
 LDFLAGS				=   $(LDLIBS) $(SANATIZE)
 LDFLAGS_BONUS		=	$(LDLIBS_BONUS) -L$(MINILIBX_DIR) -lmlx -framework OpenGL -framework AppKit
-INCLUDES			=	-I$(INC_DIR) -I$(addsuffix $(INC_DIR), $(LIBFT_DIR)/)
+INCLUDES			=	-I$(INC_DIR) -I$(addsuffix $(INC_DIR), $(LIBFT_DIR)/) -I/Users/$(USER)/.brew/opt/readline/include
 INCLUDES_BONUS		=	-I$(INCBONUS_DIR) -I$(addsuffix $(INC_DIR), $(LIBFT_DIR)/) -I$(MINILIBX_DIR)
 
 SANITIZE			=	-fsanitize=address
@@ -102,6 +102,9 @@ STRING_UTILS_FILES	=	split_command.c		\
 UTILS_FILES		=	errors.c			\
 					exec_command.c		\
 					proc_minishell.c	\
+					frees.c				\
+					signal_handler.c 	\
+					configurations.c	\
 
 BUILTINS_FILES	=	built_cd.c		\
 					built_echo.c	\
@@ -112,15 +115,17 @@ BUILTINS_FILES	=	built_cd.c		\
 					built_unset.c	\
 									
 
-SRCS_FILES	= 	$(addprefix $(MAIN_DIR)/, $(MAIN_FILES)) 		\
-				$(addprefix $(UTILS_DIR)/, $(UTILS_FILES)) 		\
-				$(addprefix $(PARSE_DIR)/, $(PARSE_FILES)) 		\
+SRCS_FILES	= 	$(addprefix $(MAIN_DIR)/, $(MAIN_FILES)) 					\
+				$(addprefix $(UTILS_DIR)/, $(UTILS_FILES)) 					\
+				$(addprefix $(PARSE_DIR)/, $(PARSE_FILES)) 					\
+				$(addprefix $(STRING_UTILS_DIR)/, $(STRING_UTILS_FILES)) 	\
+				$(addprefix $(BUILTINS_DIR)/, $(BUILTINS_FILES)) 			\
 
 SRCS 		=	$(addprefix $(SRC_DIR)/, $(SRCS_FILES))
 OBJS 		=	$(addprefix $(OBJ_DIR)/, $(SRCS_FILES:.c=.o))
 DIRS		=	$(OBJ_DIR)  $(addprefix $(OBJ_DIR)/, 			\
 				$(MAIN_DIR) $(UTILS_DIR) $(PARSE_DIR)			\
-				$(BUILTINS_DIR))								\
+				$(BUILTINS_DIR) $(STRING_UTILS_DIR)) 			\
 
 OBJ_MAIN	=	$(addprefix $(OBJ_DIR)/, $(addprefix $(MAIN_DIR)/, $(MAIN_FILES:.c=.o)))
 
@@ -169,6 +174,9 @@ fclean:				clean
 	$(RM) $(NAME)
 	$(RM) $(BONUS)
 	@echo "---- $(YELLOW)Binary files deleted. $(CHECK)$(NC) ----"
+
+print:
+	echo $(DIRS)
 
 re:					fclean all
 

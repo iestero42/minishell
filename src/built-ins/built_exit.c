@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 10:59:11 by iestero-          #+#    #+#             */
-/*   Updated: 2024/03/18 11:27:13 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/03/19 10:09:00 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	built_exit(char **args)
 {
 	int	i;
 
-	i = ft_dstrlen(args);
+	i = ft_dstrlen((const char **) args);
 	if (i > 2)
 		ft_putstr_fd("exit: too many arguments", 2);
 	else

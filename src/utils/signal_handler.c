@@ -6,47 +6,66 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 10:22:28 by iestero-          #+#    #+#             */
-/*   Updated: 2024/03/18 11:09:27 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/03/19 12:27:05 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+extern volatile sig_atomic_t	g_signal;
+
 void	signal_handler(int signum)
 {
 	if (signum == SIGINT)
 	{
-		ft_putstr_fd("\n", 2);
-		g_signal = 2;
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
 	}
 	else if (signum == SIGQUIT)
 		g_signal = 3;
-	else if (signum == SIGTERM)
+}
+
+static void	signal_use(t_minishell *data, pid_t *pid)
+{
+	int	i;
+
+	if (g_signal == 2 || g_signal == 1)
 	{
-		ft_putstr_fd("exit", 2);
-		g_signal = 1;
+		i = 0;
+		while (i < data->n_comands)
+			kill(pid[i], SIGTERM);
+		data->status = STOPPED;
+		if (g_signal == 1)
+		{
+			full_free(data);
+			free(pid);
+			exit(0);
+		}
 	}
 }
+
 
 void	controller(t_minishell *data, pid_t *pid)
 {
 	int	i;
+	int	result;
+	int	total;
 
 	data->last_status_cmd = 0;
+	total = 0;
 	while (data->status != STOPPED)
 	{
 		i = -1;
 		while (++i < data->n_comands)
-			waitpid(pid[i], &data->last_status_cmd, WNOHANG);
-		if (g_signal == 2 || g_signal == 1)
 		{
-			i = 0;
-			while (i < data->n_comands)
-				kill(pid[i], SIGTERM);
-			full_free(data);
-			data->status = STOPPED;
-			if (g_signal == 1)
-				exit(0);
+			result = 0;
+			result = waitpid(pid[i], &data->last_status_cmd, WNOHANG);
+			if (result > 0)
+				total++;
 		}
+		signal_use(data, pid);
+		if (total == data->n_comands)
+			data->status = STOPPED;
 	}
 }

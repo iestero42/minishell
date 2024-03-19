@@ -6,13 +6,13 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 10:15:38 by iestero-          #+#    #+#             */
-/*   Updated: 2024/03/18 11:26:50 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/03/19 09:59:05 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	builtins(t_command cmd, char **env)
+static int	builtins(t_command cmd)
 {
 	if (cmd.type == ECHO_COMMAND)
 		return (built_echo(cmd.args));
@@ -28,6 +28,7 @@ static int	builtins(t_command cmd, char **env)
 		return (built_env());
 	else if (cmd.type == EXIT_COMMAND)
 		return (built_exit(cmd.args));
+	return (EXIT_SUCCESS);
 }
 
 void	exec_command(t_command cmd, char **env)
@@ -36,21 +37,18 @@ void	exec_command(t_command cmd, char **env)
 	{
 		if (execve(cmd.name, cmd.args, env) < 0)
 		{
-			child_free(cmd);
 			perror("Error");
 			exit(127);
 		}
 	}
 	else
 	{
-		if (builtins(cmd, env) < 0)
+		if (builtins(cmd) < 0)
 		{
-			child_free(cmd);
 			perror("Error");
 			exit(127);
 		}
 	}
-	child_free(cmd);
 }
 
 void	exec_command_special(t_command cmd, char **env, t_minishell *data)
@@ -66,7 +64,6 @@ void	exec_command_special(t_command cmd, char **env, t_minishell *data)
 		{
 			if (execve(cmd.name, cmd.args, env) < 0)
 			{
-				child_free(cmd);
 				perror("Error");
 				exit(127);
 			}
@@ -76,7 +73,7 @@ void	exec_command_special(t_command cmd, char **env, t_minishell *data)
 	}
 	else
 	{
-		if (builtins(cmd, env) < 0)
+		if (builtins(cmd) < 0)
 			perror("Error");
 	}
 }
