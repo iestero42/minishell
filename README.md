@@ -10,14 +10,12 @@ Cosas generales:
 
 proximo dia:
 
-	meter todas la liberaciones de memoria
-
-	hacer las primeras pruebas del conjunto entero y corregir errores
-
-	proxima dia arreglar las señales, porque creo que he cambiado cosas de la terminal y puede que eso haya rayado la terminal entera
+	hacer las primeras pruebas del conjunto entero y corregir errores y ver que no haya leaks de memoria
 
 
 para futuro:
+
+	arreglar lo del exit
 
 	mirar todos los errores de parseo y definir sus respectivos errores
 
@@ -29,5 +27,7 @@ para futuro:
 si hay tiempo:
 
 	ver como personalizar un poco la minishell
+		- limpiar la terminal cuando inicio
+		
 
 

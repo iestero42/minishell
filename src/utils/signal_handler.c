@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 10:22:28 by iestero-          #+#    #+#             */
-/*   Updated: 2024/03/19 12:27:05 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/03/20 11:03:26 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,11 @@ void	signal_handler(int signum)
 {
 	if (signum == SIGINT)
 	{
+		printf("\n");
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
 	}
-	else if (signum == SIGQUIT)
-		g_signal = 3;
 }
 
 static void	signal_use(t_minishell *data, pid_t *pid)

@@ -1,30 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   built_args.c                                       :+:      :+:    :+:   */
+/*   print_exit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/08 11:31:40 by iestero-          #+#    #+#             */
-/*   Updated: 2024/03/20 10:43:54 by iestero-         ###   ########.fr       */
+/*   Created: 2024/03/20 11:33:39 by iestero-          #+#    #+#             */
+/*   Updated: 2024/03/20 11:37:33 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	built_args(t_command *cmd, char **tokens)
+static int	ft_putchar(int c)
 {
-	int		i;
-	char	**args;
+	return (write(1, &c, 1));
+}
 
-	i = 0;
-	args = 0;
-	while (tokens[i] != NULL)
-	{
-		if (tokens[i][0] != '\0')
-			args = ft_append(args, tokens[i]);
-		i++;
-	}
-	cmd->args = args;
-	return (EXIT_SUCCESS);
+void	print_exit(void)
+{
+	tputs(tgetstr("up", NULL), 1, ft_putchar);
+	printf("minishell~$ exit\n");
 }

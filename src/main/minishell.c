@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 07:29:18 by iestero-          #+#    #+#             */
-/*   Updated: 2024/03/19 12:32:57 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/03/20 12:16:13 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,7 @@ static void	show_title(void)
 	printf(LINE_5, BLUE, YELLOW, BLUE, RESET);
 	printf(LINE_6, BLUE, YELLOW, BLUE, RESET);
 	printf(LINE_7, BLUE, YELLOW, BLUE, RESET);
-	printf(LINE_8, BLUE, YELLOW, BLUE, RESET);
-	printf(LINE_9, BLUE, YELLOW, BLUE, RESET);
-	printf(LINE_10, BLUE, RESET, BLUE, RESET);
-	printf(LINE_11, BLUE, RESET);
+	printf(LINE_8, BLUE, RESET);
 }
 
 static void	init_data(t_minishell *data, char **env)
@@ -102,7 +99,7 @@ int	main(int argc, char **argv, char **env)
 		line = readline("minishell~$ ");
 		if (line == NULL)
 		{
-			ft_putstr_fd("exit\n", 1);
+			print_exit();
 			break ;
 		}
 		if (*line != '\0')
@@ -115,7 +112,5 @@ int	main(int argc, char **argv, char **env)
 	}
 	clear_history();
 	tcsetattr(STDIN_FILENO, TCSANOW, &data.original_term);
-	    // Restaurar los atributos a los valores por defecto
-    cfmakeraw(&data.original_term);
 	return (0);
 }

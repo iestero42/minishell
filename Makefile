@@ -6,7 +6,7 @@
 #    By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/07 10:56:39 by yunlovex          #+#    #+#              #
-#    Updated: 2024/03/19 11:39:55 by iestero-         ###   ########.fr        #
+#    Updated: 2024/03/20 11:37:00 by iestero-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -60,7 +60,7 @@ STRING_UTILS_DIR	=	string_utils
 PARSE_DIR			=	parse
 BUILTINS_DIR		=	built-ins
 
-LDLIBS				=	$(LIBMINISHELL) $(LIBFT) -L/Users/$(USER)/.brew/opt/readline/lib -lreadline 
+LDLIBS				=	$(LIBMINISHELL) $(LIBFT) -lncurses -L/Users/$(USER)/.brew/opt/readline/lib -lreadline 
 LDLIBS_BONUS		=	$(LIBFRACTOL_BONUS) $(LIBFT)
 
 CC					=	gcc
@@ -105,6 +105,7 @@ UTILS_FILES		=	errors.c			\
 					frees.c				\
 					signal_handler.c 	\
 					configurations.c	\
+					print_exit.c		\
 
 BUILTINS_FILES	=	built_cd.c		\
 					built_echo.c	\

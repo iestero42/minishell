@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 07:29:23 by iestero-          #+#    #+#             */
-/*   Updated: 2024/03/19 11:18:39 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/03/20 11:36:01 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include <sys/wait.h>
 # include <termcap.h>
 # include <termios.h>
+# include <term.h>
 # include <sys/stat.h>
 # include <sys/types.h>
 # include <dirent.h>
@@ -153,5 +154,7 @@ void		full_free(t_minishell *data);
 void		close_pipes(t_minishell *data);
 
 void		configurations(void);
+
+void		print_exit(void);
 
 #endif
