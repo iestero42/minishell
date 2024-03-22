@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 10:57:42 by iestero-          #+#    #+#             */
-/*   Updated: 2024/03/19 10:08:36 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/03/22 09:32:15 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,16 @@ int	built_cd(char **args)
 
 	len = ft_dstrlen((const char **) args);
 	dir = NULL;
-	if (len > 1)
+	if (!ft_strcmp(args[1], "~"))
+	{
+		dir = getenv("HOME");
+		if (chdir(dir) != 0)
+			perror(dir);
+	}
+	else
 	{
 		if (chdir(args[1]) != 0)
 			perror(args[1]);
-	}
-	else if (len == 1)
-	{
-		dir = getenv("HOME");
-		if (dir == NULL)
-			perror("HOME");
 	}
 	return (EXIT_SUCCESS);
 }

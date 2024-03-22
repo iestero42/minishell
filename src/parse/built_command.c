@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 08:18:57 by iestero-          #+#    #+#             */
-/*   Updated: 2024/03/11 10:47:18 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/03/22 09:15:43 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ static int	check_path(char *token, char **dirs, t_command *cmd)
 
 	if (!cmd->name)
 	{
-		i = 0;
-		while (dirs[i] != NULL)
+		i = -1;
+		while (dirs[++i] != NULL)
 		{
 			ft_memset(abs_path, 0, sizeof(abs_path));
 			ft_strlcat(abs_path, dirs[i], sizeof(abs_path));

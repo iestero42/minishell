@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 07:29:18 by iestero-          #+#    #+#             */
-/*   Updated: 2024/03/20 12:16:13 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/03/22 12:12:21 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static void	init_data(t_minishell *data, char **env)
 	data->cmd_list[4] = "unset";
 	data->cmd_list[5] = "env";
 	data->cmd_list[6] = "exit";
-	data->env = env;
+	data->env = ft_dstrdup((const char **) env);
 	tcgetattr(STDIN_FILENO, &data->original_term);
 	configurations();
 	signal(SIGINT, signal_handler);
@@ -104,9 +104,9 @@ int	main(int argc, char **argv, char **env)
 		}
 		if (*line != '\0')
 		{
+			add_history(line);
 			parse_data(line, &data);
 			minishell(&data);
-			add_history(line);
 			free(line);
 		}
 	}

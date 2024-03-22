@@ -21,6 +21,8 @@ para futuro:
 
 	mirar si redifinir cuando un error es un error y por ejemplo cuando hay un error con memoria 
 	liberar memoria y punto sin decir un error como tal
+
+	meter que si hago un here_doc y le meto una variable de entorno que me expanda esa variable
 	
 
 

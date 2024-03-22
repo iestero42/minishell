@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 11:53:17 by iestero-          #+#    #+#             */
-/*   Updated: 2024/03/04 09:02:01 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/03/22 10:21:00 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static char	*parse_quotes(char *input, int len)
 		if (input[i] == '"' || input[i] == '\'')
 		{
 			if (i > start)
-				result = ft_copy(input, result, start + 1, i - start);
+				result = ft_copy(input, result, start - 1, i - start);
 			result = ft_strjoin(result,
 					parse_segment(input, &i, &start));
 			if (!result)
@@ -54,8 +54,10 @@ static char	*parse_quotes(char *input, int len)
 		}
 	}
 	if (start < i && result)
-		return (ft_copy(input, result, start + 1, i - start - 1));
-	return (input);
+		return (ft_copy(input, result, start - 1, i - start));
+	if (!result)
+		return (input);
+	return (result);
 }
 
 int	trim_command(char **tokens)

@@ -6,21 +6,20 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 10:58:52 by iestero-          #+#    #+#             */
-/*   Updated: 2024/03/19 10:09:38 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/03/22 12:13:05 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	built_env(void)
+int	built_env(char **env)
 {
-	extern char	**environ;
 	int			i;
 
 	i = 0;
-	while (environ[i] != NULL)
+	while (env[i] != NULL)
 	{
-		ft_putstr_fd(environ[i], 1);
+		ft_putstr_fd(env[i], 1);
 		ft_putchar_fd('\n', 1);
 		i++;
 	}

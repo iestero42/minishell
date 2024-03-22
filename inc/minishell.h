@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 07:29:23 by iestero-          #+#    #+#             */
-/*   Updated: 2024/03/20 11:36:01 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/03/22 12:13:44 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,11 +139,11 @@ int			built_cd(char **args);
 
 int			built_echo(char **args);
 
-int			built_env(void);
+int			built_env(char **env);
 
 int			built_exit(char **args);
 
-int			built_export(char **args);
+int			built_export(char **args, char **env);
 
 int			built_pwd(void);
 
@@ -156,5 +156,7 @@ void		close_pipes(t_minishell *data);
 void		configurations(void);
 
 void		print_exit(void);
+
+char		**ft_dstrdup(const char **str);
 
 #endif

@@ -6,51 +6,50 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 10:58:12 by iestero-          #+#    #+#             */
-/*   Updated: 2024/03/19 10:11:19 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/03/22 12:09:13 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	replace_environ_aux(char *arg)
+static int	replace_environ_aux(char *arg, char **env)
 {
-	extern char	**environ;
 
-	environ = ft_realloc(environ,
-			(ft_dstrlen((const char **) environ) + 2) * sizeof(char *));
-	if (environ == NULL)
+	env = ft_realloc(env,
+			(ft_dstrlen((const char **) env) + 2) * sizeof(char *));
+	if (env == NULL)
 		return (EXIT_FAILURE);
-	environ[ft_dstrlen((const char **) environ)] = arg;
-	environ[ft_dstrlen((const char **) environ) + 1] = NULL;
+	env[ft_dstrlen((const char **) env)] = ft_strdup(arg);
+	env[ft_dstrlen((const char **) env) + 1] = NULL;
 	return (EXIT_SUCCESS);
 }
 
-static int	replace_environ(char *arg)
+static int	replace_environ(char *arg, char **env)
 {
-	extern char	**environ;
-	char		**env;
+	char		**env_tmp;
 	char		**var;	
 
-	env = environ;
+	env_tmp = env;
 	var = ft_split(arg, '=');
 	if (!var)
 		return (EXIT_FAILURE);
 	while (*env != NULL)
 	{
-		if (!ft_strncmp(*env, var[0], ft_strlen(var[0]))
-			&& (*env)[strlen(var[0])] == '=')
+		if (!ft_strncmp(*env_tmp, var[0], ft_strlen(var[0]))
+			&& (*env_tmp)[strlen(var[0])] == '=')
 		{
-			*env = arg;
+			*env_tmp = ft_strdup(arg);
 			break ;
 		}
+		env_tmp++;
 	}
-	if (*env == NULL)
-		if (replace_environ_aux(arg) == EXIT_FAILURE)
+	if (*env_tmp == NULL)
+		if (replace_environ_aux(arg, env) == EXIT_FAILURE)
 			return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
 
-int	built_export(char **args)
+int	built_export(char **args, char **env)
 {
 	int			i;
 
@@ -66,7 +65,7 @@ int	built_export(char **args)
 			return (EXIT_FAILURE);
 		}
 		else
-			replace_environ(args[i]);
+			replace_environ(args[i], env);
 		i++;
 	}
 	return (EXIT_SUCCESS);

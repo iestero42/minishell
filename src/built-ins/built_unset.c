@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 10:58:27 by iestero-          #+#    #+#             */
-/*   Updated: 2024/03/18 11:27:19 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/03/22 11:51:06 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	built_unset(char **args)
 				&& (*env)[ft_strlen(args[i])] == '=')
 			{
 				p = env;
-				while (*env != NULL)
+				while (*p != NULL)
 				{
 					*p = *(p + 1);
 					p++;

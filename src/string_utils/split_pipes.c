@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 09:30:38 by iestero-          #+#    #+#             */
-/*   Updated: 2024/02/19 11:59:14 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/03/22 09:43:03 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static int	size_dstr(const char *s)
 			in_quotes = s[i];
 		else if (in_quotes == s[i] && in_quotes)
 			in_quotes = UNQUOTED;
-		else if ((s[i] == '|' || s[i + 1] == '\0') && !in_quotes)
+		if ((s[i] == '|' || s[i + 1] == '\0') && !in_quotes)
 		{
 			count++;
 			if (s[i + 1] == '|')
@@ -79,11 +79,7 @@ static char	*get_next_substring(int *start, const char *s)
 		if ((start_chr[i] == '"' || start_chr[i] == '\'') && !in_quotes)
 			in_quotes = start_chr[i];
 		else if (in_quotes == start_chr[i] && in_quotes)
-		{
 			in_quotes = UNQUOTED;
-			i++;
-			break ;
-		}
 		i++;
 	}
 	*start = *start + i + 1;
