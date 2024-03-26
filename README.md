@@ -14,6 +14,8 @@ proximo dia:
 	
 	(falta pipes y redirecciones por probar)
 
+	definir los comportamientos ante un error
+
 
 para futuro:
 
