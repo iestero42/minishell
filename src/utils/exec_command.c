@@ -6,13 +6,13 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 10:15:38 by iestero-          #+#    #+#             */
-/*   Updated: 2024/03/22 12:13:59 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/03/26 08:38:54 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	builtins(t_command cmd, char **env)
+static int	builtins(t_command cmd, char ***env)
 {
 	if (cmd.type == ECHO_COMMAND)
 		return (built_echo(cmd.args));
@@ -25,17 +25,17 @@ static int	builtins(t_command cmd, char **env)
 	else if (cmd.type == UNSET_COMMAND)
 		return (built_unset(cmd.args));
 	else if (cmd.type == ENV_COMMAND)
-		return (built_env(env));
+		return (built_env(*env));
 	else if (cmd.type == EXIT_COMMAND)
 		return (built_exit(cmd.args));
 	return (EXIT_SUCCESS);
 }
 
-void	exec_command(t_command cmd, char **env)
+void	exec_command(t_command cmd, char ***env)
 {
 	if (cmd.type == PATH_COMMAND)
 	{
-		if (execve(cmd.name, cmd.args, env) < 0)
+		if (execve(cmd.name, cmd.args, *env) < 0)
 		{
 			perror("Error");
 			exit(127);
@@ -51,7 +51,7 @@ void	exec_command(t_command cmd, char **env)
 	}
 }
 
-void	exec_command_special(t_command cmd, char **env, t_minishell *data)
+void	exec_command_special(t_command cmd, t_minishell *data)
 {
 	pid_t	pid;
 
@@ -62,7 +62,7 @@ void	exec_command_special(t_command cmd, char **env, t_minishell *data)
 			return (perror("exec_command"));
 		if (pid == 0)
 		{
-			if (execve(cmd.name, cmd.args, env) < 0)
+			if (execve(cmd.name, cmd.args, data->env) < 0)
 			{
 				perror("Error");
 				exit(127);
@@ -73,7 +73,7 @@ void	exec_command_special(t_command cmd, char **env, t_minishell *data)
 	}
 	else
 	{
-		if (builtins(cmd, data->env) < 0)
+		if (builtins(cmd, &data->env) < 0)
 			perror("Error");
 	}
 }

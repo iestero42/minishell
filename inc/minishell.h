@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 07:29:23 by iestero-          #+#    #+#             */
-/*   Updated: 2024/03/22 12:13:44 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/03/26 08:38:03 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,9 +118,7 @@ char		**ft_append(char **arr1, char *str);
 
 int			built_args(t_command *cmd, char **tokens);
 
-void		exec_command(t_command cmd, char **env);
-
-void		exec_command_special(t_command cmd, char **env, t_minishell *data);
+void		exec_command_special(t_command cmd, t_minishell *data);
 
 void		*ft_realloc(void *ptr, size_t new_size);
 
@@ -133,7 +131,7 @@ void		controller(t_minishell *data, pid_t *pid);
 
 int			execute_command(t_command cmd, t_minishell *data);
 
-void		exec_command(t_command cmd, char **env);
+void		exec_command(t_command cmd, char ***env);
 
 int			built_cd(char **args);
 
@@ -143,7 +141,7 @@ int			built_env(char **env);
 
 int			built_exit(char **args);
 
-int			built_export(char **args, char **env);
+int			built_export(char **args, char ***env);
 
 int			built_pwd(void);
 

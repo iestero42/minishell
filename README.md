@@ -10,12 +10,12 @@ Cosas generales:
 
 proximo dia:
 
-	hacer las primeras pruebas del conjunto entero y corregir errores y ver que no haya leaks de memoria
+	seguir corregiendo el expoort y probar el unset
+	
+	(falta pipes y redirecciones por probar)
 
 
 para futuro:
-
-	arreglar lo del exit
 
 	mirar todos los errores de parseo y definir sus respectivos errores
 
