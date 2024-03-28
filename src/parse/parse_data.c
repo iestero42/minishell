@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 10:48:47 by iestero-          #+#    #+#             */
-/*   Updated: 2024/03/18 10:50:42 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/03/28 11:05:58 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,19 @@
 
 static void	parse_list_command(char **command_list, t_minishell *data)
 {
-	int	i;
+	int		i;
+	char	*tmp;
 
 	i = -1;
 	while (command_list[++i] != NULL)
+	{
+		tmp = ft_itoa(i);
+		data->comand_split[i].here_doc = ft_strjoin(ft_strdup("/tmp/heredoc"),
+				tmp);
+		free(tmp);
 		parse_command(command_list[i], &data->comand_split[i], data->cmd_list,
 			data->last_status_cmd);
+	}
 }
 
 void	parse_data(const char *command_line, t_minishell *data)

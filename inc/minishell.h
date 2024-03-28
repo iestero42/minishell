@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 07:29:23 by iestero-          #+#    #+#             */
-/*   Updated: 2024/03/26 08:38:03 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/03/28 10:37:25 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include "title.h"
 # include "libft.h"
-# include "linked_list.h"
+# include "get_next_line.h"
 
 # include <stdio.h>
 # include <stdlib.h>
@@ -61,6 +61,7 @@ typedef struct s_command
 {
 	char	**args;
 	char	*name;
+	char	*here_doc;
 	int		type;
 	int		output_redirect;
 	int		input_redirect;
@@ -118,20 +119,20 @@ char		**ft_append(char **arr1, char *str);
 
 int			built_args(t_command *cmd, char **tokens);
 
-void		exec_command_special(t_command cmd, t_minishell *data);
+void		exec_command_special(t_command *cmd, t_minishell *data);
 
-void		*ft_realloc(void *ptr, size_t new_size);
+char		**ft_realloc(char **ptr, char *arg, int count, int expand);
 
 void		signal_handler(int signum);
 
-pid_t		create_process(t_command cmd, int *pipes,
+pid_t		create_process(t_command *cmd, int *pipes,
 				int pos, t_minishell *data);
 
 void		controller(t_minishell *data, pid_t *pid);
 
-int			execute_command(t_command cmd, t_minishell *data);
+int			execute_command(t_command *cmd, t_minishell *data);
 
-void		exec_command(t_command cmd, char ***env);
+void		exec_command(t_command *cmd, char ***env);
 
 int			built_cd(char **args);
 
@@ -145,7 +146,7 @@ int			built_export(char **args, char ***env);
 
 int			built_pwd(void);
 
-int			built_unset(char **args);
+int			built_unset(char **args, char ***env);
 
 void		full_free(t_minishell *data);
 
@@ -156,5 +157,7 @@ void		configurations(void);
 void		print_exit(void);
 
 char		**ft_dstrdup(const char **str);
+
+void		ft_check_dups(char ***env);
 
 #endif

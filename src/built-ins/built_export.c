@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 10:58:12 by iestero-          #+#    #+#             */
-/*   Updated: 2024/03/26 12:42:09 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/03/28 08:41:32 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,10 @@
 
 static int	replace_environ_aux(char *arg, char ***env)
 {
-
-	*env = ft_realloc(*env,
-			(ft_dstrlen((const char **) *env) + 2) * sizeof(char *));
+	*env = ft_realloc(*env, arg,
+			ft_dstrlen((const char **) *env), 2);
 	if (*env == NULL)
 		return (EXIT_FAILURE);
-	(*env)[ft_dstrlen((const char **) *env)] = ft_strdup(arg);
-	(*env)[ft_dstrlen((const char **) *env) + 1] = NULL;
 	return (EXIT_SUCCESS);
 }
 
@@ -38,6 +35,8 @@ static int	replace_environ(char *arg, char ***env)
 		if (!ft_strncmp(*env_tmp, var[0], ft_strlen(var[0]))
 			&& (*env_tmp)[strlen(var[0])] == '=')
 		{
+			if (*env_tmp)
+				free(*env_tmp);
 			*env_tmp = ft_strdup(arg);
 			break ;
 		}

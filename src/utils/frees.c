@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 11:33:49 by iestero-          #+#    #+#             */
-/*   Updated: 2024/03/26 08:33:09 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/03/28 12:14:06 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,9 @@ static void	free_cmd(t_command *cmd)
 		close(cmd->output_redirect);
 	if (cmd->input_redirect > -1)
 		close(cmd->input_redirect);
-	if (access("here_doc", F_OK) != -1) 
-		unlink("here_doc");
+	if (access(cmd->here_doc, F_OK) != -1)
+		unlink(cmd->here_doc);
+	free(cmd->here_doc);
 }
 
 void	close_pipes(t_minishell *data)
@@ -34,7 +35,7 @@ void	close_pipes(t_minishell *data)
 	while (i < 2 * (data->n_comands - 1))
 	{
 		if (close(data->pipes[i]) < 0)
-			perror("pipes");
+			perror("end");
 		i++;
 	}
 }
@@ -51,7 +52,6 @@ void	full_free(t_minishell *data)
 		i++;
 	}
 	free(data->comand_split);
-	close_pipes(data);
 	free(data->pipes);
 	dup2(data->std_fileno[0], 0);
 	dup2(data->std_fileno[1], 1);

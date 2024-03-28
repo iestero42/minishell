@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 07:29:18 by iestero-          #+#    #+#             */
-/*   Updated: 2024/03/26 13:27:02 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/03/28 12:21:07 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,12 +76,14 @@ static int	minishell(t_minishell *data)
 			return (EXIT_FAILURE);
 		i = -1;
 		while (++i < data->n_comands)
-			pids[i] = create_process(data->comand_split[i], data->pipes, i,
+			pids[i] = create_process(&data->comand_split[i], data->pipes, i,
 					data);
+		close_pipes(data);
 		controller(data, pids);
+		free(pids);
 	}
 	else
-		execute_command(data->comand_split[0], data);
+		execute_command(&data->comand_split[0], data);
 	full_free(data);
 	return (EXIT_SUCCESS);
 }

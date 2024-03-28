@@ -10,11 +10,10 @@ Cosas generales:
 
 proximo dia:
 
-	seguir corregiendo el expoort y probar el unset
-	
-	(falta pipes y redirecciones por probar)
+	definir los comportamientos ante un error de parseo o durante la ejecucion(importante)
 
-	definir los comportamientos ante un error
+	hacer pruebas locas con los argumentos desordenados y de todo
+	
 
 
 para futuro:

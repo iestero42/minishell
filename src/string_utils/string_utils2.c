@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 09:31:16 by iestero-          #+#    #+#             */
-/*   Updated: 2024/03/22 12:11:28 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/03/28 12:11:50 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,21 +44,21 @@ char	**ft_append(char **arr1, char *str)
 	return (combined);
 }
 
-void	*ft_realloc(void *ptr, size_t new_size)
+char	**ft_realloc(char **ptr, char *arg, int count, int expand)
 {
-	void	*new_ptr;
+	char	**new_ptr;
+	int		i;
 
 	if (ptr == NULL)
-		return (malloc(new_size));
-	if (new_size == 0)
-	{
-		free(ptr);
-		return (NULL);
-	}
-	new_ptr = malloc(new_size);
+		return (ft_calloc(count + expand, sizeof(char *)));
+	new_ptr = (char **) ft_calloc(count + expand, sizeof(char *));
 	if (new_ptr == NULL)
 		return (NULL);
-	ft_memcpy(new_ptr, ptr, new_size);
+	i = -1;
+	while (++i < count)
+		new_ptr[i] = ptr[i];
+	new_ptr[i] = ft_strdup(arg);
+	new_ptr[i + 1] = NULL;
 	free(ptr);
 	return (new_ptr);
 }

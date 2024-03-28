@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 11:47:55 by iestero-          #+#    #+#             */
-/*   Updated: 2024/03/04 08:06:10 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/03/28 10:47:50 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static int	open_input_simple(char *token, t_command *cmd, char *next_token)
 		if (next_token != NULL && ft_strcmp(next_token, "")
 			&& !ft_strchr(next_token, '>') && !ft_strchr(next_token, '<'))
 		{
-			cmd->input_redirect = open(next_token, O_RDWR, 0666);
+			cmd->input_redirect = open(next_token, O_RDONLY, 0644);
 			*next_token = '\0';
 			*token = '\0';
 		}
@@ -50,20 +50,28 @@ static int	open_input_simple(char *token, t_command *cmd, char *next_token)
  * @param delimiter 
  * @return int 
  */
-static int	write_here_doc(char *delimiter)
+static int	write_here_doc(char *delimiter, char *filename)
 {
 	char	*line;
 	int		here_doc;
 
-	line = readline(">");
-	here_doc = open("here_doc", O_RDWR, O_CREAT, 0666);
+	here_doc = open(filename, O_WRONLY | O_CREAT, 0644);
 	if (here_doc == -1)
 		return (EXIT_FAILURE);
-	while (ft_strcmp(line, delimiter))
+	ft_putstr_fd(">", STDOUT_FILENO);
+	line = get_next_line(STDIN_FILENO);
+	while (ft_strncmp(line, delimiter, ft_strlen(line) - 1))
 	{
 		ft_putstr_fd(line, here_doc);
-		line = readline(">");
+		free(line);
+		ft_putstr_fd(">", STDOUT_FILENO);
+		line = get_next_line(STDIN_FILENO);
 	}
+	free(line);
+	close(here_doc);
+	here_doc = open(filename, O_RDONLY);
+	if (here_doc < 0)
+		perror(filename);
 	return (here_doc);
 }
 
@@ -85,12 +93,12 @@ static int	open_input_double(char *token, t_command *cmd, char *next_token)
 		if (cmd->input_redirect > -1)
 		{
 			close(cmd->output_redirect);
-			unlink("here_doc");
+			unlink(cmd->here_doc);
 		}
-		else if (next_token != NULL && !ft_strchr(next_token, '>')
+		if (next_token != NULL && !ft_strchr(next_token, '>')
 			&& !ft_strchr(next_token, '<'))
 		{
-			cmd->input_redirect = write_here_doc(next_token);
+			cmd->input_redirect = write_here_doc(next_token, cmd->here_doc);
 			*next_token = '\0';
 			*token = '\0';
 		}

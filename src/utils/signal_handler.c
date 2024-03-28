@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 10:22:28 by iestero-          #+#    #+#             */
-/*   Updated: 2024/03/20 11:03:26 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/03/28 09:26:18 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,12 @@ void	controller(t_minishell *data, pid_t *pid)
 	int	i;
 	int	result;
 	int	total;
+	int	status;
 
 	data->last_status_cmd = 0;
 	total = 0;
-	while (data->status != STOPPED)
+	status = RUNNING;
+	while (status != STOPPED)
 	{
 		i = -1;
 		while (++i < data->n_comands)
@@ -65,6 +67,6 @@ void	controller(t_minishell *data, pid_t *pid)
 		}
 		signal_use(data, pid);
 		if (total == data->n_comands)
-			data->status = STOPPED;
+			status = STOPPED;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 10:55:57 by iestero-          #+#    #+#             */
-/*   Updated: 2024/03/20 11:01:42 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/03/28 10:56:58 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	hide_eof_symbol(struct termios *term)
 		perror("tcgetattr");
 		exit(1);
 	}
-	term->c_lflag &= ~(ECHOCTL | ICANON | ECHOE | ECHOK | ECHONL);
+	term->c_lflag &= ~(ECHOCTL);
 	if (tcsetattr(STDIN_FILENO, TCSANOW, term) == -1)
 	{
 		perror("tcsetattr");
