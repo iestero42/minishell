@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 11:53:17 by iestero-          #+#    #+#             */
-/*   Updated: 2024/03/22 10:21:00 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/04/01 11:40:12 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,23 +55,17 @@ static char	*parse_quotes(char *input, int len)
 	}
 	if (start < i && result)
 		return (ft_copy(input, result, start - 1, i - start));
-	if (!result)
-		return (input);
 	return (result);
 }
 
-int	trim_command(char **tokens)
+char	*trim_command(char *token)
 {
-	int		i;
 	char	*new_token;
 
-	i = -1;
-	while (tokens[++i] != NULL)
-	{
-		new_token = parse_quotes(tokens[i], ft_strlen(tokens[i]));
-		if (!new_token)
-			return (EXIT_FAILURE);
-		tokens[i] = new_token;
-	}
-	return (EXIT_SUCCESS);
+	new_token = parse_quotes(token, ft_strlen(token));
+	if (!new_token)
+		return (token);
+	free(token);
+	token = new_token;
+	return (token);
 }

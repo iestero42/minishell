@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 09:31:16 by iestero-          #+#    #+#             */
-/*   Updated: 2024/03/28 12:11:50 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/04/01 09:53:27 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ char	**ft_realloc(char **ptr, char *arg, int count, int expand)
 	int		i;
 
 	if (ptr == NULL)
-		return (ft_calloc(count + expand, sizeof(char *)));
+		return ((char **) ft_calloc(count + expand, sizeof(char *)));
 	new_ptr = (char **) ft_calloc(count + expand, sizeof(char *));
 	if (new_ptr == NULL)
 		return (NULL);
@@ -70,7 +70,7 @@ char	**ft_dstrdup(const char **str)
 
 	dup = (char **) malloc(sizeof(char *) * (ft_dstrlen(str) + 1));
 	if (!dup)
-		return (0);
+		return (NULL);
 	i = 0;
 	while (str[i] != NULL)
 	{

@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 07:29:18 by iestero-          #+#    #+#             */
-/*   Updated: 2024/03/28 12:21:07 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/04/01 09:55:14 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,11 @@ static void	init_data(t_minishell *data, char **env)
 	show_title();
 	data->status = RUNNING;
 	data->std_fileno[1] = dup(STDOUT_FILENO);
+	if (data->std_fileno[1] < 0)
+		error_init("stdout");
 	data->std_fileno[0] = dup(STDIN_FILENO);
+	if (data->std_fileno[0] < 0)
+		error_init("stdin");
 	data->cmd_list[0] = "echo";
 	data->cmd_list[1] = "cd";
 	data->cmd_list[2] = "pwd";
@@ -39,8 +43,12 @@ static void	init_data(t_minishell *data, char **env)
 	data->cmd_list[4] = "unset";
 	data->cmd_list[5] = "env";
 	data->cmd_list[6] = "exit";
-	data->env = ft_dstrdup((const char **) env);
-	tcgetattr(STDIN_FILENO, &data->original_term);
+	data->cmd_list[7] = NULL;
+	data->env = ft_dstrdup((const char **)env);
+	if (data->env == NULL)
+		error_init("ft_dstrdup");
+	if (tcgetattr(STDIN_FILENO, &data->original_term) == -1)
+		error_init("tcgetattr");
 	configurations();
 	signal(SIGINT, signal_handler);
 	signal(SIGQUIT, SIG_IGN);
@@ -54,7 +62,7 @@ static int	open_pipes(t_minishell *data)
 	while (i < data->n_comands - 1)
 	{
 		if (pipe(data->pipes + 2 * i) < 0)
-			return (EXIT_FAILURE);
+			error_init("pipe");
 		i++;
 	}
 	return (EXIT_SUCCESS);
@@ -69,11 +77,11 @@ static int	minishell(t_minishell *data)
 	{
 		data->pipes = (int *) malloc(sizeof(int) * 2 * (data->n_comands - 1));
 		if (!data->pipes)
-			return (EXIT_FAILURE);
+			error_init("malloc");
 		open_pipes(data);
 		pids = (pid_t *) malloc(sizeof(pid_t) * data->n_comands);
 		if (!pids)
-			return (EXIT_FAILURE);
+			error_init("malloc");
 		i = -1;
 		while (++i < data->n_comands)
 			pids[i] = create_process(&data->comand_split[i], data->pipes, i,

@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 07:29:23 by iestero-          #+#    #+#             */
-/*   Updated: 2024/03/28 10:37:25 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/04/01 12:27:45 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@
 # define UNQUOTED 		0
 
 # define PATH_COMMAND	0
+# define ERROR_COMMAND	-1
 
 # define ECHO_COMMAND	1
 # define CD_COMMAND		2
@@ -94,26 +95,30 @@ char		**split_pipes(const char *s);
 
 char		**split_command(const char *s);
 
-int			parse_command(char *command_str, t_command *command,
-				char **cmd_list, int last_status);
+void		parse_command(char *command_str, t_command *cmd, t_minishell *data,
+				int pos);
 
 char		**ft_dstrjoin(char **arr1, char **arr2);
 
-void		error_malloc(void);
+void		error_init(char *msg);
 
-int			built_redirect(char **tokens, t_command *cmd);
+int			parse_redirect(char **tokens, t_command *cmd,
+				int pos, t_minishell *data);
 
-int			built_output(char *token, t_command *cmd, char *nex_token);
+int			parse_output(char **tokens, t_command *cmd,
+				int pos, t_minishell *data);
 
-int			built_input(char *token, t_command *cmd, char *next_token);
+int			parse_input(char **tokens, t_command *cmd,
+				int pos, t_minishell *data);
 
-int			built_command(char **tokens, t_command *command, char **cmd_list);
+int			parse_command_name(char **tokens, t_command *cmd, char **cmd_list,
+				int last_status);
 
-int			built_env_variable(char **tokens, int last_status);
+char		*parse_env_variable(char *token, int last_status);
 
 char		*ft_copy(const char *token, char *new_token, int start, int len);
 
-int			trim_command(char **tokens);
+char		*trim_command(char *token);
 
 char		**ft_append(char **arr1, char *str);
 
@@ -158,6 +163,6 @@ void		print_exit(void);
 
 char		**ft_dstrdup(const char **str);
 
-void		ft_check_dups(char ***env);
+int			error_redir(char *tmp, char *org, int pos, t_minishell *data);
 
 #endif

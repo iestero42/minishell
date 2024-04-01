@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 08:18:57 by iestero-          #+#    #+#             */
-/*   Updated: 2024/03/22 09:15:43 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/04/01 12:30:11 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,11 +67,13 @@ static int	check_own_command(char *token, t_command *cmd, char **cmd_list)
 	return (EXIT_SUCCESS);
 }
 
-int	built_command(char **tokens, t_command *cmd, char **cmd_list)
+int	parse_command_name(char **tokens, t_command *cmd, char **cmd_list,
+		int last_status)
 {
 	int		i;
 	char	*path;
 	char	**dirs;
+	char	*cmd;
 
 	cmd->name = NULL;
 	cmd->type = -1;

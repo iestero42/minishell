@@ -6,13 +6,13 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 09:21:16 by iestero-          #+#    #+#             */
-/*   Updated: 2024/03/28 10:58:45 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/04/01 12:13:17 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h" 
 
-int	built_redirect(char **tokens, t_command *cmd)
+int	parse_redirect(char **tokens, t_command *cmd, int pos, t_minishell *data)
 {
 	int	i;
 
@@ -21,9 +21,9 @@ int	built_redirect(char **tokens, t_command *cmd)
 	cmd->input_redirect = -2;
 	while (tokens[++i] != NULL)
 	{
-		if (built_output(tokens[i], cmd, tokens[i + 1]) == EXIT_FAILURE)
+		if (parse_output(&tokens[i], cmd, pos, data) == EXIT_FAILURE)
 			return (EXIT_FAILURE);
-		if (built_input(tokens[i], cmd, tokens[i + 1]) == EXIT_FAILURE)
+		if (parse_input(&tokens[i], cmd, pos, data) == EXIT_FAILURE)
 			return (EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);

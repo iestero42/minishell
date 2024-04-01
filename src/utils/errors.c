@@ -6,13 +6,36 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 11:53:30 by iestero-          #+#    #+#             */
-/*   Updated: 2023/12/26 11:13:58 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/04/01 12:03:37 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	error_malloc(void)
+void	error_init(char *msg)
 {
-	exit(1);
+	perror(msg);
+	exit(EXIT_FAILURE);
+}
+
+int	error_redir(char *tmp, char *org, int pos, t_minishell *data)
+{
+	ft_putstr_fd("minishell: ", 2);
+	if (ft_strcmp(tmp, org) && *tmp == '\0')
+	{
+		ft_putstr_fd(org, 2);
+		ft_putstr_fd("ambiguous redirect\n", 2);
+	}
+	else if (*tmp == '<' || *tmp == '>')
+	{
+		ft_putstr_fd("syntax error near unexpected token ", 2);
+		ft_putstr_fd(tmp, 2);
+		ft_putstr_fd("\n", 2);
+	}
+	else if (*tmp == NULL && pos == data->n_comands - 1)
+		ft_putstr_fd("syntax error near unexpected token `newline'\n", 2);
+	else if ((*tmp == NULL && pos < data->n_comands - 1))
+		ft_putstr_fd("syntax error near unexpected token `|'\n", 2);
+	free(tmp);
+	return (EXIT_FAILURE);
 }

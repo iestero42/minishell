@@ -6,41 +6,37 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 11:48:07 by iestero-          #+#    #+#             */
-/*   Updated: 2024/03/28 09:12:49 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/04/01 12:28:33 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	error_command(char *msg)
+static void	error_command(t_command *cmd)
 {
-	printf("%s", msg);
-	return (EXIT_FAILURE);
+	cmd->type = ERROR_COMMAND;
 }
 
-int	parse_command(char *command_str, t_command *cmd, char **cmd_list,
-		int last_status)
+void	parse_command(char *command_str, t_command *cmd, t_minishell *data,
+			int pos)
 {
 	char	**tokens;
 	char	*cmd_trimmed;
 
 	cmd_trimmed = ft_strtrim(command_str, " ");
 	if (!cmd_trimmed)
-		return (error_command("fuc"));
+		return (error_init("ft_strtrim"));
 	tokens = split_command(cmd_trimmed);
-	free(cmd_trimmed);
 	if (tokens == NULL)
-		return (error_command("fuc"));
-	if (built_env_variable(tokens, last_status) == EXIT_FAILURE)
-		return (error_command("fuc"));
-	if (built_redirect(tokens, cmd) == EXIT_FAILURE)
-		return (error_command("fuc"));
-	if (trim_command(tokens) == EXIT_FAILURE)
-		return (error_command("fuc"));
-	if (built_command(tokens, cmd, cmd_list) == EXIT_FAILURE)
-		return (error_command("fuc"));
+		return (error_command(cmd));
+	free(cmd_trimmed);
+	if (parse_redirect(tokens, cmd, data, pos) == EXIT_FAILURE)
+		return (error_command(cmd));
+	if (parse_command_name(tokens, cmd, data->cmd_list,
+			data->last_status_cmd) == EXIT_FAILURE)
+		return (error_command(cmd));
 	if (built_args(cmd, tokens) == EXIT_FAILURE)
-		return (error_command("fuc"));
+		return (error_command(cmd));
 	double_free(tokens);
 	return (EXIT_SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 10:24:02 by iestero-          #+#    #+#             */
-/*   Updated: 2024/03/22 10:23:39 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/04/01 11:14:26 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,21 +80,15 @@ static char	*check_token(char *token, int last_status)
 	return (new_token);
 }
 
-int	built_env_variable(char **tokens, int last_status)
+char	*parse_env_variable(char *token, int last_status)
 {
-	int		i;
 	char	*new_token;
 
-	i = -1;
-	while (tokens[++i] != NULL)
-	{
-		if (tokens[i][0] == '\'')
-			return (EXIT_SUCCESS);
-		else
-		{
-			new_token = check_token(tokens[i], last_status);
-			tokens[i] = new_token;
-		}
-	}
-	return (EXIT_SUCCESS);
+	if (token == NULL)
+		return (NULL);
+	if (token[0] == '\'')
+		return (ft_strdup(token));
+	else
+		new_token = check_token(*token, last_status);
+	return (new_token);
 }

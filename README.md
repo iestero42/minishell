@@ -10,7 +10,9 @@ Cosas generales:
 
 proximo dia:
 
-	definir los comportamientos ante un error de parseo o durante la ejecucion(importante)
+	terminar de definir los errores mejorar el expandir las variables de entorno con el heredoc y terminar el cambio hecho con el parseo de nombre del comando y lo mismo con los argumentos
+
+	tambien arreglar lo de trimmear los tokens porque no se pueden trimear despues de expandirlas 
 
 	hacer pruebas locas con los argumentos desordenados y de todo
 	
