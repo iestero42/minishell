@@ -6,7 +6,7 @@
 #    By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/07 10:56:39 by yunlovex          #+#    #+#              #
-#    Updated: 2024/04/01 12:14:32 by iestero-         ###   ########.fr        #
+#    Updated: 2024/04/02 11:22:10 by iestero-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -86,9 +86,9 @@ MAIN_FILES		=	minishell.c
 
 PARSE_FILES		=	parse_data.c			\
 					parse_command.c			\
-					built_command.c			\
+					parse_command_name.c	\
 					parse_envVariable.c		\
-					built_args.c			\
+					parse_args.c			\
 					parse_redir.c			\
 					parse_output.c			\
 					parse_input.c			\

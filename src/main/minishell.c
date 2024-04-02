@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 07:29:18 by iestero-          #+#    #+#             */
-/*   Updated: 2024/04/01 09:55:14 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/04/02 09:58:06 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ static void	init_data(t_minishell *data, char **env)
 	data->cmd_list[4] = "unset";
 	data->cmd_list[5] = "env";
 	data->cmd_list[6] = "exit";
-	data->cmd_list[7] = NULL;
 	data->env = ft_dstrdup((const char **)env);
 	if (data->env == NULL)
 		error_init("ft_dstrdup");

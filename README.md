@@ -10,9 +10,7 @@ Cosas generales:
 
 proximo dia:
 
-	terminar de definir los errores mejorar el expandir las variables de entorno con el heredoc y terminar el cambio hecho con el parseo de nombre del comando y lo mismo con los argumentos
-
-	tambien arreglar lo de trimmear los tokens porque no se pueden trimear despues de expandirlas 
+	terminar de definir los errores y ver si todos los frees esta bien
 
 	hacer pruebas locas con los argumentos desordenados y de todo
 	

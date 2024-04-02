@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 11:47:55 by iestero-          #+#    #+#             */
-/*   Updated: 2024/04/01 12:35:43 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/04/02 11:31:24 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ static int	open_input_simple(char **tokens, t_command *cmd,
 	{
 		if (cmd->input_redirect > -1)
 			close(cmd->input_redirect);
-		tmp = parse_env_variable(&tokens[1], data->last_status_cmd);
-		if (*tmp != NULL && !ft_strchr(tmp, '>') && !ft_strchr(tmp, '<'))
+		tmp = trim_command(tokens[1], data->last_status_cmd);
+		if (*tmp != '\0' && !ft_strchr(tmp, '>') && !ft_strchr(tmp, '<'))
 		{
 			cmd->input_redirect = open(tmp, O_RDONLY, 0644);
 			if (cmd->input_redirect < 0)
@@ -63,15 +63,13 @@ static int	write_here_doc(char *delimiter, char *filename, int last_status)
 
 	here_doc = open(filename, O_WRONLY | O_CREAT, 0644);
 	if (here_doc == -1)
-	{
-		perror(filename);
-		return (EXIT_FAILURE);
-	}
+		error_init(filename);
 	ft_putstr_fd(">", STDOUT_FILENO);
 	line = get_next_line(STDIN_FILENO);
 	while (ft_strncmp(line, delimiter, ft_strlen(line) - 1))
 	{
-		ft_putstr_fd(parse_env_variable(line, last_status), here_doc);
+		line = parse_env_variable(line, last_status, '\0');
+		ft_putstr_fd(line, here_doc);
 		free(line);
 		ft_putstr_fd(">", STDOUT_FILENO);
 		line = get_next_line(STDIN_FILENO);
@@ -104,11 +102,10 @@ static int	open_input_double(char **tokens, t_command *cmd,
 	{
 		if (cmd->input_redirect > -1)
 			close(cmd->output_redirect);
-		tmp = parse_env_variable(&tokens[1], data->last_status_cmd);
-		if (*tmp != NULL && !ft_strchr(tmp, '>')
-			&& !ft_strchr(tmp, '<'))
+		tmp = trim_command(tokens[1], data->last_status_cmd);
+		if (*tmp != '\0' && !ft_strchr(tmp, '>') && !ft_strchr(tmp, '<'))
 		{
-			cmd->input_redirect = write_here_doc(trim_command(tmp),
+			cmd->input_redirect = write_here_doc(tmp,
 					cmd->here_doc, data->last_status_cmd);
 			*tokens[1] = '\0';
 			*tokens[0] = '\0';

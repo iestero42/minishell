@@ -6,16 +6,16 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 11:53:30 by iestero-          #+#    #+#             */
-/*   Updated: 2024/04/01 12:03:37 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/04/02 10:03:33 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	error_init(char *msg)
+int	error_init(char *msg)
 {
 	perror(msg);
-	exit(EXIT_FAILURE);
+	return (EXIT_FAILURE);
 }
 
 int	error_redir(char *tmp, char *org, int pos, t_minishell *data)
@@ -32,9 +32,9 @@ int	error_redir(char *tmp, char *org, int pos, t_minishell *data)
 		ft_putstr_fd(tmp, 2);
 		ft_putstr_fd("\n", 2);
 	}
-	else if (*tmp == NULL && pos == data->n_comands - 1)
+	else if (*tmp == '\0' && pos == data->n_comands - 1)
 		ft_putstr_fd("syntax error near unexpected token `newline'\n", 2);
-	else if ((*tmp == NULL && pos < data->n_comands - 1))
+	else if ((*tmp == '\0' && pos < data->n_comands - 1))
 		ft_putstr_fd("syntax error near unexpected token `|'\n", 2);
 	free(tmp);
 	return (EXIT_FAILURE);

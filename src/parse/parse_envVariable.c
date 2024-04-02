@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   built_envVariable.c                                :+:      :+:    :+:   */
+/*   parse_envVariable.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 10:24:02 by iestero-          #+#    #+#             */
-/*   Updated: 2024/04/01 11:14:26 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/04/02 11:07:34 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static char	*expand_env_variable(char *token, int *start, int *position,
 		return (NULL);
 	env_var = getenv(str);
 	if (!env_var)
-		return (ft_strdup(""));
+		env_var = ft_strdup("");
 	free(str);
 	*position += i;
 	*start = *position + 1;
@@ -74,21 +74,23 @@ static char	*check_token(char *token, int last_status)
 		}
 	}
 	if (start < i && new_token)
-		return (ft_copy(token, new_token, start, i - start - 1));
-	if (!new_token)
-		return (token);
+		return (ft_copy(token, new_token, start - 1, i - start));
 	return (new_token);
 }
 
-char	*parse_env_variable(char *token, int last_status)
+char	*parse_env_variable(char *token, int last_status, int quote)
 {
 	char	*new_token;
 
 	if (token == NULL)
 		return (NULL);
-	if (token[0] == '\'')
+	if (quote == '\'')
 		return (ft_strdup(token));
 	else
-		new_token = check_token(*token, last_status);
+	{
+		new_token = check_token(token, last_status);
+		if (new_token == NULL)
+			new_token = ft_strdup(token);
+	}
 	return (new_token);
 }

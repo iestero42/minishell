@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   built_command.c                                    :+:      :+:    :+:   */
+/*   parse_command_name.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 08:18:57 by iestero-          #+#    #+#             */
-/*   Updated: 2024/04/01 12:30:11 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/04/02 10:06:52 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,10 +73,10 @@ int	parse_command_name(char **tokens, t_command *cmd, char **cmd_list,
 	int		i;
 	char	*path;
 	char	**dirs;
-	char	*cmd;
 
 	cmd->name = NULL;
 	cmd->type = -1;
+	last_status = 42;
 	path = getenv("PATH");
 	dirs = ft_split(path, ':');
 	i = 0;

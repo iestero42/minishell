@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 11:35:45 by iestero-          #+#    #+#             */
-/*   Updated: 2024/04/01 12:33:34 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/04/02 11:17:14 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ static int	open_output_simple(char **tokens, t_command *cmd,
 	{
 		if (cmd->output_redirect > -1)
 			close(cmd->output_redirect);
-		tmp = parse_env_variable(&tokens[1], data->last_status_cmd);
-		if (*tmp != NULL && !ft_strchr(tmp, '>') && !ft_strchr(tmp, '<'))
+		tmp = trim_command(tokens[1], data->last_status_cmd);
+		if (*tmp != '\0' && !ft_strchr(tmp, '>') && !ft_strchr(tmp, '<'))
 		{
 			cmd->output_redirect = open(tmp, O_RDWR | O_CREAT, 0666);
 			if (cmd->input_redirect < 0)
@@ -52,8 +52,8 @@ static int	open_output_double(char **tokens, t_command *cmd,
 	{
 		if (cmd->output_redirect > -1)
 			close(cmd->output_redirect);
-		tmp = parse_env_variable(&tokens[1], data->last_status_cmd);
-		if (*tmp != NULL && !ft_strchr(tmp, '>') && !ft_strchr(tmp, '<'))
+		tmp = trim_command(tokens[1], data->last_status_cmd);
+		if (*tmp != '\0' && !ft_strchr(tmp, '>') && !ft_strchr(tmp, '<'))
 		{
 			cmd->output_redirect = open(tmp, O_RDWR | O_CREAT | O_APPEND, 0666);
 			if (cmd->input_redirect < 0)

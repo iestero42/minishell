@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 07:29:23 by iestero-          #+#    #+#             */
-/*   Updated: 2024/04/01 12:27:45 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/04/02 11:11:53 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ typedef struct s_minishell
 	char			**env;
 }	t_minishell;
 
-void		parse_data(const char *command_line, t_minishell *data);
+int			parse_data(const char *command_line, t_minishell *data);
 
 int			ft_strcmp(char *s1, char *s2);
 
@@ -95,12 +95,12 @@ char		**split_pipes(const char *s);
 
 char		**split_command(const char *s);
 
-void		parse_command(char *command_str, t_command *cmd, t_minishell *data,
+int			parse_command(char *command_str, t_command *cmd, t_minishell *data,
 				int pos);
 
 char		**ft_dstrjoin(char **arr1, char **arr2);
 
-void		error_init(char *msg);
+int			error_init(char *msg);
 
 int			parse_redirect(char **tokens, t_command *cmd,
 				int pos, t_minishell *data);
@@ -114,11 +114,11 @@ int			parse_input(char **tokens, t_command *cmd,
 int			parse_command_name(char **tokens, t_command *cmd, char **cmd_list,
 				int last_status);
 
-char		*parse_env_variable(char *token, int last_status);
+char		*parse_env_variable(char *token, int last_status, int quote);
 
 char		*ft_copy(const char *token, char *new_token, int start, int len);
 
-char		*trim_command(char *token);
+char		*trim_command(char *token, int last_status);
 
 char		**ft_append(char **arr1, char *str);
 
