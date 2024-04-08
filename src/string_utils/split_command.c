@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 09:03:49 by iestero-          #+#    #+#             */
-/*   Updated: 2024/04/01 09:32:06 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/04/08 10:16:07 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static int	size_aux(int count, const char *s, int *position)
 		&& s[*position + 1] != '\0')
 		*position = i - 1;
 	else
-		*position =	i;
+		*position = i;
 	return (count);
 }
 
@@ -137,7 +137,7 @@ char	**split_command(const char *s)
 	num_substrings = size_dstr(s);
 	substrings = malloc(sizeof(char *) * (num_substrings + 1));
 	if (!substrings)
-		return (NULL);
+		error_init("malloc");
 	start = 0;
 	i = -1;
 	while (++i < num_substrings)
@@ -146,7 +146,7 @@ char	**split_command(const char *s)
 		if (substrings[i] == NULL)
 		{
 			double_free(substrings);
-			return (NULL);
+			error_init("malloc");
 		}
 	}
 	substrings[num_substrings] = NULL;

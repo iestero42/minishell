@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 07:29:18 by iestero-          #+#    #+#             */
-/*   Updated: 2024/04/02 09:58:06 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/04/08 12:08:14 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,10 @@ static void	init_data(t_minishell *data, char **env)
 	data->status = RUNNING;
 	data->std_fileno[1] = dup(STDOUT_FILENO);
 	if (data->std_fileno[1] < 0)
-		error_init("stdout");
+		error_init("dup");
 	data->std_fileno[0] = dup(STDIN_FILENO);
 	if (data->std_fileno[0] < 0)
-		error_init("stdin");
+		error_init("dup");
 	data->cmd_list[0] = "echo";
 	data->cmd_list[1] = "cd";
 	data->cmd_list[2] = "pwd";
@@ -45,7 +45,7 @@ static void	init_data(t_minishell *data, char **env)
 	data->cmd_list[6] = "exit";
 	data->env = ft_dstrdup((const char **)env);
 	if (data->env == NULL)
-		error_init("ft_dstrdup");
+		error_init("malloc");
 	if (tcgetattr(STDIN_FILENO, &data->original_term) == -1)
 		error_init("tcgetattr");
 	configurations();
@@ -114,8 +114,8 @@ int	main(int argc, char **argv, char **env)
 		if (*line != '\0')
 		{
 			add_history(line);
-			parse_data(line, &data);
-			minishell(&data);
+			if (parse_data(line, &data) == EXIT_SUCCESS)
+				minishell(&data);
 			free(line);
 		}
 	}

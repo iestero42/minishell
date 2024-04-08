@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 10:15:38 by iestero-          #+#    #+#             */
-/*   Updated: 2024/03/28 10:06:41 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/04/08 11:31:59 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,18 +37,17 @@ void	exec_command(t_command *cmd, char ***env)
 	{
 		if (execve(cmd->name, cmd->args, *env) < 0)
 		{
-			perror("Error");
+			perror("execve");
 			exit(127);
 		}
 	}
-	else
+	else if (cmd->type > 0)
 	{
 		if (builtins(*cmd, env) < 0)
-		{
-			perror("Error");
 			exit(127);
-		}
 	}
+	else if (cmd->type == ERROR_COMMAND)
+		exit(127);
 }
 
 void	exec_command_special(t_command *cmd, t_minishell *data)
@@ -59,21 +58,23 @@ void	exec_command_special(t_command *cmd, t_minishell *data)
 	{
 		pid = fork();
 		if (pid < 0)
-			return (perror("exec_command"));
+			error_init("fork");
 		if (pid == 0)
 		{
 			if (execve(cmd->name, cmd->args, data->env) < 0)
 			{
-				perror("Error");
+				perror("execve");
 				exit(127);
 			}
 			exit(0);
 		}
 		controller(data, &pid);
 	}
-	else
+	else if (cmd->type > 0)
 	{
 		if (builtins(*cmd, &data->env) < 0)
-			perror("Error");
+			data->last_status_cmd = 127;	
 	}
+	else if (cmd->type == ERROR_COMMAND)
+		data->last_status_cmd = 127;
 }

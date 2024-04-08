@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 11:47:55 by iestero-          #+#    #+#             */
-/*   Updated: 2024/04/02 11:31:24 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/04/08 12:01:23 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ static int	open_input_simple(char **tokens, t_command *cmd,
 		if (cmd->input_redirect > -1)
 			close(cmd->input_redirect);
 		tmp = trim_command(tokens[1], data->last_status_cmd);
-		if (*tmp != '\0' && !ft_strchr(tmp, '>') && !ft_strchr(tmp, '<'))
+		if (tmp != NULL && *tmp != '\0' && !ft_strchr(tmp, '>')
+			&& !ft_strchr(tmp, '<'))
 		{
 			cmd->input_redirect = open(tmp, O_RDONLY, 0644);
 			if (cmd->input_redirect < 0)

@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 09:23:36 by iestero-          #+#    #+#             */
-/*   Updated: 2024/04/01 10:13:46 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/04/08 10:45:35 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static void	dupping(int fd, int mode)
 {
 	if (dup2(fd, mode) < 0)
 	{
-		perror("Error");
+		perror("dup");
 		exit(127);
 	}
 }
@@ -44,7 +44,7 @@ pid_t	create_process(t_command *cmd, int *pipes, int pos, t_minishell *data)
 
 	child = fork();
 	if (child < 0)
-		perror("fork");
+		error_init("fork");
 	else if (child == 0)
 	{
 		child_write(cmd->output_redirect, pipes, pos, data->n_comands);

@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 09:31:16 by iestero-          #+#    #+#             */
-/*   Updated: 2024/04/01 09:53:27 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/04/08 10:54:51 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,11 @@ char	*ft_copy(const char *token, char *new_token, int start, int len)
 	char	*tmp;
 
 	tmp = ft_substr(token, start + 1, len);
+	if (!tmp)
+		error_init("malloc");
 	new_token = ft_strjoin((char *) new_token, (char *) tmp);
+	if (!new_token)
+		error_init("malloc");
 	free(tmp);
 	return (new_token);
 }
@@ -34,11 +38,13 @@ char	**ft_append(char **arr1, char *str)
 		len1 = ft_dstrlen((const char **) arr1);
 	combined = malloc(sizeof(char *) * (len1 + 2));
 	if (combined == NULL)
-		return (NULL);
+		error_init("malloc");
 	i = -1;
 	while (++i < len1)
 		combined[i] = arr1[i];
 	combined[len1] = ft_strdup(str);
+	if (!combined[len1])
+		error_init("malloc");
 	combined[len1 + 1] = NULL;
 	free(arr1);
 	return (combined);
@@ -53,11 +59,13 @@ char	**ft_realloc(char **ptr, char *arg, int count, int expand)
 		return ((char **) ft_calloc(count + expand, sizeof(char *)));
 	new_ptr = (char **) ft_calloc(count + expand, sizeof(char *));
 	if (new_ptr == NULL)
-		return (NULL);
+		error_init("malloc");
 	i = -1;
 	while (++i < count)
 		new_ptr[i] = ptr[i];
 	new_ptr[i] = ft_strdup(arg);
+	if (new_ptr[i] == NULL)
+		error_init("malloc");
 	new_ptr[i + 1] = NULL;
 	free(ptr);
 	return (new_ptr);

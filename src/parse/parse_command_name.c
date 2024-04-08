@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 08:18:57 by iestero-          #+#    #+#             */
-/*   Updated: 2024/04/02 10:06:52 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/04/08 10:34:52 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ static int	check_path(char *token, char **dirs, t_command *cmd)
 			if (!access(abs_path, X_OK))
 			{
 				cmd->name = ft_strdup(abs_path);
+				if (!cmd->name)
+					error_init("malloc");
 				cmd->type = PATH_COMMAND;
 			}
 		}
@@ -45,6 +47,8 @@ static int	check_relative_path(char *token, t_command *cmd)
 		if (!access(token, X_OK))
 		{
 			cmd->name = ft_strdup(token);
+			if (!cmd->name)
+					error_init("malloc");
 			cmd->type = PATH_COMMAND;
 		}
 	}
@@ -61,6 +65,8 @@ static int	check_own_command(char *token, t_command *cmd, char **cmd_list)
 		if (!ft_strcmp(token, cmd_list[i]))
 		{
 			cmd->name = ft_strdup(token);
+			if (!cmd->name)
+				error_init("malloc");
 			cmd->type = i + 1;
 		}
 	}
@@ -79,12 +85,14 @@ int	parse_command_name(char **tokens, t_command *cmd, char **cmd_list,
 	last_status = 42;
 	path = getenv("PATH");
 	dirs = ft_split(path, ':');
+	if (!dirs)
+		error_init("malloc");
 	i = 0;
 	while (tokens[i][0] == '\0')
 		i++;
-	if (check_own_command(tokens[i], cmd, cmd_list) == EXIT_FAILURE
-		|| check_relative_path(tokens[i], cmd) == EXIT_FAILURE
-		|| check_path(tokens[i], dirs, cmd) == EXIT_FAILURE)
+	check_own_command(tokens[i], cmd, cmd_list);
+	check_relative_path(tokens[i], cmd);
+	if (check_path(tokens[i], dirs, cmd) == EXIT_FAILURE)
 	{
 		double_free(dirs);
 		return (EXIT_FAILURE);

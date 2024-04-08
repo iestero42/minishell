@@ -6,15 +6,16 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 11:48:07 by iestero-          #+#    #+#             */
-/*   Updated: 2024/04/02 11:45:31 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/04/08 12:10:08 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	error_command(t_command *cmd)
+static int	error_command(t_command *cmd, char **tokens)
 {
 	cmd->type = ERROR_COMMAND;
+	double_free(tokens);
 	return (EXIT_FAILURE);
 }
 
@@ -45,19 +46,17 @@ int	parse_command(char *command_str, t_command *cmd, t_minishell *data,
 
 	cmd_trimmed = ft_strtrim(command_str, " ");
 	if (!cmd_trimmed)
-		return (error_init("ft_strtrim"));
+		error_init("ft_strtrim");
 	tokens = split_command(cmd_trimmed);
-	if (tokens == NULL)
-		return (error_command(cmd));
 	free(cmd_trimmed);
 	if (parse_redirect(tokens, cmd, pos, data) == EXIT_FAILURE)
-		return (error_command(cmd));
+		return (error_command(cmd, tokens));
 	trim_args(&tokens, data->last_status_cmd);
 	if (parse_command_name(tokens, cmd, data->cmd_list,
 			data->last_status_cmd) == EXIT_FAILURE)
-		return (error_command(cmd));
+		return (error_command(cmd, tokens));
 	if (built_args(cmd, tokens) == EXIT_FAILURE)
-		return (error_command(cmd));
+		return (error_command(cmd, tokens));
 	double_free(tokens);
 	return (EXIT_SUCCESS);
 }

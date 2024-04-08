@@ -6,19 +6,24 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 10:24:02 by iestero-          #+#    #+#             */
-/*   Updated: 2024/04/02 11:07:34 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/04/08 10:28:18 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*special_env_variable(int last_status)
+static char	*special_env_variable(int last_status, int *position,
+	int *start)
 {
 	char	*str;
+	int		i;
 
+	i = *position;
+	*position = i + 1;
+	*start = *position + 1;
 	str = ft_itoa(last_status);
 	if (!str)
-		return (NULL);
+		error_init("malloc");
 	return (str);
 }
 
@@ -30,21 +35,18 @@ static char	*expand_env_variable(char *token, int *start, int *position,
 	char	*env_var;
 
 	if (token[0] == '?')
-	{
-		i = *position;
-		*position = i + 1;
-		*start = *position;
-		return (special_env_variable(last_status));
-	}
+		return (special_env_variable(last_status, position, start));
 	i = 0;
 	while (token[i] != '\0' && ft_isalnum(token[i]))
 		i++;
 	str = ft_substr(token, 0, i);
 	if (str == NULL)
-		return (NULL);
+		error_init("malloc");
 	env_var = getenv(str);
 	if (!env_var)
 		env_var = ft_strdup("");
+	if (env_var == NULL)
+		error_init("malloc");
 	free(str);
 	*position += i;
 	*start = *position + 1;
@@ -70,7 +72,7 @@ static char	*check_token(char *token, int last_status)
 					expand_env_variable(&token[i] + 1, &start, &i,
 						last_status));
 			if (!new_token)
-				return (NULL);
+				error_init("malloc");
 		}
 	}
 	if (start < i && new_token)

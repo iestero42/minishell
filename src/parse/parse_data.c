@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 10:48:47 by iestero-          #+#    #+#             */
-/*   Updated: 2024/04/02 11:39:34 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/04/08 10:12:41 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	parse_data(const char *command_line, t_minishell *data)
 
 	command_list = split_pipes(command_line);
 	if (!command_list)
-		error_init("split_pipes");
+		return (EXIT_FAILURE);
 	data->n_comands = ft_dstrlen((const char **) command_list);
 	data->comand_split = (t_command *) malloc(sizeof(t_command)
 			* data->n_comands);

@@ -6,11 +6,47 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 10:58:12 by iestero-          #+#    #+#             */
-/*   Updated: 2024/03/28 08:41:32 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/04/08 11:52:29 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void	error_export_msg(char *arg)
+{
+	ft_putstr_fd("export: '", 2);
+	ft_putstr_fd(arg, 2);
+	ft_putstr_fd("': not a valid identifier", 2);
+	ft_putchar_fd('\n', 2);
+}
+
+static int	error_export(char **var, char *arg)
+{
+	int	i;
+
+	if (!var)
+		error_init("malloc");
+	if (arg[0] == '=')
+	{
+		error_export_msg(arg);
+		return (EXIT_FAILURE);
+	}
+	if (var[0][0] == '_')
+		return (-2);
+	i = 0;
+	while (var[0][i] != '\0')
+	{
+		if (ft_isalnum(var[0][i]) == 0)
+			break ;
+		i++;
+	}
+	if (var[0][i] != '\0')
+	{
+		error_export_msg(arg);
+		return (EXIT_FAILURE);
+	}
+	return (EXIT_SUCCESS);
+}
 
 static int	replace_environ_aux(char *arg, char ***env)
 {
@@ -21,15 +57,11 @@ static int	replace_environ_aux(char *arg, char ***env)
 	return (EXIT_SUCCESS);
 }
 
-static int	replace_environ(char *arg, char ***env)
+static int	replace_environ(char **var, char ***env, char *arg)
 {
 	char		**env_tmp;
-	char		**var;	
 
 	env_tmp = *env;
-	var = ft_split(arg, '=');
-	if (!var)
-		return (EXIT_FAILURE);
 	while (*env_tmp != NULL)
 	{
 		if (!ft_strncmp(*env_tmp, var[0], ft_strlen(var[0]))
@@ -42,7 +74,6 @@ static int	replace_environ(char *arg, char ***env)
 		}
 		env_tmp++;
 	}
-	double_free(var);
 	if (*env_tmp == NULL)
 		if (replace_environ_aux(arg, env) == EXIT_FAILURE)
 			return (EXIT_FAILURE);
@@ -52,20 +83,24 @@ static int	replace_environ(char *arg, char ***env)
 int	built_export(char **args, char ***env)
 {
 	int			i;
+	char		**var;
 
 	i = 1;
+	var = 0;
 	while (args[i] != NULL)
 	{
-		if (args[i][0] == '\'' | args[i][0] == '\"' | args[i][0] == '=')
+		if (!ft_strchr(args[i], '='))
+			return (EXIT_SUCCESS);
+		var = ft_split(args[i], '=');
+		if (error_export(var, args[i]) == EXIT_FAILURE)
 		{
-			ft_putstr_fd("export:", 2);
-			ft_putstr_fd(args[i], 2);
-			ft_putstr_fd(": not a valid identifier", 2);
-			ft_putchar_fd('\n', 2);
+			if (var)
+				double_free(var);
 			return (EXIT_FAILURE);
 		}
-		else
-			replace_environ(args[i], env);
+		if (error_export(var, args[i]) != -2)
+			replace_environ(var, env, args[i]);
+		double_free(var);
 		i++;
 	}
 	return (EXIT_SUCCESS);

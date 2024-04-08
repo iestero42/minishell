@@ -6,11 +6,26 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 09:30:38 by iestero-          #+#    #+#             */
-/*   Updated: 2024/03/22 09:43:03 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/04/08 11:39:48 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static int	error_split(int count, int quotes, int i, const char *s)
+{
+	if (quotes)
+	{
+		ft_putstr_fd("minishell: syntax error near 'newline'\n", 2);
+		return (-2);
+	}
+	if (s[i + 1] == '|' || s[0] == '|' || s[i - 1] == '|')
+	{
+		ft_putstr_fd("minishell: syntax error near unexpected token '|'\n", 2);
+		return (-2);
+	}
+	return (count);
+}
 
 /**
  * @brief 
@@ -37,21 +52,24 @@ static int	size_dstr(const char *s)
 		{
 			count++;
 			if (s[i + 1] == '|')
-				return (-2);
+				break ;
 		}
 	}
-	if (in_quotes || s[0] == '|' || s[i - 1] == '|')
-		return (-2);
-	return (count);
+	return (error_split(count, in_quotes, i, s));
 }
 
 static char	*save_memory(const char *s, size_t len)
 {
 	char	*substr;
 
+	if (len == 0)
+	{
+		ft_putstr_fd("minishell: syntax error near unexpected token '|'\n", 2);
+		return (NULL);
+	}
 	substr = (char *) malloc(sizeof(char) * (len + 1));
 	if (!substr)
-		return (NULL);
+		error_init("malloc");
 	ft_strlcpy(substr, (char *) s, len + 1);
 	return (substr);
 }
@@ -104,7 +122,7 @@ char	**split_pipes(const char *s)
 		return (NULL);
 	substrings = malloc(sizeof(char *) * (num_substrings + 1));
 	if (!substrings)
-		return (NULL);
+		error_init("malloc");
 	start = 0;
 	i = -1;
 	while (++i < num_substrings)
