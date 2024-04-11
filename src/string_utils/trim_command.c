@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 11:53:17 by iestero-          #+#    #+#             */
-/*   Updated: 2024/04/08 12:00:04 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/04/11 09:38:42 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,10 +77,8 @@ static char	*parse_quotes(char *input, int len, int last_status)
 				error_init("malloc");
 		}
 	}
-	if (start < i && result)
-		return (ft_copy_expand(input, result,
-				(int []){start - 1, i - start}, last_status));
-	return (result);
+	return (ft_copy_expand(input, result,
+			(int []){start - 1, i - start}, last_status));
 }
 
 char	*trim_command(char *token, int last_status)

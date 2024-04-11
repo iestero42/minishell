@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 07:29:18 by iestero-          #+#    #+#             */
-/*   Updated: 2024/04/08 12:08:14 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/04/11 10:50:59 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,8 +116,8 @@ int	main(int argc, char **argv, char **env)
 			add_history(line);
 			if (parse_data(line, &data) == EXIT_SUCCESS)
 				minishell(&data);
-			free(line);
 		}
+		free(line);
 	}
 	clear_history();
 	tcsetattr(STDIN_FILENO, TCSANOW, &data.original_term);

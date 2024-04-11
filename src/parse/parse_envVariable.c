@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 10:24:02 by iestero-          #+#    #+#             */
-/*   Updated: 2024/04/08 10:28:18 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/04/11 10:27:06 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ static char	*expand_env_variable(char *token, int *start, int *position,
 static char	*check_token(char *token, int last_status)
 {
 	char	*new_token;
+	char	*env;
 	int		i;
 	int		start;
 
@@ -68,9 +69,10 @@ static char	*check_token(char *token, int last_status)
 		{
 			if (i > start)
 				new_token = ft_copy(token, new_token, start - 1, i - start);
-			new_token = ft_strjoin(new_token,
-					expand_env_variable(&token[i] + 1, &start, &i,
-						last_status));
+			env = expand_env_variable(&token[i] + 1, &start, &i, last_status);
+			new_token = ft_strjoin(new_token, env);
+			if (*env == '\0')
+				free(env);
 			if (!new_token)
 				error_init("malloc");
 		}

@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 07:29:23 by iestero-          #+#    #+#             */
-/*   Updated: 2024/04/02 11:11:53 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/04/11 09:28:43 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,11 +143,11 @@ int			built_cd(char **args);
 
 int			built_echo(char **args);
 
-int			built_env(char **env);
+int			built_env(void);
 
 int			built_exit(char **args);
 
-int			built_export(char **args, char ***env);
+int			built_export(char **args);
 
 int			built_pwd(void);
 

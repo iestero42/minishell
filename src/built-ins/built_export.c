@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 10:58:12 by iestero-          #+#    #+#             */
-/*   Updated: 2024/04/08 11:52:29 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/04/11 09:27:08 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,20 +48,23 @@ static int	error_export(char **var, char *arg)
 	return (EXIT_SUCCESS);
 }
 
-static int	replace_environ_aux(char *arg, char ***env)
+static int	replace_environ_aux(char *arg)
 {
-	*env = ft_realloc(*env, arg,
-			ft_dstrlen((const char **) *env), 2);
-	if (*env == NULL)
+	extern char	**environ;
+
+	environ = ft_realloc(environ, arg,
+			ft_dstrlen((const char **) environ), 2);
+	if (environ == NULL)
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
 
-static int	replace_environ(char **var, char ***env, char *arg)
+static int	replace_environ(char **var, char *arg)
 {
 	char		**env_tmp;
+	extern char	**environ;
 
-	env_tmp = *env;
+	env_tmp = environ;
 	while (*env_tmp != NULL)
 	{
 		if (!ft_strncmp(*env_tmp, var[0], ft_strlen(var[0]))
@@ -75,12 +78,12 @@ static int	replace_environ(char **var, char ***env, char *arg)
 		env_tmp++;
 	}
 	if (*env_tmp == NULL)
-		if (replace_environ_aux(arg, env) == EXIT_FAILURE)
+		if (replace_environ_aux(arg) == EXIT_FAILURE)
 			return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
 
-int	built_export(char **args, char ***env)
+int	built_export(char **args)
 {
 	int			i;
 	char		**var;
@@ -99,7 +102,7 @@ int	built_export(char **args, char ***env)
 			return (EXIT_FAILURE);
 		}
 		if (error_export(var, args[i]) != -2)
-			replace_environ(var, env, args[i]);
+			replace_environ(var, args[i]);
 		double_free(var);
 		i++;
 	}

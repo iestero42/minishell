@@ -6,21 +6,26 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 10:58:52 by iestero-          #+#    #+#             */
-/*   Updated: 2024/03/22 12:13:05 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/04/11 09:32:23 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	built_env(char **env)
+int	built_env(void)
 {
 	int			i;
+	extern char	**environ;
 
 	i = 0;
-	while (env[i] != NULL)
+	while (environ[i] != NULL)
 	{
-		ft_putstr_fd(env[i], 1);
-		ft_putchar_fd('\n', 1);
+		if (ft_strncmp(environ[i], "LINES", 5)
+			&& ft_strncmp(environ[i], "COLUMNS", 7))
+		{
+			ft_putstr_fd(environ[i], 1);
+			ft_putchar_fd('\n', 1);
+		}
 		i++;
 	}
 	return (EXIT_SUCCESS);

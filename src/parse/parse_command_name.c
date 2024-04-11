@@ -6,11 +6,19 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 08:18:57 by iestero-          #+#    #+#             */
-/*   Updated: 2024/04/08 10:34:52 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/04/11 09:53:30 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static int	print_error(char *cmd)
+{
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(cmd, 2);
+	ft_putstr_fd(": command not found\n", 2);
+	return (EXIT_FAILURE);
+}
 
 static int	check_path(char *token, char **dirs, t_command *cmd)
 {
@@ -35,7 +43,7 @@ static int	check_path(char *token, char **dirs, t_command *cmd)
 			}
 		}
 		if (cmd->name == NULL)
-			return (EXIT_FAILURE);
+			return (print_error(token));
 	}
 	return (EXIT_SUCCESS);
 }
@@ -48,7 +56,7 @@ static int	check_relative_path(char *token, t_command *cmd)
 		{
 			cmd->name = ft_strdup(token);
 			if (!cmd->name)
-					error_init("malloc");
+				error_init("malloc");
 			cmd->type = PATH_COMMAND;
 		}
 	}
