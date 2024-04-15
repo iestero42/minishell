@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 07:29:18 by iestero-          #+#    #+#             */
-/*   Updated: 2024/04/15 16:28:40 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/04/15 16:43:41 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static void	show_title(void)
 	printf(LINE_8, BLUE, RESET);
 }
 
-static void	init_data(t_minishell *data, char **env)
+static void	init_data(t_minishell *data)
 {
 	show_title();
 	data->status = RUNNING;
@@ -99,7 +99,7 @@ int	main(int argc, char **argv, char **env)
 
 	if (argc != 1 || argv == NULL)
 		return (-1);
-	init_data(&data, env);
+	init_data(&data);
 	while (data.status != STOPPED)
 	{
 		line = readline_main();
