@@ -1,24 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_exit.c                                       :+:      :+:    :+:   */
+/*   configurations_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/20 11:33:39 by iestero-          #+#    #+#             */
-/*   Updated: 2024/04/15 12:22:34 by iestero-         ###   ########.fr       */
+/*   Created: 2024/03/19 10:55:57 by iestero-          #+#    #+#             */
+/*   Updated: 2024/04/15 12:40:35 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "minishell_bonus.h"
 
-static int	ft_putchar(int c)
+static void	hide_eof_symbol(struct termios *term)
 {
-	return (write(1, &c, 1));
+
+	if (tcgetattr(STDIN_FILENO, term) == -1)
+	{
+		perror("tcgetattr");
+		exit(EXIT_FAILURE);
+	}
+	term->c_lflag &= ~(ECHOCTL);
+	if (tcsetattr(STDIN_FILENO, TCSANOW, term) == -1)
+	{
+		perror("tcsetattr");
+		exit(EXIT_FAILURE);
+	}
 }
 
-void	print_exit(void)
+void	configurations(void)
 {
-	tputs(tgetstr("up", NULL), 1, ft_putchar);
-	printf("minishell~$ exit\n");
+	struct termios	term;
+
+	hide_eof_symbol(&term);
 }

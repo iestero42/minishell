@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal_handler.c                                   :+:      :+:    :+:   */
+/*   signal_handler_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 10:22:28 by iestero-          #+#    #+#             */
-/*   Updated: 2024/04/15 12:39:42 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/04/15 12:40:35 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "minishell_bonus.h"
 
 extern volatile sig_atomic_t	g_signal;
 
@@ -20,7 +20,7 @@ void	signal_handler(int signum)
 	{
 		printf("\n");
 		rl_on_new_line();
-		rl_replace_line("", 1);
+		rl_replace_line("", 0);
 		rl_redisplay();
 		g_signal = 2;
 	}

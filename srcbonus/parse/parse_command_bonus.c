@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_command.c                                    :+:      :+:    :+:   */
+/*   parse_command_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 11:48:07 by iestero-          #+#    #+#             */
-/*   Updated: 2024/04/15 10:53:28 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/04/15 12:46:02 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "minishell_bonus.h"
 
 static int	error_command(t_command *cmd, char **tokens)
 {
@@ -49,6 +49,7 @@ int	parse_command(char *command_str, t_command *cmd, t_minishell *data,
 		error_init("ft_strtrim");
 	tokens = split_command(cmd_trimmed);
 	free(cmd_trimmed);
+	parse_wildcard(tokens);
 	if (parse_redirect(tokens, cmd, pos, data) == EXIT_FAILURE)
 		return (error_command(cmd, tokens));
 	if (data->status == STOPPED)

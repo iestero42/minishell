@@ -10,7 +10,11 @@ Cosas generales:
 
 proximo dia:
 
-	terminar de definir los errores y ver si todos los frees esta bien
+	corregir el export que me coja el token y solo me pille dentro del token hasta que encuentre un espacio
+
+	intentar cambiar el como se escribe el exit para que no haga falta el hardcodeo 
+
+	corregir el numero de lineas en las funciones que lo requieran y añadir al here doc que meta el '>' cuando escribo
 
 	hacer pruebas locas con los argumentos desordenados y de todo
 	
@@ -34,3 +38,4 @@ si hay tiempo:
 		
 
 
+cosas de javier:

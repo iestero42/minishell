@@ -6,14 +6,14 @@
 #    By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/07 10:56:39 by yunlovex          #+#    #+#              #
-#    Updated: 2024/04/02 11:22:10 by iestero-         ###   ########.fr        #
+#    Updated: 2024/04/15 12:03:37 by iestero-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # Variable
 
 NAME				=	minishell
-BONUS				=	fractol_bonus
+BONUS				=	minishell_bonus
 
 GREEN 				= 	\033[0;32m
 LIGHT_GRAY 			= 	\033[90m
@@ -41,7 +41,7 @@ CHECK				=	\xE2\x9C\x85
 
 LIBS_DIR			=	libs
 LIBMINISHELL		=	$(LIBS_DIR)/libMinishell.a
-LIBFRACTOL_BONUS	=	$(LIBS_DIR)/libfractolbonus.a
+LIBMINISHELL_BONUS	=	$(LIBS_DIR)/libMinishellBonus.a
 
 LIBFT_DIR			=	./libft
 LIBFT				=	$(LIBFT_DIR)/libft.a
@@ -61,16 +61,16 @@ PARSE_DIR			=	parse
 BUILTINS_DIR		=	built-ins
 
 LDLIBS				=	$(LIBMINISHELL) $(LIBFT) -lncurses -L/Users/$(USER)/.brew/opt/readline/lib -lreadline 
-LDLIBS_BONUS		=	$(LIBFRACTOL_BONUS) $(LIBFT)
+LDLIBS_BONUS		=	$(LIBMINISHELL_BONUS) $(LIBFT) -lncurses -L/Users/$(USER)/.brew/opt/readline/lib -lreadline
 
 CC					=	gcc
 
 CFLAGS				=	-g -Wall -Werror -Wextra $(INCLUDES) $(SANATIZE)
 CFLAGS_BONUS		=	-g -Wall -Werror -Wextra $(INCLUDES_BONUS)
 LDFLAGS				=   $(LDLIBS) $(SANATIZE)
-LDFLAGS_BONUS		=	$(LDLIBS_BONUS) -L$(MINILIBX_DIR) -lmlx -framework OpenGL -framework AppKit
+LDFLAGS_BONUS		=	$(LDLIBS_BONUS)
 INCLUDES			=	-I$(INC_DIR) -I$(addsuffix $(INC_DIR), $(LIBFT_DIR)/) -I/Users/$(USER)/.brew/opt/readline/include
-INCLUDES_BONUS		=	-I$(INCBONUS_DIR) -I$(addsuffix $(INC_DIR), $(LIBFT_DIR)/) -I$(MINILIBX_DIR)
+INCLUDES_BONUS		=	-I$(INCBONUS_DIR) -I$(addsuffix $(INC_DIR), $(LIBFT_DIR)/) -I/Users/$(USER)/.brew/opt/readline/include
 
 SANITIZE			=	-fsanitize=address
 
@@ -132,31 +132,52 @@ OBJ_MAIN	=	$(addprefix $(OBJ_DIR)/, $(addprefix $(MAIN_DIR)/, $(MAIN_FILES:.c=.o
 
 # Source Bonus
 
-MAIN_BONUS_ILES		=	fract-ol_bonus.c
+MAIN_FILES_BONUS		=	minishell_bonus.c
 
-PARSE_BONUS_FILES	=	fractal_init_bonus.c			\
-						fractal_render_bonus.c			\
-						choose_ft_bonus.c				\
-						ft_julia_bonus.c				\
-						colors_bonus.c					\
-						events_bonus.c					\
-						nova_bonus.c					\
+PARSE_FILES_BONUS		=	parse_data_bonus.c				\
+							parse_command_bonus.c			\
+							parse_command_name_bonus.c		\
+							parse_envVariable_bonus.c		\
+							parse_args_bonus.c				\
+							parse_redir_bonus.c				\
+							parse_output_bonus.c			\
+							parse_input_bonus.c				\
 
-UTILS_BONUS_FILES	=	math_utils_bonus.c			\
-						pixel_put_bonus.c			\
-						ft_atod_bonus.c				\
-						event_utils_bonus.c			\
-						event_utils2_bonus.c		\
+STRING_UTILS_FILES_BONUS	=	split_command_bonus.c		\
+								split_pipes_bonus.c			\
+								string_utils_bonus.c		\
+								string_utils2_bonus.c		\
+								trim_command_bonus.c		\
+				
+UTILS_FILES_BONUS		=	errors_bonus.c				\
+							exec_command_bonus.c		\
+							proc_minishell_bonus.c		\
+							frees_bonus.c				\
+							signal_handler_bonus.c 		\
+							configurations_bonus.c		\
+							print_exit_bonus.c			\
 
-SRCSBONUS_FILES		=	$(addprefix $(MAIN_DIR)/, $(MAIN_BONUS_ILES)) 		\
-						$(addprefix $(UTILS_DIR)/, $(UTILS_BONUS_FILES)) 	\
-						$(addprefix $(PARSE_DIR)/, $(PARSE_BONUS_FILES)) 	\
+BUILTINS_FILES_BONUS	=	built_cd_bonus.c		\
+							built_echo_bonus.c		\
+							built_env_bonus.c		\
+							built_exit_bonus.c		\
+							built_export_bonus.c	\
+							built_pwd_bonus.c		\
+							built_unset_bonus.c		\
+
+SRCSBONUS_FILES		=	$(addprefix $(MAIN_DIR)/, $(MAIN_FILES_BONUS)) 						\
+						$(addprefix $(UTILS_DIR)/, $(UTILS_FILES_BONUS)) 					\
+						$(addprefix $(PARSE_DIR)/, $(PARSE_FILES_BONUS)) 					\
+						$(addprefix $(STRING_UTILS_DIR)/, $(STRING_UTILS_FILES_BONUS)) 		\
+						$(addprefix $(BUILTINS_DIR)/, $(BUILTINS_FILES_BONUS)) 				\
 
 SRCSBONUS 			=	$(addprefix $(SRCBNS_DIR)/, $(SRCSBONUS_FILES))
 OBJSBONUS 			=	$(addprefix $(OBJBNS_DIR)/, $(SRCSBONUS_FILES:.c=.o))
-DIRSBONUS			=	$(OBJBNS_DIR) $(addprefix $(OBJBNS_DIR)/, $(UTILS_DIR) $(MAIN_DIR) $(PARSE_DIR))
+DIRSBONUS			=	$(OBJBNS_DIR)  $(addprefix $(OBJBNS_DIR)/, 			\
+						$(MAIN_DIR) $(UTILS_DIR) $(PARSE_DIR)				\
+						$(BUILTINS_DIR) $(STRING_UTILS_DIR)) 				\
 
-OBJBONUS_MAIN		=	$(addprefix $(OBJBNS_DIR)/, $(addprefix $(MAIN_DIR)/, $(MAIN_BONUS_FILES:.c=.o)))
+OBJBONUS_MAIN		=	$(addprefix $(OBJBNS_DIR)/, $(addprefix $(MAIN_DIR)/, $(MAIN_FILES_BONUS:.c=.o)))
 
 # Rules
 
@@ -217,17 +238,17 @@ $(OBJBNS_DIR)/%.o:		$(SRCBNS_DIR)/%.c | $(DIRSBONUS) $(LIBS_DIR)
 	@sleep 0.5
 	@$(CC) $(CFLAGS_BONUS) -c $< -o $@				
 
-$(LIBFRACTOL_BONUS): 		$(OBJSBONUS)
+$(LIBMINISHELL_BONUS): 		$(OBJSBONUS)
 	@$(AR) $(ARFLAGS) $@ $?
 	@echo "\n   $(CHECK) $(GREEN)Library created.$(NC)"
 
 $(DIRSBONUS):
 	@clear
 	@echo $(BONUS_PART)
-	@echo "\n   ---> $(BLUE)Creating:\t$(LIGHT_GRAY)libFractolBonus$(NC)"
+	@echo "\n   ---> $(BLUE)Creating:\t$(LIGHT_GRAY)libMinishellBonus$(NC)"
 	@$(MKDIR) $(DIRSBONUS)
 
-$(BONUS):				$(OBJBONUS_MAIN) $(LIBFRACTOL_BONUS) $(LIBFT) $(MINILIBX)
+$(BONUS):				$(OBJBONUS_MAIN) $(LIBMINISHELL_BONUS) $(LIBFT)
 	@$(CC) $(OBJBONUS_MAIN) $(LDFLAGS_BONUS) -o $@
 	@sleep 1
 	@echo "\n$(GREEN)The program is ready.$(SMILEY) $(CHECK)$(NC)"	

@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   minishell_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 07:29:18 by iestero-          #+#    #+#             */
-/*   Updated: 2024/04/15 13:16:26 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/04/15 12:40:35 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "minishell_bonus.h"
 
 volatile sig_atomic_t	g_signal = 0;
 
@@ -105,7 +105,6 @@ int	main(int argc, char **argv, char **env)
 	init_data(&data, env);
 	while (data.status != STOPPED)
 	{
-		ft_putchar_fd('\r', 1);
 		line = readline("minishell~$ ");
 		if (line == NULL)
 		{

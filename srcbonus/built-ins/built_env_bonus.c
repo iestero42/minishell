@@ -1,30 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_redir.c                                      :+:      :+:    :+:   */
+/*   built_env_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/27 09:21:16 by iestero-          #+#    #+#             */
-/*   Updated: 2024/04/15 10:46:10 by iestero-         ###   ########.fr       */
+/*   Created: 2024/03/11 10:58:52 by iestero-          #+#    #+#             */
+/*   Updated: 2024/04/15 12:40:35 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h" 
+#include "minishell_bonus.h"
 
-int	parse_redirect(char **tokens, t_command *cmd, int pos, t_minishell *data)
+int	built_env(void)
 {
-	int	i;
+	int			i;
+	extern char	**environ;
 
-	i = -1;
-	cmd->output_redirect = -2;
-	cmd->input_redirect = -2;
-	while (tokens[++i] != NULL && data->status != STOPPED)
+	i = 0;
+	while (environ[i] != NULL)
 	{
-		if (parse_output(&tokens[i], cmd, pos, data) == EXIT_FAILURE)
-			return (EXIT_FAILURE);
-		if (parse_input(&tokens[i], cmd, pos, data) == EXIT_FAILURE)
-			return (EXIT_FAILURE);
+		if (ft_strncmp(environ[i], "LINES", 5)
+			&& ft_strncmp(environ[i], "COLUMNS", 7))
+		{
+			ft_putstr_fd(environ[i], 1);
+			ft_putchar_fd('\n', 1);
+		}
+		i++;
 	}
 	return (EXIT_SUCCESS);
 }

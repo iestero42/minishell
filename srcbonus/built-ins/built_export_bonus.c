@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   built_export.c                                     :+:      :+:    :+:   */
+/*   built_export_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 10:58:12 by iestero-          #+#    #+#             */
-/*   Updated: 2024/04/15 13:43:12 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/04/15 12:40:35 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "minishell_bonus.h"
 
 static void	error_export_msg(char *arg)
 {
@@ -70,6 +70,8 @@ static int	replace_environ(char **var, char *arg)
 		if (!ft_strncmp(*env_tmp, var[0], ft_strlen(var[0]))
 			&& (*env_tmp)[strlen(var[0])] == '=')
 		{
+			if (*env_tmp)
+				free(*env_tmp);
 			*env_tmp = ft_strdup(arg);
 			break ;
 		}

@@ -1,30 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_redir.c                                      :+:      :+:    :+:   */
+/*   built_cd_bonus.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/27 09:21:16 by iestero-          #+#    #+#             */
-/*   Updated: 2024/04/15 10:46:10 by iestero-         ###   ########.fr       */
+/*   Created: 2024/03/11 10:57:42 by iestero-          #+#    #+#             */
+/*   Updated: 2024/04/15 12:40:35 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h" 
+#include "minishell_bonus.h"
 
-int	parse_redirect(char **tokens, t_command *cmd, int pos, t_minishell *data)
+int	built_cd(char **args)
 {
-	int	i;
+	int		len;
+	char	*dir;
 
-	i = -1;
-	cmd->output_redirect = -2;
-	cmd->input_redirect = -2;
-	while (tokens[++i] != NULL && data->status != STOPPED)
+	len = ft_dstrlen((const char **) args);
+	dir = NULL;
+	if (len == 1)
 	{
-		if (parse_output(&tokens[i], cmd, pos, data) == EXIT_FAILURE)
-			return (EXIT_FAILURE);
-		if (parse_input(&tokens[i], cmd, pos, data) == EXIT_FAILURE)
-			return (EXIT_FAILURE);
+		dir = getenv("HOME");
+		if (chdir(dir) != 0)
+			perror(dir);
+	}
+	else if (!ft_strcmp(args[1], "~"))
+	{
+		dir = getenv("HOME");
+		if (chdir(dir) != 0)
+			perror(dir);
+	}
+	else
+	{
+		if (chdir(args[1]) != 0)
+			perror(args[1]);
 	}
 	return (EXIT_SUCCESS);
 }
