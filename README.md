@@ -4,8 +4,6 @@ proximo dia:
 
 	intentar cambiar el como se escribe el exit para que no haga falta el hardcodeo 
 
-	corregir el numero de lineas en las funciones que lo requieran
-
 	pasar todo eso al bonus
 
 	hacer pruebas locas con los argumentos desordenados y de todo

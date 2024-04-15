@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_command_name.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 08:18:57 by iestero-          #+#    #+#             */
-/*   Updated: 2024/04/15 14:13:56 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/04/15 16:36:46 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,6 @@ int	parse_command_name(char **tokens, t_command *cmd, char **cmd_list,
 
 	cmd->name = NULL;
 	cmd->type = -1;
-	last_status = 42;
 	path = getenv("PATH");
 	dirs = ft_split(path, ':');
 	if (!dirs)

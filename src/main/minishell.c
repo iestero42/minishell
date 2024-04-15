@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 07:29:18 by iestero-          #+#    #+#             */
-/*   Updated: 2024/04/15 13:16:26 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/04/15 16:28:40 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,6 @@ static void	init_data(t_minishell *data, char **env)
 	data->cmd_list[4] = "unset";
 	data->cmd_list[5] = "env";
 	data->cmd_list[6] = "exit";
-	data->env = ft_dstrdup((const char **)env);
-	if (data->env == NULL)
-		error_init("malloc");
 	if (tcgetattr(STDIN_FILENO, &data->original_term) == -1)
 		error_init("tcgetattr");
 	configurations();
@@ -105,8 +102,7 @@ int	main(int argc, char **argv, char **env)
 	init_data(&data, env);
 	while (data.status != STOPPED)
 	{
-		ft_putchar_fd('\r', 1);
-		line = readline("minishell~$ ");
+		line = readline_main();
 		if (line == NULL)
 		{
 			print_exit();

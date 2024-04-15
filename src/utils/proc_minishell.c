@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   proc_minishell.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 09:23:36 by iestero-          #+#    #+#             */
-/*   Updated: 2024/04/11 10:37:17 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/04/15 16:28:53 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ static void	child_write(int fd, int *pipes, int pos, int n_comands)
 		dupping(pipes[pos * 2 + 1], STDOUT_FILENO);
 }
 
-
 pid_t	create_process(t_command *cmd, int *pipes, int pos, t_minishell *data)
 {
 	pid_t	child;
@@ -50,7 +49,7 @@ pid_t	create_process(t_command *cmd, int *pipes, int pos, t_minishell *data)
 		child_write(cmd->output_redirect, pipes, pos, data->n_comands);
 		child_read(cmd->input_redirect, pipes, pos);
 		close_pipes(data);
-		exec_command(cmd, &data->env);
+		exec_command(cmd);
 		exit(0);
 	}
 	return (child);

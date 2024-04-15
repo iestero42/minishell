@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 07:29:23 by iestero-          #+#    #+#             */
-/*   Updated: 2024/04/15 14:04:37 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/04/15 16:28:53 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ typedef struct s_minishell
 	int				std_fileno[2];
 	char			*cmd_list[NUM_COMMANDS];
 	int				*pipes;
-	char			**env;
 }	t_minishell;
 
 int			parse_data(const char *command_line, t_minishell *data);
@@ -137,7 +136,7 @@ void		controller(t_minishell *data, pid_t *pid);
 
 int			execute_command(t_command *cmd, t_minishell *data);
 
-void		exec_command(t_command *cmd, char ***env);
+void		exec_command(t_command *cmd);
 
 int			built_cd(char **args);
 
@@ -151,7 +150,7 @@ int			built_export(char **args);
 
 int			built_pwd(void);
 
-int			built_unset(char **args, char ***env);
+int			built_unset(char **args);
 
 void		full_free(t_minishell *data);
 
@@ -166,5 +165,7 @@ char		**ft_dstrdup(const char **str);
 int			error_redir(char *tmp, char *org, int pos, t_minishell *data);
 
 char		*readline_own(void);
+
+char		*readline_main(void);
 
 #endif

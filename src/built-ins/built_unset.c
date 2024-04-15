@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   built_unset.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 10:58:27 by iestero-          #+#    #+#             */
-/*   Updated: 2024/04/15 14:09:08 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/04/15 16:35:32 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	built_unset(char **args, char ***env)
+int	built_unset(char **args)
 {
 	int			i;
 	char		**p;
@@ -31,10 +31,7 @@ int	built_unset(char **args, char ***env)
 				p = env_tmp;
 				free(*env_tmp);
 				while (*p != NULL)
-				{
-					*p = *(p + 1);
-					p++;
-				}
+					*p = *(p++ + 1);
 			}
 			env_tmp++;
 		}
