@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 11:47:55 by iestero-          #+#    #+#             */
-/*   Updated: 2024/04/15 12:42:41 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/04/15 14:04:20 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,13 +92,13 @@ static int	write_here_doc(char *delimiter, int last_status, t_minishell *data)
 	if (pid == 0)
 	{
 		close(pipes[0]);
-		line = get_next_line(STDIN_FILENO);
+		line = readline_own();
 		while (ft_strncmp(line, delimiter, ft_strlen(line) - 1))
 		{
 			line = parse_env_variable(line, last_status, '\0');
 			ft_putstr_fd(line, pipes[1]);
 			free(line);
-			line = get_next_line(STDIN_FILENO);
+			line = readline_own();
 		}
 		exit(0);
 	}

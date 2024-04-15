@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 07:29:23 by iestero-          #+#    #+#             */
-/*   Updated: 2024/04/11 09:28:43 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/04/15 14:04:37 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,5 +164,7 @@ void		print_exit(void);
 char		**ft_dstrdup(const char **str);
 
 int			error_redir(char *tmp, char *org, int pos, t_minishell *data);
+
+char		*readline_own(void);
 
 #endif

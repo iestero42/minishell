@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 11:33:39 by iestero-          #+#    #+#             */
-/*   Updated: 2024/04/15 12:22:34 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/04/15 14:04:30 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,4 +21,10 @@ void	print_exit(void)
 {
 	tputs(tgetstr("up", NULL), 1, ft_putchar);
 	printf("minishell~$ exit\n");
+}
+
+char	*readline_own(void)
+{
+	ft_putstr_fd("> ", 1);
+	return (get_next_line(STDIN_FILENO));
 }

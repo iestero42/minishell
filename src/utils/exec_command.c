@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 10:15:38 by iestero-          #+#    #+#             */
-/*   Updated: 2024/04/15 11:38:38 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/04/15 14:07:59 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,11 @@ static int	builtins(t_command cmd, char ***env)
 
 void	exec_command(t_command *cmd, char ***env)
 {
+	extern char	**environ;
+
 	if (cmd->type == PATH_COMMAND)
 	{
-		if (execve(cmd->name, cmd->args, *env) < 0)
+		if (execve(cmd->name, cmd->args, environ) < 0)
 		{
 			perror("execve");
 			exit(127);
@@ -43,7 +45,7 @@ void	exec_command(t_command *cmd, char ***env)
 	}
 	else if (cmd->type > 0)
 	{
-		if (builtins(*cmd, env) < 0)
+		if (builtins(*cmd, environ) < 0)
 			exit(127);
 	}
 	else if (cmd->type == ERROR_COMMAND)
@@ -52,7 +54,8 @@ void	exec_command(t_command *cmd, char ***env)
 
 void	exec_command_special(t_command *cmd, t_minishell *data)
 {
-	pid_t	pid;
+	pid_t		pid;
+	extern char	**environ;
 
 	if (cmd->type == PATH_COMMAND)
 	{
@@ -61,7 +64,7 @@ void	exec_command_special(t_command *cmd, t_minishell *data)
 			error_init("fork");
 		if (pid == 0)
 		{
-			if (execve(cmd->name, cmd->args, data->env) < 0)
+			if (execve(cmd->name, cmd->args, environ) < 0)
 			{
 				perror("execve");
 				exit(127);
