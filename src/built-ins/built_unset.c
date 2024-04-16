@@ -3,19 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   built_unset.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 10:58:27 by iestero-          #+#    #+#             */
-/*   Updated: 2024/04/15 16:35:32 by marvin           ###   ########.fr       */
+/*   Updated: 2024/04/16 09:41:02 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static void	unset_aux(char **env, char *arg)
+{
+	char	**p;
+
+	if (!ft_strncmp(*env, arg, ft_strlen(arg))
+		&& (*env)[ft_strlen(arg)] == '=')
+	{
+		p = env;
+		free(*env);
+		while (*p != NULL)
+		{
+			*p = *(p + 1);
+			p++;
+		}
+	}
+}
+
 int	built_unset(char **args)
 {
 	int			i;
-	char		**p;
 	char		**env_tmp;
 	extern char	**environ;
 
@@ -25,14 +41,7 @@ int	built_unset(char **args)
 		env_tmp = environ;
 		while (*env_tmp != NULL)
 		{
-			if (!ft_strncmp(*env_tmp, args[i], ft_strlen(args[i]))
-				&& (*env_tmp)[ft_strlen(args[i])] == '=')
-			{
-				p = env_tmp;
-				free(*env_tmp);
-				while (*p != NULL)
-					*p = *(p++ + 1);
-			}
+			unset_aux(env_tmp, args[i]);
 			env_tmp++;
 		}
 	}

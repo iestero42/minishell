@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 10:58:12 by iestero-          #+#    #+#             */
-/*   Updated: 2024/04/15 13:43:12 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/04/16 10:02:02 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static int	error_export(char **var, char *arg)
 	int	i;
 
 	if (!var)
-		error_init("malloc");
+		error_init("malloc", 1);
 	if (arg[0] == '=')
 	{
 		error_export_msg(arg);
@@ -70,7 +70,7 @@ static int	replace_environ(char **var, char *arg)
 		if (!ft_strncmp(*env_tmp, var[0], ft_strlen(var[0]))
 			&& (*env_tmp)[strlen(var[0])] == '=')
 		{
-			*env_tmp = ft_strdup(arg);
+			*env_tmp = arg;
 			break ;
 		}
 		env_tmp++;

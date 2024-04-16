@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   proc_minishell.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 09:23:36 by iestero-          #+#    #+#             */
-/*   Updated: 2024/04/15 16:28:53 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/04/16 09:32:24 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void	dupping(int fd, int mode)
 	if (dup2(fd, mode) < 0)
 	{
 		perror("dup");
-		exit(127);
+		exit(1);
 	}
 }
 
@@ -43,7 +43,7 @@ pid_t	create_process(t_command *cmd, int *pipes, int pos, t_minishell *data)
 
 	child = fork();
 	if (child < 0)
-		error_init("fork");
+		error_init("fork", 1);
 	else if (child == 0)
 	{
 		child_write(cmd->output_redirect, pipes, pos, data->n_comands);

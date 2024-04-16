@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_command_name.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 08:18:57 by iestero-          #+#    #+#             */
-/*   Updated: 2024/04/15 16:36:46 by marvin           ###   ########.fr       */
+/*   Updated: 2024/04/16 09:33:48 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static int	check_path(char *token, char **dirs, t_command *cmd)
 			{
 				cmd->name = ft_strdup(abs_path);
 				if (!cmd->name)
-					error_init("malloc");
+					error_init("malloc", 1);
 				cmd->type = PATH_COMMAND;
 			}
 		}
@@ -56,7 +56,7 @@ static int	check_relative_path(char *token, t_command *cmd)
 		{
 			cmd->name = ft_strdup(token);
 			if (!cmd->name)
-				error_init("malloc");
+				error_init("malloc", 1);
 			cmd->type = PATH_COMMAND;
 		}
 	}
@@ -74,15 +74,14 @@ static int	check_own_command(char *token, t_command *cmd, char **cmd_list)
 		{
 			cmd->name = ft_strdup(token);
 			if (!cmd->name)
-				error_init("malloc");
+				error_init("malloc", 1);
 			cmd->type = i + 1;
 		}
 	}
 	return (EXIT_SUCCESS);
 }
 
-int	parse_command_name(char **tokens, t_command *cmd, char **cmd_list,
-		int last_status)
+int	parse_command_name(char **tokens, t_command *cmd, char **cmd_list)
 {
 	int		i;
 	char	*path;
@@ -93,7 +92,7 @@ int	parse_command_name(char **tokens, t_command *cmd, char **cmd_list,
 	path = getenv("PATH");
 	dirs = ft_split(path, ':');
 	if (!dirs)
-		error_init("malloc");
+		error_init("malloc", 1);
 	i = 0;
 	while (tokens[i][0] == '\0')
 		i++;

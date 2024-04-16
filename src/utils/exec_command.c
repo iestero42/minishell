@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_command.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 10:15:38 by iestero-          #+#    #+#             */
-/*   Updated: 2024/04/15 16:29:50 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/04/16 09:33:14 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,7 @@ void	exec_command(t_command *cmd)
 	if (cmd->type == PATH_COMMAND)
 	{
 		if (execve(cmd->name, cmd->args, environ) < 0)
-		{
-			perror("execve");
-			exit(127);
-		}
+			error_init("execve", 127);
 	}
 	else if (cmd->type > 0)
 	{
@@ -61,21 +58,20 @@ void	exec_command_special(t_command *cmd, t_minishell *data)
 	{
 		pid = fork();
 		if (pid < 0)
-			error_init("fork");
+			error_init("fork", 1);
 		if (pid == 0)
 		{
 			if (execve(cmd->name, cmd->args, environ) < 0)
-			{
-				perror("execve");
-				exit(127);
-			}
+				error_init("execve", 127);
 			exit(0);
 		}
 		controller(data, &pid);
 	}
 	else if (cmd->type > 0)
+	{
 		if (builtins(*cmd) < 0)
 			data->last_status_cmd = 127;
+	}
 	else if (cmd->type == ERROR_COMMAND)
 		data->last_status_cmd = 127;
 }

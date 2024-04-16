@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 07:29:23 by iestero-          #+#    #+#             */
-/*   Updated: 2024/04/15 16:28:53 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/04/16 11:16:28 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ typedef struct s_command
 {
 	char	**args;
 	char	*name;
-	char	*here_doc;
 	int		type;
 	int		output_redirect;
 	int		input_redirect;
@@ -99,7 +98,7 @@ int			parse_command(char *command_str, t_command *cmd, t_minishell *data,
 
 char		**ft_dstrjoin(char **arr1, char **arr2);
 
-int			error_init(char *msg);
+int			error_init(char *msg, int error);
 
 int			parse_redirect(char **tokens, t_command *cmd,
 				int pos, t_minishell *data);
@@ -110,8 +109,7 @@ int			parse_output(char **tokens, t_command *cmd,
 int			parse_input(char **tokens, t_command *cmd,
 				int pos, t_minishell *data);
 
-int			parse_command_name(char **tokens, t_command *cmd, char **cmd_list,
-				int last_status);
+int			parse_command_name(char **tokens, t_command *cmd, char **cmd_list);
 
 char		*parse_env_variable(char *token, int last_status, int quote);
 

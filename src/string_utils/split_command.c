@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 09:03:49 by iestero-          #+#    #+#             */
-/*   Updated: 2024/04/08 10:16:07 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/04/16 09:30:56 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,7 @@ char	**split_command(const char *s)
 	num_substrings = size_dstr(s);
 	substrings = malloc(sizeof(char *) * (num_substrings + 1));
 	if (!substrings)
-		error_init("malloc");
+		error_init("malloc", 1);
 	start = 0;
 	i = -1;
 	while (++i < num_substrings)
@@ -146,7 +146,7 @@ char	**split_command(const char *s)
 		if (substrings[i] == NULL)
 		{
 			double_free(substrings);
-			error_init("malloc");
+			error_init("malloc", 1);
 		}
 	}
 	substrings[num_substrings] = NULL;

@@ -1,8 +1,6 @@
 proximo dia:
 
-	corregir el export que me coja el token y solo me pille dentro del token hasta que encuentre un espacio
-
-	intentar cambiar el como se escribe el exit para que no haga falta el hardcodeo 
+	arreglar todo lo de la separacion de comandos par que me separe dentro de una variable de entorno
 
 	pasar todo eso al bonus
 

@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 10:24:02 by iestero-          #+#    #+#             */
-/*   Updated: 2024/04/11 10:27:06 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/04/16 11:16:45 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static char	*special_env_variable(int last_status, int *position,
 	*start = *position + 1;
 	str = ft_itoa(last_status);
 	if (!str)
-		error_init("malloc");
+		error_init("malloc", 1);
 	return (str);
 }
 
@@ -41,12 +41,12 @@ static char	*expand_env_variable(char *token, int *start, int *position,
 		i++;
 	str = ft_substr(token, 0, i);
 	if (str == NULL)
-		error_init("malloc");
+		error_init("malloc", 1);
 	env_var = getenv(str);
 	if (!env_var)
 		env_var = ft_strdup("");
 	if (env_var == NULL)
-		error_init("malloc");
+		error_init("malloc", 1);
 	free(str);
 	*position += i;
 	*start = *position + 1;
@@ -74,7 +74,7 @@ static char	*check_token(char *token, int last_status)
 			if (*env == '\0')
 				free(env);
 			if (!new_token)
-				error_init("malloc");
+				error_init("malloc", 1);
 		}
 	}
 	if (start < i && new_token)

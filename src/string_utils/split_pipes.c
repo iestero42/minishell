@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 09:30:38 by iestero-          #+#    #+#             */
-/*   Updated: 2024/04/08 11:39:48 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/04/16 09:34:24 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ static char	*save_memory(const char *s, size_t len)
 	}
 	substr = (char *) malloc(sizeof(char) * (len + 1));
 	if (!substr)
-		error_init("malloc");
+		error_init("malloc", 1);
 	ft_strlcpy(substr, (char *) s, len + 1);
 	return (substr);
 }
@@ -122,7 +122,7 @@ char	**split_pipes(const char *s)
 		return (NULL);
 	substrings = malloc(sizeof(char *) * (num_substrings + 1));
 	if (!substrings)
-		error_init("malloc");
+		error_init("malloc", 1);
 	start = 0;
 	i = -1;
 	while (++i < num_substrings)

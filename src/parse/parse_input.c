@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 11:47:55 by iestero-          #+#    #+#             */
-/*   Updated: 2024/04/15 14:04:20 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/04/16 09:30:38 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,10 +85,10 @@ static int	write_here_doc(char *delimiter, int last_status, t_minishell *data)
 	int		pipes[2];
 
 	if (pipe(pipes) < 0)
-		error_init("pipe");
+		error_init("pipe", 1);
 	pid = fork();
 	if (pid < 0)
-		error_init("fork");
+		error_init("fork", 1);
 	if (pid == 0)
 	{
 		close(pipes[0]);

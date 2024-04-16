@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 11:48:07 by iestero-          #+#    #+#             */
-/*   Updated: 2024/04/15 10:53:28 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/04/16 10:59:04 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	parse_command(char *command_str, t_command *cmd, t_minishell *data,
 
 	cmd_trimmed = ft_strtrim(command_str, " ");
 	if (!cmd_trimmed)
-		error_init("ft_strtrim");
+		error_init("ft_strtrim", 1);
 	tokens = split_command(cmd_trimmed);
 	free(cmd_trimmed);
 	if (parse_redirect(tokens, cmd, pos, data) == EXIT_FAILURE)
@@ -58,8 +58,7 @@ int	parse_command(char *command_str, t_command *cmd, t_minishell *data,
 		return (EXIT_FAILURE);
 	}
 	trim_args(&tokens, data->last_status_cmd);
-	if (parse_command_name(tokens, cmd, data->cmd_list,
-			data->last_status_cmd) == EXIT_FAILURE)
+	if (parse_command_name(tokens, cmd, data->cmd_list) == EXIT_FAILURE)
 		return (error_command(cmd, tokens));
 	if (built_args(cmd, tokens) == EXIT_FAILURE)
 		return (error_command(cmd, tokens));

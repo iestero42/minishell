@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 07:29:18 by iestero-          #+#    #+#             */
-/*   Updated: 2024/04/15 16:43:41 by marvin           ###   ########.fr       */
+/*   Updated: 2024/04/16 09:29:37 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,10 @@ static void	init_data(t_minishell *data)
 	data->status = RUNNING;
 	data->std_fileno[1] = dup(STDOUT_FILENO);
 	if (data->std_fileno[1] < 0)
-		error_init("dup");
+		error_init("dup", 1);
 	data->std_fileno[0] = dup(STDIN_FILENO);
 	if (data->std_fileno[0] < 0)
-		error_init("dup");
+		error_init("dup", 1);
 	data->cmd_list[0] = "echo";
 	data->cmd_list[1] = "cd";
 	data->cmd_list[2] = "pwd";
@@ -44,7 +44,7 @@ static void	init_data(t_minishell *data)
 	data->cmd_list[5] = "env";
 	data->cmd_list[6] = "exit";
 	if (tcgetattr(STDIN_FILENO, &data->original_term) == -1)
-		error_init("tcgetattr");
+		error_init("tcgetattr", 1);
 	configurations();
 	signal(SIGINT, signal_handler);
 	signal(SIGQUIT, SIG_IGN);
@@ -58,7 +58,7 @@ static int	open_pipes(t_minishell *data)
 	while (i < data->n_comands - 1)
 	{
 		if (pipe(data->pipes + 2 * i) < 0)
-			error_init("pipe");
+			error_init("pipe", 1);
 		i++;
 	}
 	return (EXIT_SUCCESS);
@@ -73,11 +73,11 @@ static int	minishell(t_minishell *data)
 	{
 		data->pipes = (int *) malloc(sizeof(int) * 2 * (data->n_comands - 1));
 		if (!data->pipes)
-			error_init("malloc");
+			error_init("malloc", 1);
 		open_pipes(data);
 		pids = (pid_t *) malloc(sizeof(pid_t) * data->n_comands);
 		if (!pids)
-			error_init("malloc");
+			error_init("malloc", 1);
 		i = -1;
 		while (++i < data->n_comands)
 			pids[i] = create_process(&data->comand_split[i], data->pipes, i,
@@ -92,13 +92,11 @@ static int	minishell(t_minishell *data)
 	return (EXIT_SUCCESS);
 }
 
-int	main(int argc, char **argv, char **env)
+int	main(void)
 {
 	t_minishell	data;
 	char		*line;
 
-	if (argc != 1 || argv == NULL)
-		return (-1);
 	init_data(&data);
 	while (data.status != STOPPED)
 	{
