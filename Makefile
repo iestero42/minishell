@@ -6,7 +6,7 @@
 #    By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/07 10:56:39 by yunlovex          #+#    #+#              #
-#    Updated: 2024/04/15 12:03:37 by iestero-         ###   ########.fr        #
+#    Updated: 2024/04/18 11:27:53 by iestero-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -105,7 +105,7 @@ UTILS_FILES		=	errors.c			\
 					frees.c				\
 					signal_handler.c 	\
 					configurations.c	\
-					print_exit.c		\
+					misc.c				\
 
 BUILTINS_FILES	=	built_cd.c		\
 					built_echo.c	\

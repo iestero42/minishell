@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 11:47:55 by iestero-          #+#    #+#             */
-/*   Updated: 2024/04/16 09:30:38 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/04/18 09:54:02 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static int	open_input_simple(char **tokens, t_command *cmd,
 				int pos, t_minishell *data)
 {
 	char	*redir;
-	char	*tmp;
+	char	**tmp;
 
 	redir = ft_strchr(tokens[0], '<');
 	if (redir)
@@ -34,13 +34,13 @@ static int	open_input_simple(char **tokens, t_command *cmd,
 		if (cmd->input_redirect > -1)
 			close(cmd->input_redirect);
 		tmp = trim_command(tokens[1], data->last_status_cmd);
-		if (tmp != NULL && *tmp != '\0' && !ft_strchr(tmp, '>')
-			&& !ft_strchr(tmp, '<'))
+		if (tmp != NULL && **tmp != '\0' && tokens[1][0] != '<'
+			&& tokens[1][0] != '>')
 		{
-			cmd->input_redirect = open(tmp, O_RDONLY, 0644);
+			cmd->input_redirect = open(tmp[0], O_RDONLY, 0644);
 			if (cmd->input_redirect < 0)
-				perror(tmp);
-			free(tmp);
+				perror(tmp[0]);
+			double_free(tmp);
 			*tokens[1] = '\0';
 			*tokens[0] = '\0';
 		}
@@ -119,7 +119,7 @@ static int	open_input_double(char **tokens, t_command *cmd,
 				int pos, t_minishell *data)
 {
 	char	*redir;
-	char	*tmp;
+	char	**tmp;
 
 	redir = ft_strnstr(tokens[0], "<<", ft_strlen(tokens[0]));
 	if (redir)
@@ -127,10 +127,12 @@ static int	open_input_double(char **tokens, t_command *cmd,
 		if (cmd->input_redirect > -1)
 			close(cmd->output_redirect);
 		tmp = trim_command(tokens[1], data->last_status_cmd);
-		if (*tmp != '\0' && !ft_strchr(tmp, '>') && !ft_strchr(tmp, '<'))
+		if (tmp != NULL && **tmp != '\0' && tokens[1][0] != '<'
+			&& tokens[1][0] != '>')
 		{
-			cmd->input_redirect = write_here_doc(tmp,
+			cmd->input_redirect = write_here_doc(tmp[0],
 					data->last_status_cmd, data);
+			double_free(tmp);
 			*tokens[1] = '\0';
 			*tokens[0] = '\0';
 		}

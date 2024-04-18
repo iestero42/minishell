@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 10:57:42 by iestero-          #+#    #+#             */
-/*   Updated: 2024/04/08 10:50:11 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/04/18 11:49:51 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	built_cd(char **args)
 	int		len;
 	char	*dir;
 
-	len = ft_dstrlen((const char **) args);
+	len = ft_dstrlen(args);
 	dir = NULL;
 	if (len == 1)
 	{

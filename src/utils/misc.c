@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_exit.c                                       :+:      :+:    :+:   */
+/*   misc.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 11:33:39 by iestero-          #+#    #+#             */
-/*   Updated: 2024/04/16 12:30:45 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/04/18 11:40:03 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ static int	ft_putchar(int c)
 
 void	print_exit(void)
 {
-	tputs(tgetstr("up", NULL), 1, ft_putchar);
 	tputs(tgetstr("up", NULL), 1, ft_putchar);
 	printf("minishell~$ exit\n");
 }

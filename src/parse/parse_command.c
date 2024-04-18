@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 11:48:07 by iestero-          #+#    #+#             */
-/*   Updated: 2024/04/16 10:59:04 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/04/18 12:08:25 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,23 +19,31 @@ static int	error_command(t_command *cmd, char **tokens)
 	return (EXIT_FAILURE);
 }
 
-static int	trim_args(char ***tokens, int last_status)
+static char	**trim_args(char **tokens, int last_status)
 {
 	int		i;
-	char	*tmp;
+	char	**tmp;
+	char	**new_token;
 
 	i = 0;
-	while ((*tokens)[i] != NULL)
+	new_token = 0;
+	while (tokens[i] != NULL)
 	{
-		if ((**tokens)[i] != '\0')
+		if (*tokens[i] != '\0')
 		{
-			tmp = trim_command((*tokens)[i], last_status);
-			free((*tokens)[i]);
-			(*tokens)[i] = tmp;
+			tmp = trim_command(tokens[i], last_status);
+			new_token = ft_dstrjoin(new_token, tmp);
+			free(tmp);
+			if (!new_token)
+				return (NULL);
 		}
 		i++;
 	}
-	return (EXIT_SUCCESS);
+	if (new_token)
+		double_free(tokens);
+	else
+		return (tokens);
+	return (new_token);
 }
 
 int	parse_command(char *command_str, t_command *cmd, t_minishell *data,
@@ -57,7 +65,9 @@ int	parse_command(char *command_str, t_command *cmd, t_minishell *data,
 		data->status = RUNNING;
 		return (EXIT_FAILURE);
 	}
-	trim_args(&tokens, data->last_status_cmd);
+	tokens = trim_args(tokens, data->last_status_cmd);
+	if (!tokens)
+		error_init("malloc", 1);
 	if (parse_command_name(tokens, cmd, data->cmd_list) == EXIT_FAILURE)
 		return (error_command(cmd, tokens));
 	if (built_args(cmd, tokens) == EXIT_FAILURE)

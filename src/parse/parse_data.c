@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 10:48:47 by iestero-          #+#    #+#             */
-/*   Updated: 2024/04/16 09:48:16 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/04/18 12:24:36 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,19 @@ extern volatile sig_atomic_t	g_signal;
 
 static int	parse_list_command(char **command_list, t_minishell *data)
 {
-	int		i;
+	int			i;
+	extern char	**environ;
+
 
 	i = -1;
+	environ = ft_dstrdup(environ);
 	while (command_list[++i] != NULL)
 	{
 		if (parse_command(command_list[i], &data->comand_split[i], data, i)
 			== EXIT_FAILURE)
 			return (EXIT_FAILURE);
 	}
+	double_free(environ);
 	return (EXIT_SUCCESS);
 }
 
@@ -36,7 +40,7 @@ int	parse_data(const char *command_line, t_minishell *data)
 	command_list = split_pipes(command_line);
 	if (!command_list)
 		return (EXIT_FAILURE);
-	data->n_comands = ft_dstrlen((const char **) command_list);
+	data->n_comands = ft_dstrlen(command_list);
 	data->comand_split = (t_command *) malloc(sizeof(t_command)
 			* data->n_comands);
 	if (!data->comand_split)

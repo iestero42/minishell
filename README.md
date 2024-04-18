@@ -1,6 +1,6 @@
 proximo dia:
 
-	arreglar todo lo de la separacion de comandos par que me separe dentro de una variable de entorno
+	arreglar environ
 
 	pasar todo eso al bonus
 

@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 09:31:16 by iestero-          #+#    #+#             */
-/*   Updated: 2024/04/16 10:11:04 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/04/18 12:21:31 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	**ft_append(char **arr1, char *str)
 	if (arr1 == NULL)
 		len1 = 0;
 	else
-		len1 = ft_dstrlen((const char **) arr1);
+		len1 = ft_dstrlen(arr1);
 	combined = malloc(sizeof(char *) * (len1 + 2));
 	if (combined == NULL)
 		error_init("malloc", 1);
@@ -62,8 +62,8 @@ char	**ft_realloc(char **ptr, char *arg, int count, int expand)
 		error_init("malloc", 1);
 	i = -1;
 	while (++i < count)
-		new_ptr[i] = ptr[i];
-	new_ptr[i] = arg;
+		new_ptr[i] = ft_strdup(ptr[i]);
+	new_ptr[i] = ft_strdup(arg);
 	if (new_ptr[i] == NULL)
 		error_init("malloc", 1);
 	new_ptr[i + 1] = NULL;
@@ -71,18 +71,18 @@ char	**ft_realloc(char **ptr, char *arg, int count, int expand)
 	return (new_ptr);
 }
 
-char	**ft_dstrdup(const char **str)
+char	**ft_dstrdup(char **str)
 {
 	char	**dup;
 	int		i;
 
-	dup = (char **) malloc(sizeof(char *) * (ft_dstrlen(str) + 1));
+	dup = (char **) ft_calloc(ft_dstrlen(str) + 1, sizeof(char *));
 	if (!dup)
 		return (NULL);
 	i = 0;
 	while (str[i] != NULL)
 	{
-		dup[i] = (char *) str[i];
+		dup[i] = ft_strdup(str[i]);
 		i++;
 	}
 	dup[i] = NULL;

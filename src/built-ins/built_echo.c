@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 10:56:42 by iestero-          #+#    #+#             */
-/*   Updated: 2024/03/19 10:36:18 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/04/18 11:49:51 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	built_echo(char **args)
 
 	add_newline = 1;
 	i = 1;
-	len = ft_dstrlen((const char **) args);
+	len = ft_dstrlen(args);
 	if (len > 1 && !ft_strcmp(args[1], "-n"))
 	{
 		add_newline = 0;

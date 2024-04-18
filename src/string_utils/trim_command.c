@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 11:53:17 by iestero-          #+#    #+#             */
-/*   Updated: 2024/04/16 12:23:00 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/04/18 11:58:38 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,27 +37,47 @@ static char	*parse_segment(const char *input,
 	return (segment_expanded);
 }
 
-static char	*ft_copy_expand(const char *token, char *new_token,
+static char	**ft_copy_expand(const char *token, char **new_token,
 	int positions[2], int last_status)
 {
 	char	*tmp;
 	char	*tmp_expanded;
+	char	**split;
 
 	tmp = ft_substr(token, positions[0] + 1, positions[1]);
 	if (!tmp)
 		error_init("malloc", 1);
 	tmp_expanded = parse_env_variable(tmp, last_status, '\0');
 	free(tmp);
-	new_token = ft_strjoin((char *) new_token, (char *) tmp_expanded);
+	split = ft_split(tmp_expanded, ' ');
+	if (!split)
+		error_init("malloc", 1);
+	if (!new_token)
+		new_token = ft_dstrjoin(NULL, split);
+	else if (tmp_expanded[0] == ' ')
+		new_token = ft_dstrjoin(new_token, split);
+	else if (tmp_expanded[0] != ' ')
+	{
+		if (split[0] != NULL && split[0][0] != '\0')
+		{
+			new_token[ft_dstrlen(new_token) - 1]
+				= ft_strjoin(new_token[ft_dstrlen(new_token) - 1], split[0]);
+		}
+		free(split[0]);
+		if (ft_dstrlen(new_token) > 1)
+			new_token = ft_dstrjoin(new_token, &split[1]);
+	}
 	if (!new_token)
 		error_init("malloc", 1);
 	free(tmp_expanded);
+	free(split);
 	return (new_token);
 }
 
-static char	*parse_quotes(char *input, int len, int last_status)
+static char	**parse_quotes(char *input, int len, int last_status)
 {
-	char	*result;
+	char	**result;
+	char	*segment;
 	int		i;
 	int		start;
 
@@ -71,8 +91,10 @@ static char	*parse_quotes(char *input, int len, int last_status)
 			if (i > start)
 				result = ft_copy_expand(input, result,
 						(int []){start - 1, i - start}, last_status);
-			result = ft_strjoin(result,
-					parse_segment(input, &i, &start, last_status));
+			segment = parse_segment(input, &i, &start, last_status);
+			result[ft_dstrlen(result) - 1]
+				= ft_strjoin(result[ft_dstrlen(result) - 1], segment);
+			free(segment);
 			if (!result)
 				error_init("malloc", 1);
 		}
@@ -81,12 +103,23 @@ static char	*parse_quotes(char *input, int len, int last_status)
 			(int []){start - 1, i - start}, last_status));
 }
 
-char	*trim_command(char *token, int last_status)
+char	**trim_command(char *token, int last_status)
 {
-	char	*new_token;
+	char	**new_token;
 
 	new_token = parse_quotes(token, ft_strlen(token), last_status);
 	if (!new_token && token)
-		return (ft_strdup(token));
+	{
+		new_token = (char **) malloc(sizeof(char *) * 2);
+		if (!new_token)
+			error_init("malloc", 1);
+		new_token[0] = ft_strdup(token);
+		if (!new_token[0])
+		{
+			free(new_token);
+			return (NULL);
+		}
+		new_token[1] = NULL;
+	}
 	return (new_token);
 }

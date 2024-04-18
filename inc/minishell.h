@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 07:29:23 by iestero-          #+#    #+#             */
-/*   Updated: 2024/04/16 11:16:28 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/04/18 11:50:55 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ char		**ft_dsubstr(char **str_array, int start_index, int end_index);
 
 void		double_free(char **str);
 
-int			ft_dstrlen(const char **str);
+int			ft_dstrlen(char **str);
 
 char		**split_pipes(const char *s);
 
@@ -115,7 +115,7 @@ char		*parse_env_variable(char *token, int last_status, int quote);
 
 char		*ft_copy(const char *token, char *new_token, int start, int len);
 
-char		*trim_command(char *token, int last_status);
+char		**trim_command(char *token, int last_status);
 
 char		**ft_append(char **arr1, char *str);
 
@@ -158,12 +158,16 @@ void		configurations(void);
 
 void		print_exit(void);
 
-char		**ft_dstrdup(const char **str);
+char		**ft_dstrdup(char **str);
 
-int			error_redir(char *tmp, char *org, int pos, t_minishell *data);
+int			error_redir(char **tmp, char *org, int pos, t_minishell *data);
 
 char		*readline_own(void);
 
 char		*readline_main(void);
+
+void		error_export_msg(char *arg);
+
+int			error_unclosed_quotes(char *arg, int len);
 
 #endif
