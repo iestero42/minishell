@@ -1,6 +1,6 @@
 proximo dia:
 
-	arreglar environ
+	arreglar environ que no se me guarda bien y da leaks
 
 	pasar todo eso al bonus
 
