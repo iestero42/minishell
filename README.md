@@ -1,10 +1,6 @@
 proximo dia:
 
-	corregir echo -n
-
-	arreglar environ que no se me guarda bien y da leaks
-
-	pasar todo eso al bonus
+	corregir "tcgetattr: Inappropriate ioctl for device" (tiene algo que ver con la llamada al hide y el show de los simbolos)
 
 	hacer pruebas locas con los argumentos desordenados y de todo
 	
@@ -18,4 +14,4 @@ si hay tiempo:
 
 
 cosas de javier:
-mostrar ^C cuando se interrumpe la ejecución de un comando de exec.
+

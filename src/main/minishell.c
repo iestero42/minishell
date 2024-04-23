@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 07:29:18 by iestero-          #+#    #+#             */
-/*   Updated: 2024/04/23 09:15:20 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/04/23 12:45:57 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ int	main(void)
 	init(&data);
 	while (data.status != STOPPED)
 	{
+		signal(SIGINT, signal_handler_readline);
 		line = readline_main();
 		if (line == NULL)
 		{
@@ -73,6 +74,7 @@ int	main(void)
 		if (*line != '\0')
 		{
 			add_history(line);
+			signal(SIGINT, signal_handler);
 			if (parse_data(line, &data) == EXIT_SUCCESS)
 				minishell(&data);
 		}

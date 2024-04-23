@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 07:29:23 by iestero-          #+#    #+#             */
-/*   Updated: 2024/04/23 09:35:13 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/04/23 12:45:24 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@
 
 //*****Signals*****//
 void		signal_handler(int signum);
+void		signal_handler_readline(int signum);
 void		controller(t_minishell *data, pid_t *pid);
 
 //*****Command Execution*****//
@@ -51,6 +52,8 @@ pid_t		create_process(t_command *cmd, int *pipes,
 				int pos, t_minishell *data);
 
 //*****Configurations*****//
+void		hide_eof_symbol(struct termios *term);
+void		show_eof_symbol(struct termios *term);
 void		configurations(void);
 void		print_exit(void);
 void		deinit(t_minishell *data);

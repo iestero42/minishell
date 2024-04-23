@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 09:23:36 by iestero-          #+#    #+#             */
-/*   Updated: 2024/04/16 09:32:24 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/04/23 12:11:13 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,15 @@ static void	child_write(int fd, int *pipes, int pos, int n_comands)
 
 pid_t	create_process(t_command *cmd, int *pipes, int pos, t_minishell *data)
 {
-	pid_t	child;
+	pid_t			child;
+	struct termios	term;
 
 	child = fork();
 	if (child < 0)
 		error_init("fork", 1);
 	else if (child == 0)
 	{
+		show_eof_symbol(&term);
 		child_write(cmd->output_redirect, pipes, pos, data->n_comands);
 		child_read(cmd->input_redirect, pipes, pos);
 		close_pipes(data);

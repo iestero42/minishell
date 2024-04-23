@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 11:47:55 by iestero-          #+#    #+#             */
-/*   Updated: 2024/04/23 09:40:13 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/04/23 13:31:25 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,8 @@ static void	controller_heredoc(pid_t pid, int *fd, t_minishell *data)
 			close(fd[0]);
 			data->status = STOPPED;
 			kill(pid, SIGTERM);
+			ft_putstr_fd("\n", 1);
+			break ;
 		}
 		if (status != -1)
 			break ;
