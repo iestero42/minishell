@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   strings_utils.h                                    :+:      :+:    :+:   */
+/*   strings_utils_bonus.h                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 09:25:32 by iestero-          #+#    #+#             */
-/*   Updated: 2024/04/23 09:27:34 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/04/23 10:12:19 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef STRINGS_UTILS_H
-# define STRINGS_UTILS_H
+#ifndef STRINGS_UTILS_BONUS_H
+# define STRINGS_UTILS_BONUS_H
 
 int			ft_strcmp(char *s1, char *s2);
 

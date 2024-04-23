@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   title.h                                            :+:      :+:    :+:   */
+/*   title_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 07:42:56 by iestero-          #+#    #+#             */
-/*   Updated: 2024/03/20 12:15:38 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/04/23 10:12:26 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TITLE_H
-# define TITLE_H
+#ifndef TITLE_BONUS_H
+# define TITLE_BONUS_H
 
 # define YELLOW 	"\033[1;33m"
 # define BLUE 		"\033[1;34m"
