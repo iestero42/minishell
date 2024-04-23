@@ -1,5 +1,7 @@
 proximo dia:
 
+	corregir echo -n
+
 	arreglar environ que no se me guarda bien y da leaks
 
 	pasar todo eso al bonus
@@ -16,3 +18,4 @@ si hay tiempo:
 
 
 cosas de javier:
+mostrar ^C cuando se interrumpe la ejecución de un comando de exec.

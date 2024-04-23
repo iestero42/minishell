@@ -20,7 +20,8 @@ static int	ft_putchar(int c)
 void	print_exit(void)
 {
 	tputs(tgetstr("up", NULL), 1, ft_putchar);
-	printf("minishell~$ exit\n");
+	printf("%s ", MINISHELL_ENTRY);
+	printf("exit\n");
 }
 
 char	*readline_own(void)
