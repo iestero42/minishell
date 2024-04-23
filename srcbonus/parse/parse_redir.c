@@ -1,30 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_args.c                                       :+:      :+:    :+:   */
+/*   parse_redir.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/08 11:31:40 by iestero-          #+#    #+#             */
-/*   Updated: 2024/04/23 09:38:07 by iestero-         ###   ########.fr       */
+/*   Created: 2023/12/27 09:21:16 by iestero-          #+#    #+#             */
+/*   Updated: 2024/04/15 10:46:10 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "minishell.h" 
 
-int	parse_args(t_command *cmd, char **tokens)
+int	parse_redirect(char **tokens, t_command *cmd, int pos, t_minishell *data)
 {
-	int		i;
-	char	**args;
+	int	i;
 
-	i = 0;
-	args = 0;
-	while (tokens[i] != NULL)
+	i = -1;
+	cmd->output_redirect = -2;
+	cmd->input_redirect = -2;
+	while (tokens[++i] != NULL && data->status != STOPPED)
 	{
-		if (tokens[i][0] != '\0')
-			args = ft_append(args, tokens[i]);
-		i++;
+		if (parse_output(&tokens[i], cmd, pos, data) == EXIT_FAILURE)
+			return (EXIT_FAILURE);
+		if (parse_input(&tokens[i], cmd, pos, data) == EXIT_FAILURE)
+			return (EXIT_FAILURE);
 	}
-	cmd->args = args;
 	return (EXIT_SUCCESS);
 }

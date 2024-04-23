@@ -1,30 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_args.c                                       :+:      :+:    :+:   */
+/*   built_exit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/08 11:31:40 by iestero-          #+#    #+#             */
-/*   Updated: 2024/04/23 09:38:07 by iestero-         ###   ########.fr       */
+/*   Created: 2024/03/11 10:59:11 by iestero-          #+#    #+#             */
+/*   Updated: 2024/04/18 11:49:51 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	parse_args(t_command *cmd, char **tokens)
+int	built_exit(char **args)
 {
-	int		i;
-	char	**args;
+	int	i;
 
-	i = 0;
-	args = 0;
-	while (tokens[i] != NULL)
+	i = ft_dstrlen(args);
+	if (i > 2)
+		ft_putstr_fd("exit: too many arguments", 2);
+	else
 	{
-		if (tokens[i][0] != '\0')
-			args = ft_append(args, tokens[i]);
-		i++;
+		if (i > 1)
+			i = ft_atoi(args[1]);
+		else
+			i = 0;
+		exit(i);
 	}
-	cmd->args = args;
 	return (EXIT_SUCCESS);
 }

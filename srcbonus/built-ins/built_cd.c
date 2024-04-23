@@ -1,30 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_args.c                                       :+:      :+:    :+:   */
+/*   built_cd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/08 11:31:40 by iestero-          #+#    #+#             */
-/*   Updated: 2024/04/23 09:38:07 by iestero-         ###   ########.fr       */
+/*   Created: 2024/03/11 10:57:42 by iestero-          #+#    #+#             */
+/*   Updated: 2024/04/18 11:49:51 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	parse_args(t_command *cmd, char **tokens)
+int	built_cd(char **args)
 {
-	int		i;
-	char	**args;
+	int		len;
+	char	*dir;
 
-	i = 0;
-	args = 0;
-	while (tokens[i] != NULL)
+	len = ft_dstrlen(args);
+	dir = NULL;
+	if (len == 1)
 	{
-		if (tokens[i][0] != '\0')
-			args = ft_append(args, tokens[i]);
-		i++;
+		dir = getenv("HOME");
+		if (chdir(dir) != 0)
+			perror(dir);
 	}
-	cmd->args = args;
+	else if (!ft_strcmp(args[1], "~"))
+	{
+		dir = getenv("HOME");
+		if (chdir(dir) != 0)
+			perror(dir);
+	}
+	else
+	{
+		if (chdir(args[1]) != 0)
+			perror(args[1]);
+	}
 	return (EXIT_SUCCESS);
 }

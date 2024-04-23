@@ -1,30 +1,49 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_args.c                                       :+:      :+:    :+:   */
+/*   built_unset.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/08 11:31:40 by iestero-          #+#    #+#             */
-/*   Updated: 2024/04/23 09:38:07 by iestero-         ###   ########.fr       */
+/*   Created: 2024/03/11 10:58:27 by iestero-          #+#    #+#             */
+/*   Updated: 2024/04/16 09:41:02 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	parse_args(t_command *cmd, char **tokens)
+static void	unset_aux(char **env, char *arg)
 {
-	int		i;
-	char	**args;
+	char	**p;
+
+	if (!ft_strncmp(*env, arg, ft_strlen(arg))
+		&& (*env)[ft_strlen(arg)] == '=')
+	{
+		p = env;
+		free(*env);
+		while (*p != NULL)
+		{
+			*p = *(p + 1);
+			p++;
+		}
+	}
+}
+
+int	built_unset(char **args)
+{
+	int			i;
+	char		**env_tmp;
+	extern char	**environ;
 
 	i = 0;
-	args = 0;
-	while (tokens[i] != NULL)
+	while (args[++i] != NULL)
 	{
-		if (tokens[i][0] != '\0')
-			args = ft_append(args, tokens[i]);
-		i++;
+		env_tmp = environ;
+		while (*env_tmp != NULL)
+		{
+			unset_aux(env_tmp, args[i]);
+			env_tmp++;
+		}
 	}
-	cmd->args = args;
 	return (EXIT_SUCCESS);
 }

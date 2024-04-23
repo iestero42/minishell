@@ -1,30 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_args.c                                       :+:      :+:    :+:   */
+/*   built_echo.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/08 11:31:40 by iestero-          #+#    #+#             */
-/*   Updated: 2024/04/23 09:38:07 by iestero-         ###   ########.fr       */
+/*   Created: 2024/03/11 10:56:42 by iestero-          #+#    #+#             */
+/*   Updated: 2024/04/18 11:49:51 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	parse_args(t_command *cmd, char **tokens)
+int	built_echo(char **args)
 {
-	int		i;
-	char	**args;
+	int	add_newline;
+	int	len;
+	int	i;
 
-	i = 0;
-	args = 0;
-	while (tokens[i] != NULL)
+	add_newline = 1;
+	i = 1;
+	len = ft_dstrlen(args);
+	if (len > 1 && !ft_strcmp(args[1], "-n"))
 	{
-		if (tokens[i][0] != '\0')
-			args = ft_append(args, tokens[i]);
+		add_newline = 0;
 		i++;
 	}
-	cmd->args = args;
+	while (args[i] != NULL)
+	{
+		ft_putstr_fd(args[i], STDOUT_FILENO);
+		if (i < len - 1)
+			ft_putstr_fd(" ", STDOUT_FILENO);
+		i++;
+	}
+	if (add_newline)
+		ft_putstr_fd("\n", 1);
 	return (EXIT_SUCCESS);
 }

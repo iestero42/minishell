@@ -1,30 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_args.c                                       :+:      :+:    :+:   */
+/*   built_env.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/08 11:31:40 by iestero-          #+#    #+#             */
-/*   Updated: 2024/04/23 09:38:07 by iestero-         ###   ########.fr       */
+/*   Created: 2024/03/11 10:58:52 by iestero-          #+#    #+#             */
+/*   Updated: 2024/04/11 09:32:23 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	parse_args(t_command *cmd, char **tokens)
+int	built_env(void)
 {
-	int		i;
-	char	**args;
+	int			i;
+	extern char	**environ;
 
 	i = 0;
-	args = 0;
-	while (tokens[i] != NULL)
+	while (environ[i] != NULL)
 	{
-		if (tokens[i][0] != '\0')
-			args = ft_append(args, tokens[i]);
+		if (ft_strncmp(environ[i], "LINES", 5)
+			&& ft_strncmp(environ[i], "COLUMNS", 7))
+		{
+			ft_putstr_fd(environ[i], 1);
+			ft_putchar_fd('\n', 1);
+		}
 		i++;
 	}
-	cmd->args = args;
 	return (EXIT_SUCCESS);
 }

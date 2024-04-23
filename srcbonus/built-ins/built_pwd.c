@@ -1,30 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_args.c                                       :+:      :+:    :+:   */
+/*   built_pwd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/08 11:31:40 by iestero-          #+#    #+#             */
-/*   Updated: 2024/04/23 09:38:07 by iestero-         ###   ########.fr       */
+/*   Created: 2024/03/11 10:57:58 by iestero-          #+#    #+#             */
+/*   Updated: 2024/03/18 11:27:17 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	parse_args(t_command *cmd, char **tokens)
+int	built_pwd(void)
 {
-	int		i;
-	char	**args;
+	char	cwd[1024];
 
-	i = 0;
-	args = 0;
-	while (tokens[i] != NULL)
+	if (getcwd(cwd, sizeof(cwd)) != NULL)
 	{
-		if (tokens[i][0] != '\0')
-			args = ft_append(args, tokens[i]);
-		i++;
+		ft_putstr_fd(cwd, 1);
+		ft_putchar_fd('\n', 1);
 	}
-	cmd->args = args;
+	else
+		perror("pwd");
 	return (EXIT_SUCCESS);
 }

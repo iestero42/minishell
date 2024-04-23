@@ -1,30 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_args.c                                       :+:      :+:    :+:   */
+/*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/08 11:31:40 by iestero-          #+#    #+#             */
-/*   Updated: 2024/04/23 09:38:07 by iestero-         ###   ########.fr       */
+/*   Created: 2024/04/23 09:28:11 by iestero-          #+#    #+#             */
+/*   Updated: 2024/04/23 09:29:03 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#ifndef BUILTINS_H
+# define BUILTINS_H
 
-int	parse_args(t_command *cmd, char **tokens)
-{
-	int		i;
-	char	**args;
+int			built_cd(char **args);
 
-	i = 0;
-	args = 0;
-	while (tokens[i] != NULL)
-	{
-		if (tokens[i][0] != '\0')
-			args = ft_append(args, tokens[i]);
-		i++;
-	}
-	cmd->args = args;
-	return (EXIT_SUCCESS);
-}
+int			built_echo(char **args);
+
+int			built_env(void);
+
+int			built_exit(char **args);
+
+int			built_export(char **args);
+
+int			built_pwd(void);
+
+int			built_unset(char **args);
+
+#endif
