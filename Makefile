@@ -89,6 +89,7 @@ PARSE_FILES		=	parse_data.c			\
 					parse_command_name.c	\
 					parse_envVariable.c		\
 					parse_args.c			\
+					parse_wildcard.c		\
 					parse_redir.c			\
 					parse_output.c			\
 					parse_input.c			\

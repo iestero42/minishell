@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   trim_command.c                                     :+:      :+:    :+:   */
+/*   parse_command.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,7 +12,8 @@
 
 #include "minishell.h"
 
-char	*expand_wildcard(const char *token, int *start, int *position) {
+char	*expand_wildcard(const char *token, int *start, int *position)
+{
     DIR             *dir;
     struct dirent   *ent;
 	struct stat     path_stat;
@@ -28,14 +29,15 @@ char	*expand_wildcard(const char *token, int *start, int *position) {
 		ent = readdir(dir);
         while (ent != NULL)
 		{
-			if (ent->d_name[0] == '.')
-				continue;
-            stat(ent->d_name, &path_stat);
-            if (path_stat.st_mode & 0100000)
+			if (ent->d_name[0] != '.')
 			{
-				if (ret)
-					ret = ft_strjoin(ret, " ");
-				ret = ft_strjoin(ret, ent->d_name);
+				stat(ent->d_name, &path_stat);
+				if (path_stat.st_mode & 0100000)
+				{
+					if (ret)
+						ret = ft_strjoin(ret, " ");
+					ret = ft_strjoin(ret, ent->d_name);
+				}
 			}
 			ent = readdir(dir);
 		}
