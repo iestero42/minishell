@@ -33,7 +33,7 @@ int			parse_command_name(char **tokens, t_command *cmd, char **cmd_list);
 
 char		*parse_env_variable(char *token, int last_status, int quote);
 
-char		*parse_wildcard(char *token, int quote);
+char		*parse_wildcard(char *token);
 
 int			parse_args(t_command *cmd, char **tokens);
 

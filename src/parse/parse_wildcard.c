@@ -12,6 +12,65 @@
 
 #include "minishell.h"
 
+static int		wildcard_match_str(const char *pattern, const char *str)
+{
+	if (*pattern == '\0' && *str == '\0')
+		return (1);
+	if (*pattern == '*' && *(pattern + 1) != '\0' && *str == '\0')
+		return (0);
+	if (*pattern == '?' || *pattern == *str)
+		return (wildcard_match_str(pattern + 1, str + 1));
+	if (*pattern == '*')
+		return (wildcard_match_str(pattern + 1, str)
+			|| wildcard_match_str(pattern, str + 1));
+	return (0);
+}
+
+static char	*matching_dir_content(DIR *dir, const char *token)
+{
+	struct dirent	*ent;
+	struct stat		path_stat;
+	char			*ret;
+
+	ret = NULL;
+	ent = readdir(dir);
+	while (ent != NULL)
+	{
+		if (ent->d_name[0] != '.')
+		{
+			stat(ent->d_name, &path_stat);
+			if ((path_stat.st_mode & 0100000)
+				&& wildcard_match_str(token, ent->d_name))
+			{
+				if (ret)
+					ret = ft_strjoin(ret, " ");
+				ret = ft_strjoin(ret, ent->d_name);
+			}
+		}
+		ent = readdir(dir);
+	}
+	return (ret);
+}
+
+static char	*expand_wildcard(const char *token)
+{
+    DIR             *dir;
+	char	        *ret;
+	
+	ret = NULL;
+	if (token == NULL)
+		return (NULL);
+	dir = opendir(".");
+    if (!dir)
+	{
+        /* could not open directory */
+        perror("opendir_wildcard");
+    }
+	ret = matching_dir_content(dir, token);
+	closedir(dir);
+	return (ret);
+}
+/*
 char	*expand_wildcard(const char *token, int *start, int *position)
 {
     DIR             *dir;
@@ -25,7 +84,7 @@ char	*expand_wildcard(const char *token, int *start, int *position)
 	dir = opendir(".");
     if (dir != NULL)
 	{
-        /* print all the files and directories within directory */
+        / print all the files and directories within directory /
 		ent = readdir(dir);
         while (ent != NULL)
 		{
@@ -48,12 +107,13 @@ char	*expand_wildcard(const char *token, int *start, int *position)
     }
 	else
 	{
-        /* could not open directory */
+        / could not open directory /
         perror("opendir_wildcard");
     }
 	return (ret);
 }
-
+*/
+/*
 static char	*check_token(char *token)
 {
 	char	*new_token;
@@ -66,7 +126,7 @@ static char	*check_token(char *token)
 	new_token = NULL;
 	while (token[++i] != '\0')
 	{
-		if (token[i] == '*')
+		if (ft_strchr(token, '*'))
 		{
 			if (i > start)
 				new_token = ft_copy(token, new_token, start - 1, i - start);
@@ -82,20 +142,12 @@ static char	*check_token(char *token)
 		return (ft_copy(token, new_token, start - 1, i - start));
 	return (new_token);
 }
-
-char	*parse_wildcard(char *token, int quote)
+*/
+char	*parse_wildcard(char *token)
 {
-	char	*new_token;
-
 	if (token == NULL)
 		return (NULL);
-	if (quote == '\'')
+	if (!ft_strchr(token, '*'))
 		return (ft_strdup(token));
-	else
-	{
-		new_token = check_token(token);
-		if (new_token == NULL)
-			new_token = ft_strdup(token);
-	}
-	return (new_token);
+	return (expand_wildcard(token));
 }

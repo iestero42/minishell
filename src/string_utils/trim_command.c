@@ -49,7 +49,7 @@ static char	**ft_copy_expand(const char *token, char **new_token,
 		error_init("malloc", 1);
 	tmp_expanded = parse_env_variable(tmp, last_status, '\0');
 	free(tmp);
-	tmp = parse_wildcard(tmp_expanded, '\0');
+	tmp = parse_wildcard(tmp_expanded);
 	free(tmp_expanded);
 	tmp_expanded = tmp;
 	split = ft_split(tmp_expanded, ' ');

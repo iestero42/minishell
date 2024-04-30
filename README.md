@@ -14,4 +14,4 @@ si hay tiempo:
 
 
 cosas de javier:
-	no he podido comprobar el funcionamiento de  parse_wildcard ni meterlo en el Makefile y el .h
+	wildcard básicamente funcionando, tanto * como ? y también a*b?.c (siempre en src)
