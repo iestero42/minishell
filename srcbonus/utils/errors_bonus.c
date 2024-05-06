@@ -27,7 +27,7 @@ int	error_redir(char **tmp, char *org, int pos, t_minishell *data)
 		ft_putstr_fd("syntax error near unexpected token `|'\n", 2);
 	if (tmp)
 	{
-		if (ft_strcmp(tmp[0], org) && *tmp == '\0')
+		if (ft_strcmp(tmp[0], org) && **tmp == '\0')
 		{
 			ft_putstr_fd(org, 2);
 			ft_putstr_fd("ambiguous redirect\n", 2);

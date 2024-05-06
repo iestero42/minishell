@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 08:18:57 by iestero-          #+#    #+#             */
-/*   Updated: 2024/04/23 08:19:24 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/04/23 13:17:40 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,10 @@ int	parse_command_name(char **tokens, t_command *cmd, char **cmd_list)
 	if (!dirs)
 		error_init("malloc", 1);
 	i = 0;
-	while (tokens[i][0] == '\0')
+	while (tokens[i] != NULL && tokens[i][0] == '\0')
 		i++;
+	if (tokens[i] == NULL)
+		return (EXIT_FAILURE);
 	check_own_command(tokens[i], cmd, cmd_list);
 	check_relative_path(tokens[i], cmd);
 	if (check_path(tokens[i], dirs, cmd) == EXIT_FAILURE)
@@ -104,7 +106,6 @@ int	parse_command_name(char **tokens, t_command *cmd, char **cmd_list)
 		double_free(dirs);
 		return (EXIT_FAILURE);
 	}
-	if (dirs)
-		double_free(dirs);
+	double_free(dirs);
 	return (EXIT_SUCCESS);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   trim_command.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 11:53:17 by iestero-          #+#    #+#             */
-/*   Updated: 2024/04/18 11:58:38 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/05/06 08:18:06 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ static char	**ft_copy_expand(const char *token, char **new_token,
 	if (!tmp)
 		error_init("malloc", 1);
 	tmp_expanded = parse_env_variable(tmp, last_status, '\0');
-	//expand wildcard
 	free(tmp);
 	split = ft_split(tmp_expanded, ' ');
 	if (!split)

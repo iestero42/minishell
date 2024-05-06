@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_pipes.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 09:30:38 by iestero-          #+#    #+#             */
-/*   Updated: 2024/04/16 09:34:24 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/05/06 08:30:42 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,21 @@
 
 static int	error_split(int count, int quotes, int i, const char *s)
 {
+	int	len;
+
+	len = ft_strlen(s);
 	if (quotes)
 	{
 		ft_putstr_fd("minishell: syntax error near 'newline'\n", 2);
 		return (-2);
 	}
-	if (s[i + 1] == '|' || s[0] == '|' || s[i - 1] == '|')
+	else if (len > 0 && s[0] == '|')
+	{
+		ft_putstr_fd("minishell: syntax error near unexpected token '|'\n", 2);
+		return (-2);
+	}
+	else if (len > 1 && ((i < len - 1 && *(s + i + 1) == '|')
+			|| (i > 0 && *(s + i - 1) == '|')))
 	{
 		ft_putstr_fd("minishell: syntax error near unexpected token '|'\n", 2);
 		return (-2);

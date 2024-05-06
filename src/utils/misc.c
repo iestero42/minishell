@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   misc.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 11:33:39 by iestero-          #+#    #+#             */
-/*   Updated: 2024/04/23 13:06:47 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/05/06 08:39:18 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@ int	ft_putchar(int c)
 
 void	print_exit(void)
 {
-	tputs(tgetstr("up", NULL), 1, ft_putchar);
-	printf("%s", MINISHELL_ENTRY);
 	printf("exit\n");
 }
 

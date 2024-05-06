@@ -1,125 +1,153 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_wildcard_bonus.c                             :+:      :+:    :+:   */
+/*   parse_command.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/15 08:41:56 by iestero-          #+#    #+#             */
-/*   Updated: 2024/04/15 12:53:48 by iestero-         ###   ########.fr       */
+/*   Created: 2024/02/20 11:53:17 by iestero-          #+#    #+#             */
+/*   Updated: 2024/04/18 11:58:38 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell_bonus.h"
+#include "minishell.h"
 
-static char	**ft_dcopy(const char **token, char **new_token, int start, int len)
+static int		wildcard_match_str(const char *pattern, const char *str)
 {
-	char	**tmp;
-	char	**result;
-
-	tmp = ft_dsubstr(token, start + 1, len);
-	if (!tmp)
-		error_init("malloc");
-	result = ft_dstrjoin(new_token, tmp);
-	if (!result)
-		error_init("malloc");
-	double_free(tmp);
-	double_free(new_token);
-	new_token = result;
-	return (new_token);
+	if (*pattern == '\0' && *str == '\0')
+		return (1);
+	if (*pattern == '*' && *(pattern + 1) != '\0' && *str == '\0')
+		return (0);
+	if (*pattern == '?' || *pattern == *str)
+		return (wildcard_match_str(pattern + 1, str + 1));
+	if (*pattern == '*')
+		return (wildcard_match_str(pattern + 1, str)
+			|| wildcard_match_str(pattern, str + 1));
+	return (0);
 }
 
-char	**expand_directory(const char *dir_name)
+static char	*matching_dir_content(DIR *dir, const char *token)
 {
-    DIR		*dir;
-    struct	dirent *entry;
-    struct	stat entry_stat;
-    char	path[1024];
-	char	**result;
+	struct dirent	*ent;
+	struct stat		path_stat;
+	char			*ret;
 
-	printf("EXPAND_DIRECTORY***************\n");
-	result = NULL;
-    dir = opendir(dir_name);
-    if (!dir) {
-        perror("opendir");
-        return (NULL);
-    }
-
-    while (1)
+	ret = NULL;
+	ent = readdir(dir);
+	while (ent != NULL)
 	{
-		entry = readdir(dir);
-		if (!entry)
-			break;
-        snprintf(path, sizeof(path), "%s/%s", dir_name, entry->d_name);
-        if (stat(path, &entry_stat) == -1) {
-            perror("stat");
-            continue;
-        }
-        if (S_ISDIR(entry_stat.st_mode)) {
-            printf("%s is a directory\n", entry->d_name);
-        } else if (S_ISREG(entry_stat.st_mode)) {
-            printf("%s is a regular file\n", entry->d_name);
-        } else {
-            printf("%s is of unknown type\n", entry->d_name);
-        }
+		if (ent->d_name[0] != '.')
+		{
+			stat(ent->d_name, &path_stat);
+			if ((path_stat.st_mode & 0100000)
+				&& wildcard_match_str(token, ent->d_name))
+			{
+				if (ret)
+					ret = ft_strjoin(ret, " ");
+				ret = ft_strjoin(ret, ent->d_name);
+			}
+		}
+		ent = readdir(dir);
+	}
+	return (ret);
+}
+
+static char	*expand_wildcard(const char *token)
+{
+    DIR             *dir;
+	char	        *ret;
+	
+	ret = NULL;
+	if (token == NULL)
+		return (NULL);
+	dir = opendir(".");
+    if (!dir)
+	{
+        /* could not open directory */
+        perror("opendir_wildcard");
     }
-	printf("***************\n\n");
-    closedir(dir);
-	return (result);
+	ret = matching_dir_content(dir, token);
+	closedir(dir);
+	return (ret);
 }
-
-char	**expand_doc(const char *dir_name)
+/*
+char	*expand_wildcard(const char *token, int *start, int *position)
 {
-	char	**result;
-
-	printf("EXPAND_DOC %s ***************\n", dir_name);
-	result = NULL;
-	return (result);
-}
-
-static char	**expand_wildcard(char *token, int *start, int *position)
-{
-	char	**result;
-	char	path[1024];
-
-	printf("Start: %d, Position: %d\n", *start, *position);
-	result = NULL;
-	getcwd(path, sizeof(path));
-	ft_strjoin(path, "/");
-	if (token[0] == '*' || !ft_strncmp(&token[ft_strlen(token) - 2], "/*", 2))
-		result = expand_directory(path);
-	else if (ft_strchr(token, '*') && ft_strchr(token, '/'))
-		result = expand_doc(path);
+    DIR             *dir;
+    struct dirent   *ent;
+	struct stat     path_stat;
+	char	        *ret;
+	
+	ret = NULL;
+	if (token == NULL)
+		return (NULL);
+	dir = opendir(".");
+    if (dir != NULL)
+	{
+        / print all the files and directories within directory /
+		ent = readdir(dir);
+        while (ent != NULL)
+		{
+			if (ent->d_name[0] != '.')
+			{
+				stat(ent->d_name, &path_stat);
+				if (path_stat.st_mode & 0100000)
+				{
+					if (ret)
+						ret = ft_strjoin(ret, " ");
+					ret = ft_strjoin(ret, ent->d_name);
+				}
+			}
+			ent = readdir(dir);
+		}
+        closedir(dir);
+        *start += ft_strlen(ret);
+        *position += ft_strlen(ret);
+        ret = ft_strjoin(ret, token + 1);
+    }
 	else
-		result = NULL; /*no_expand();*/
-	return (result);
+	{
+        / could not open directory /
+        perror("opendir_wildcard");
+    }
+	return (ret);
 }
-
-
-char	**parse_wildcard(char **tokens)
+*/
+/*
+static char	*check_token(char *token)
 {
+	char	*new_token;
+	char	*env;
 	int		i;
 	int		start;
-	char	**result;
-	char	**wildcards;
 
 	i = -1;
 	start = 0;
-	while (tokens[++i] != NULL)
+	new_token = NULL;
+	while (token[++i] != '\0')
 	{
-		if ('*' == tokens[i][0]))/****************SEGUIR AQUÍ*/
+		if (ft_strchr(token, '*'))
 		{
-			wildcards = expand_wildcard(tokens[i]);
 			if (i > start)
-				result = ft_dcopy(&tokens[i], result, start - 1, i);
-			result = ft_dstrjoin(result, wildcards);
-			if (wildcards == NULL)
-				double_free(wildcards);
-			if (!result)
-				error_init("malloc");
+				new_token = ft_copy(token, new_token, start - 1, i - start);
+			env = expand_wildcard(&token[i] + 1, &start, &i);
+			new_token = ft_strjoin(new_token, env);
+			if (*env == '\0')
+				free(env);
+			if (!new_token)
+				error_init("malloc", 1);
 		}
 	}
-	if (start < i && result)
-		return (ft_dcopy(&tokens[i], result, start - 1, i));
-	return (result);
+	if (start < i && new_token)
+		return (ft_copy(token, new_token, start - 1, i - start));
+	return (new_token);
+}
+*/
+char	*parse_wildcard(char *token)
+{
+	if (token == NULL)
+		return (NULL);
+	if (!ft_strchr(token, '*'))
+		return (ft_strdup(token));
+	return (expand_wildcard(token));
 }

@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 10:15:38 by iestero-          #+#    #+#             */
-/*   Updated: 2024/04/16 09:33:14 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/04/23 13:24:23 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,13 @@ static int	builtins(t_command cmd)
 
 void	exec_command(t_command *cmd)
 {
-	extern char	**environ;
+	extern char		**environ;
 
 	if (cmd->type == PATH_COMMAND)
 	{
 		if (execve(cmd->name, cmd->args, environ) < 0)
 			error_init("execve", 127);
+		exit(0);
 	}
 	else if (cmd->type > 0)
 	{
@@ -51,8 +52,9 @@ void	exec_command(t_command *cmd)
 
 void	exec_command_special(t_command *cmd, t_minishell *data)
 {
-	pid_t		pid;
-	extern char	**environ;
+	pid_t			pid;
+	extern char		**environ;
+	struct termios	term;
 
 	if (cmd->type == PATH_COMMAND)
 	{
@@ -61,6 +63,7 @@ void	exec_command_special(t_command *cmd, t_minishell *data)
 			error_init("fork", 1);
 		if (pid == 0)
 		{
+			show_eof_symbol(&term);
 			if (execve(cmd->name, cmd->args, environ) < 0)
 				error_init("execve", 127);
 			exit(0);

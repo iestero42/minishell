@@ -25,6 +25,7 @@ int	built_exit(char **args)
 			i = ft_atoi(args[1]);
 		else
 			i = 0;
+		printf("exit\n");
 		exit(i);
 	}
 	return (EXIT_SUCCESS);

@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 10:55:57 by iestero-          #+#    #+#             */
-/*   Updated: 2024/04/23 10:06:02 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/04/23 13:35:00 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	show_title(void)
 	printf(LINE_8, BLUE, RESET);
 }
 
-static void	hide_eof_symbol(struct termios *term)
+void	hide_eof_symbol(struct termios *term)
 {
 	if (tcgetattr(STDIN_FILENO, term) == -1)
 	{
@@ -32,6 +32,21 @@ static void	hide_eof_symbol(struct termios *term)
 		exit(EXIT_FAILURE);
 	}
 	term->c_lflag &= ~(ECHOCTL);
+	if (tcsetattr(STDIN_FILENO, TCSANOW, term) == -1)
+	{
+		perror("tcsetattr");
+		exit(EXIT_FAILURE);
+	}
+}
+
+void	show_eof_symbol(struct termios *term)
+{
+	if (tcgetattr(STDIN_FILENO, term) == -1)
+	{
+		perror("tcgetattr");
+		exit(EXIT_FAILURE);
+	}
+	term->c_lflag |= ECHOCTL;
 	if (tcsetattr(STDIN_FILENO, TCSANOW, term) == -1)
 	{
 		perror("tcsetattr");
@@ -59,10 +74,10 @@ void	init(t_minishell *data)
 	data->cmd_list[5] = "env";
 	data->cmd_list[6] = "exit";
 	data->access_environ = 0;
+	data->last_status_cmd = 0;
 	if (tcgetattr(STDIN_FILENO, &data->original_term) == -1)
 		error_init("tcgetattr", 1);
 	hide_eof_symbol(&term);
-	signal(SIGINT, signal_handler);
 	signal(SIGQUIT, SIG_IGN);
 }
 
