@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 11:53:17 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/06 09:55:24 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/05/06 10:09:07 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,7 @@ static char	*matching_dir_content(DIR *dir, const char *token)
 		if (ent->d_name[0] != '.')
 		{
 			stat(ent->d_name, &path_stat);
-			if ((path_stat.st_mode & 0100000)
-				&& wildcard_match_str(token, ent->d_name))
+			if (wildcard_match_str(token, ent->d_name))
 			{
 				if (ret)
 					ret = ft_strjoin(ret, " ");
