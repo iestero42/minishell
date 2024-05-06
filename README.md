@@ -1,6 +1,6 @@
 proximo dia:
 
-	corregir "tcgetattr: Inappropriate ioctl for device" (tiene algo que ver con la llamada al hide y el show de los simbolos)
+	hay que arreglar el wildcard con recursividad para que cuando te pasen un * te parsea lo que hay acontinuacion y a la vex epandiendo eso hasta que llegue al final y pueda expandir el primero
 
 	hacer pruebas locas con los argumentos desordenados y de todo
 	

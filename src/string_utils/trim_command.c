@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 11:53:17 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/06 09:30:57 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/05/06 11:15:59 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,8 +96,11 @@ static char	**parse_quotes(char *input, int len, int last_status)
 				result = ft_copy_expand(input, result,
 						(int []){start - 1, i - start}, last_status);
 			segment = parse_segment(input, &i, &start, last_status);
-			result[ft_dstrlen(result) - 1]
-				= ft_strjoin(result[ft_dstrlen(result) - 1], segment);
+			if (!result)
+				result = ft_dstrdup(&segment);
+			else
+				result[ft_dstrlen(result) - 1]
+					= ft_strjoin(result[ft_dstrlen(result) - 1], segment);
 			free(segment);
 			if (!result)
 				error_init("malloc", 1);
