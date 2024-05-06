@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 07:29:23 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/06 09:56:59 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/05/06 09:59:40 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@
 //*****Signals*****//
 void		signal_handler(int signum);
 void		controller(t_minishell *data, pid_t *pid);
+void		signal_handler_readline(int signum);
 
 //*****Command Execution*****//
 int			execute_command(t_command *cmd, t_minishell *data);
