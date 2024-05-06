@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 07:29:23 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/06 09:59:40 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/05/06 10:00:24 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ pid_t		create_process(t_command *cmd, int *pipes,
 				int pos, t_minishell *data);
 
 //*****Configurations*****//
+void		hide_eof_symbol(struct termios *term);
+void		show_eof_symbol(struct termios *term);
 void		configurations(void);
 void		print_exit(void);
 void		deinit(t_minishell *data);

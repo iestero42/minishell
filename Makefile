@@ -6,7 +6,7 @@
 #    By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/07 10:56:39 by yunlovex          #+#    #+#              #
-#    Updated: 2024/05/06 09:02:34 by iestero-         ###   ########.fr        #
+#    Updated: 2024/05/06 10:02:21 by iestero-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -156,7 +156,7 @@ UTILS_FILES_BONUS		=	errors_bonus.c				\
 							frees_bonus.c				\
 							signal_handler_bonus.c 		\
 							configurations_bonus.c		\
-							print_exit_bonus.c			\
+							misc_bonus.c				\
 
 BUILTINS_FILES_BONUS	=	built_cd_bonus.c		\
 							built_echo_bonus.c		\

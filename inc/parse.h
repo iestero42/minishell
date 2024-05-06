@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 09:19:54 by iestero-          #+#    #+#             */
-/*   Updated: 2024/04/23 09:31:24 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/05/06 10:00:55 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,6 @@ int			parse_input(char **tokens, t_command *cmd,
 int			parse_command_name(char **tokens, t_command *cmd, char **cmd_list);
 
 char		*parse_env_variable(char *token, int last_status, int quote);
-
-char		*parse_wildcard(char *token);
 
 int			parse_args(t_command *cmd, char **tokens);
 
