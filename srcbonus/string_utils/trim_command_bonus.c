@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   trim_command.c                                     :+:      :+:    :+:   */
+/*   trim_command_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 11:53:17 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/06 08:18:06 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/05/06 09:32:07 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,19 @@ static char	*parse_segment(const char *input,
 	return (segment_expanded);
 }
 
+static char	**ft_copy_expand_aux(char **split, char **new_token)
+{
+	if (split[0] != NULL && split[0][0] != '\0')
+	{
+		new_token[ft_dstrlen(new_token) - 1]
+			= ft_strjoin(new_token[ft_dstrlen(new_token) - 1], split[0]);
+	}
+	free(split[0]);
+	if (ft_dstrlen(new_token) > 1)
+		new_token = ft_dstrjoin(new_token, &split[1]);
+	return (new_token);
+}
+
 static char	**ft_copy_expand(const char *token, char **new_token,
 	int positions[2], int last_status)
 {
@@ -49,27 +62,20 @@ static char	**ft_copy_expand(const char *token, char **new_token,
 		error_init("malloc", 1);
 	tmp_expanded = parse_env_variable(tmp, last_status, '\0');
 	free(tmp);
-	split = ft_split(tmp_expanded, ' ');
+	tmp = parse_wildcard(tmp_expanded);
+	free(tmp_expanded);
+	split = ft_split(tmp, ' ');
 	if (!split)
 		error_init("malloc", 1);
 	if (!new_token)
 		new_token = ft_dstrjoin(NULL, split);
-	else if (tmp_expanded[0] == ' ')
+	else if (tmp[0] == ' ')
 		new_token = ft_dstrjoin(new_token, split);
-	else if (tmp_expanded[0] != ' ')
-	{
-		if (split[0] != NULL && split[0][0] != '\0')
-		{
-			new_token[ft_dstrlen(new_token) - 1]
-				= ft_strjoin(new_token[ft_dstrlen(new_token) - 1], split[0]);
-		}
-		free(split[0]);
-		if (ft_dstrlen(new_token) > 1)
-			new_token = ft_dstrjoin(new_token, &split[1]);
-	}
+	else if (tmp[0] != ' ')
+		new_token = ft_copy_expand_aux(split, new_token);
 	if (!new_token)
 		error_init("malloc", 1);
-	free(tmp_expanded);
+	free(tmp);
 	free(split);
 	return (new_token);
 }

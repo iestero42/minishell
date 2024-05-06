@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+         #
+#    By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/19 11:00:43 by iestero-          #+#    #+#              #
-#    Updated: 2023/09/06 09:46:09 by iestero-         ###   ########.fr        #
+#    Updated: 2024/05/06 09:03:28 by iestero-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,8 +20,8 @@ BLUE 				= 	\033[0;34m
 NC 					= 	\033[0m
 YELLOW				=	\033[93m
 
-SMILEY				=	\xF0\x9F\x98\x81
-CHECK				=	\xE2\x9C\x85
+SMILEY				=	😀
+CHECK				=	🚀
 
 SRC_DIR		=	src
 OBJ_DIR		=	build

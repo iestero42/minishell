@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+         #
+#    By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/07 10:56:39 by yunlovex          #+#    #+#              #
-#    Updated: 2024/04/18 11:27:53 by iestero-         ###   ########.fr        #
+#    Updated: 2024/05/06 09:02:34 by iestero-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,8 +36,8 @@ BONUS_PART 			=	"\n ******************************************************\n				
 						*                                                    *\n					\
 						******************************************************\n\n"					\
 
-SMILEY				=	\xF0\x9F\x98\x81
-CHECK				=	\xE2\x9C\x85
+SMILEY				=	😀
+CHECK				=	🚀
 
 LIBS_DIR			=	libs
 LIBMINISHELL		=	$(LIBS_DIR)/libMinishell.a
@@ -89,7 +89,6 @@ PARSE_FILES		=	parse_data.c			\
 					parse_command_name.c	\
 					parse_envVariable.c		\
 					parse_args.c			\
-					parse_wildcard.c		\
 					parse_redir.c			\
 					parse_output.c			\
 					parse_input.c			\
@@ -143,6 +142,7 @@ PARSE_FILES_BONUS		=	parse_data_bonus.c				\
 							parse_redir_bonus.c				\
 							parse_output_bonus.c			\
 							parse_input_bonus.c				\
+							parse_wildcard_bonus.c			\
 
 STRING_UTILS_FILES_BONUS	=	split_command_bonus.c		\
 								split_pipes_bonus.c			\
