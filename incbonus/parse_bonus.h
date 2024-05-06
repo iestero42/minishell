@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   parse_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 09:19:54 by iestero-          #+#    #+#             */
-/*   Updated: 2024/04/23 10:12:15 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/05/06 09:57:41 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSE_BONUS_H
 # define PARSE_BONUS_H
 
-# include "structs.h"
+# include "structs_bonus.h"
 
 int			parse_command(char *command_str, t_command *cmd, t_minishell *data,
 				int pos);
