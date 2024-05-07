@@ -42,6 +42,10 @@ static int	open_output_simple(char **tokens, t_command *cmd,
 	return (EXIT_SUCCESS);
 }
 
+/*		if (tmp != NULL && **tmp != '\0' && tokens[1][0] != '<'
+			&& tokens[1][0] != '>')
+*/
+
 static int	open_output_double(char **tokens, t_command *cmd,
 		int pos, t_minishell *data)
 {
@@ -54,10 +58,10 @@ static int	open_output_double(char **tokens, t_command *cmd,
 		if (cmd->output_redirect > -1)
 			close(cmd->output_redirect);
 		tmp = trim_command(tokens[1], data->last_status_cmd);
-		if (tmp != NULL && **tmp != '\0' && tokens[1][0] != '<'
-			&& tokens[1][0] != '>')
+		if (tmp && **tmp && tokens[1][0] != '<' && tokens[1][0] != '>')
 		{
-			cmd->output_redirect = open(tmp[0], O_RDWR | O_CREAT | O_APPEND, 0666);
+			cmd->output_redirect
+				= open(tmp[0], O_RDWR | O_CREAT | O_APPEND, 0666);
 			if (cmd->output_redirect < 0)
 				perror(tmp[0]);
 			free(tmp);
@@ -77,7 +81,7 @@ int	parse_output(char **tokens, t_command *cmd,
 {
 	if (tokens[0][0] != '"' && tokens[0][0] != '\'')
 	{
-		if (open_output_double(tokens, cmd, pos, data)== EXIT_FAILURE)
+		if (open_output_double(tokens, cmd, pos, data) == EXIT_FAILURE)
 			return (EXIT_FAILURE);
 		if (open_output_simple(tokens, cmd, pos, data) == EXIT_FAILURE)
 			return (EXIT_FAILURE);

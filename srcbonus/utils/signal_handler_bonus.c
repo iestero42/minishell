@@ -22,7 +22,7 @@ void	signal_handler_readline(int signum)
 		rl_on_new_line();
 		rl_replace_line("", 1);
 		rl_redisplay();
-		g_signal = 2; 
+		g_signal = 2;
 	}
 }
 
@@ -30,7 +30,7 @@ void	signal_handler(int signum)
 {
 	if (signum == SIGINT)
 	{
-		g_signal = 2; 
+		g_signal = 2;
 	}
 }
 
@@ -45,7 +45,6 @@ static void	signal_use(t_minishell *data, pid_t *pid)
 			kill(pid[i], SIGTERM);
 	}
 }
-
 
 void	controller(t_minishell *data, pid_t *pid)
 {

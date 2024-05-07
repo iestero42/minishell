@@ -86,24 +86,23 @@ static char	**parse_quotes(char *input, int len, int last_status)
 	int		i;
 	int		start;
 
-	result = 0;
+	result = NULL;
 	i = -1;
 	start = 0;
 	while (++i < len)
 	{
-		if (input[i] == '"' || input[i] == '\'')
-		{
-			if (i > start)
-				result = ft_copy_expand(input, result,
-						(int []){start - 1, i - start}, last_status);
-			segment = parse_segment(input, &i, &start, last_status);
-			if (!result) 
-				result = ft_dstrdup(&segment);
-			else
-				result[ft_dstrlen(result) - 1]
-					= ft_strjoin(result[ft_dstrlen(result) - 1], segment);
-			free(segment);
-		}
+		if (input[i] != '"' && input[i] != '\'')
+			continue ;
+		if (i > start)
+			result = ft_copy_expand(input, result,
+					(int []){start - 1, i - start}, last_status);
+		segment = parse_segment(input, &i, &start, last_status);
+		if (!result)
+			result = ft_dstrdup(&segment);
+		else
+			result[ft_dstrlen(result) - 1]
+				= ft_strjoin(result[ft_dstrlen(result) - 1], segment);
+		free(segment);
 	}
 	return (ft_copy_expand(input, result,
 			(int []){start - 1, i - start}, last_status));

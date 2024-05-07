@@ -32,7 +32,7 @@ int	error_redir(char **tmp, char *org, int pos, t_minishell *data)
 			ft_putstr_fd(org, 2);
 			ft_putstr_fd("ambiguous redirect\n", 2);
 		}
-		else if (tmp[0][0] == '<' || tmp[0][0]  == '>')
+		else if (tmp[0][0] == '<' || tmp[0][0] == '>')
 		{
 			ft_putstr_fd("syntax error near unexpected token ", 2);
 			ft_putstr_fd(tmp[0], 2);
@@ -50,7 +50,6 @@ void	error_export_msg(char *arg)
 	ft_putstr_fd("': not a valid identifier", 2);
 	ft_putchar_fd('\n', 2);
 }
-
 
 int	error_unclosed_quotes(char *arg, int len)
 {
