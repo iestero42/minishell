@@ -1,6 +1,6 @@
 proximo dia:
 
-	hay que arreglar el wildcard con recursividad para que cuando te pasen un * te parsea lo que hay acontinuacion y a la vex epandiendo eso hasta que llegue al final y pueda expandir el primero
+	ver errores de frees y empezar con el ultimo bonus
 
 	hacer pruebas locas con los argumentos desordenados y de todo
 	
@@ -14,4 +14,3 @@ si hay tiempo:
 
 
 cosas de javier:
-	wildcard básicamente funcionando, tanto * como ? y también a*b?.c (siempre en src)

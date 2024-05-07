@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 09:31:16 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/06 10:39:59 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/05/07 11:46:25 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,4 +87,27 @@ char	**ft_dstrdup(char **str)
 	}
 	dup[i] = NULL;
 	return (dup);
+}
+
+void	convert_wildcard(char *token, int control)
+{
+	int	i;
+
+	i = -1;
+	if (control == 1)
+	{
+		while (token[++i] != '\0')
+		{
+			if (token[i] == '*')
+				token[i] = '\1';
+		}
+	}
+	else
+	{
+		while (token[++i] != '\0')
+		{
+			if (token[i] == '\1')
+				token[i] = '*';
+		}
+	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   strings_utils_bonus.h                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 09:25:32 by iestero-          #+#    #+#             */
-/*   Updated: 2024/04/23 10:12:19 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/05/07 11:47:48 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,5 +36,7 @@ char		**ft_append(char **arr1, char *str);
 char		**ft_dstrdup(char **str);
 
 char		**ft_realloc(char **ptr, char *arg, int count, int expand);
+
+void		convert_wildcard(char *token, int control);
 
 #endif

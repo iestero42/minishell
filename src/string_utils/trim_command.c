@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 11:53:17 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/06 11:57:06 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/05/07 09:26:05 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static char	**ft_copy_expand_aux(char **split, char **new_token)
 			= ft_strjoin(new_token[ft_dstrlen(new_token) - 1], split[0]);
 	}
 	free(split[0]);
-	if (ft_dstrlen(new_token) > 1)
+	if (ft_dstrlen(split) > 1)
 		new_token = ft_dstrjoin(new_token, &split[1]);
 	return (new_token);
 }

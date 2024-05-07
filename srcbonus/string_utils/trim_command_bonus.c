@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 11:53:17 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/06 12:01:49 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/05/07 12:17:04 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,9 @@ static char	**ft_copy_expand_aux(char **split, char **new_token)
 	{
 		new_token[ft_dstrlen(new_token) - 1]
 			= ft_strjoin(new_token[ft_dstrlen(new_token) - 1], split[0]);
+		free(split[0]);
 	}
-	free(split[0]);
-	if (ft_dstrlen(new_token) > 1)
+	if (ft_dstrlen(split) > 1)
 		new_token = ft_dstrjoin(new_token, &split[1]);
 	return (new_token);
 }
@@ -61,21 +61,20 @@ static char	**ft_copy_expand(const char *token, char **new_token,
 	if (!tmp)
 		error_init("malloc", 1);
 	tmp_expanded = parse_env_variable(tmp, last_status, '\0');
+	convert_wildcard(tmp_expanded, 1);
 	free(tmp);
-	tmp = parse_wildcard(tmp_expanded);
-	free(tmp_expanded);
-	split = ft_split(tmp, ' ');
+	split = ft_split(tmp_expanded, ' ');
 	if (!split)
 		error_init("malloc", 1);
 	if (!new_token)
 		new_token = ft_dstrjoin(NULL, split);
-	else if (tmp[0] == ' ')
+	else if (tmp_expanded[0] == ' ')
 		new_token = ft_dstrjoin(new_token, split);
-	else if (tmp[0] != ' ')
+	else if (tmp_expanded[0] != ' ')
 		new_token = ft_copy_expand_aux(split, new_token);
 	if (!new_token)
 		error_init("malloc", 1);
-	free(tmp);
+	free(tmp_expanded);
 	free(split);
 	return (new_token);
 }
@@ -128,5 +127,6 @@ char	**trim_command(char *token, int last_status)
 		}
 		new_token[1] = NULL;
 	}
+	new_token = parse_wildcard(new_token);
 	return (new_token);
 }

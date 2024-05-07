@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 11:53:17 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/06 10:09:07 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/05/07 12:09:02 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@ static int	wildcard_match_str(const char *pattern, const char *str)
 {
 	if (*pattern == '\0' && *str == '\0')
 		return (1);
-	if (*pattern == '*' && *(pattern + 1) != '\0' && *str == '\0')
+	if (*pattern == '\1' && *(pattern + 1) != '\0' && *str == '\0')
 		return (0);
-	if (*pattern == '?' || *pattern == *str)
+	if (*pattern == *str)
 		return (wildcard_match_str(pattern + 1, str + 1));
-	if (*pattern == '*')
+	if (*pattern == '\1')
 		return (wildcard_match_str(pattern + 1, str)
 			|| wildcard_match_str(pattern, str + 1));
 	return (0);
@@ -42,7 +42,7 @@ static char	*matching_dir_content(DIR *dir, const char *token)
 			if (wildcard_match_str(token, ent->d_name))
 			{
 				if (ret)
-					ret = ft_strjoin(ret, " ");
+					ret = ft_strjoin(ret, "\2");
 				ret = ft_strjoin(ret, ent->d_name);
 			}
 		}
@@ -70,19 +70,37 @@ static char	*expand_wildcard(const char *token)
 	return (ret);
 }
 
-char	*parse_wildcard(char *token)
+char	**parse_wildcard(char **token)
 {
-	char	*new_token;
+	char	**new_token;
+	char	*expand;
+	char	**split;
+	int		i;
 
 	if (token == NULL)
 		return (NULL);
-	if (!ft_strchr(token, '*') && !ft_strchr(token, '?'))
-		return (ft_strdup(token));
-	else
+	i = -1;
+	new_token = NULL;
+	while (token[++i] != NULL)
 	{
-		new_token = expand_wildcard(token);
-		if (new_token == NULL)
-			new_token = ft_strdup(token);
+		if (!ft_strchr(token[i], '\1'))
+			new_token = ft_dstrjoin(new_token, &token[i]);
+		else
+		{
+			expand = expand_wildcard(token[i]);
+			if (expand == NULL)
+			{
+				expand = ft_strdup(token[i]);
+				convert_wildcard(expand, 0);
+			}
+			split = ft_split(expand, '\2');
+			free(expand);
+			if (split == NULL)
+				error_init("malloc", 1);
+			else
+				new_token = ft_dstrjoin(new_token, split);
+			free(split);
+		}
 	}
 	return (new_token);
 }
