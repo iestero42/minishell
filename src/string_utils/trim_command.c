@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   trim_command.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 11:53:17 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/07 09:26:05 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/05/08 08:55:11 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,21 +90,18 @@ static char	**parse_quotes(char *input, int len, int last_status)
 	start = 0;
 	while (++i < len)
 	{
-		if (input[i] == '"' || input[i] == '\'')
-		{
-			if (i > start)
-				result = ft_copy_expand(input, result,
-						(int []){start - 1, i - start}, last_status);
-			segment = parse_segment(input, &i, &start, last_status);
-			if (!result)
-				result = ft_dstrdup(&segment);
-			else
-				result[ft_dstrlen(result) - 1]
-					= ft_strjoin(result[ft_dstrlen(result) - 1], segment);
-			free(segment);
-			if (!result)
-				error_init("malloc", 1);
-		}
+		if (input[i] != '"' && input[i] != '\'')
+			continue ;
+		if (i > start)
+			result = ft_copy_expand(input, result,
+					(int []){start - 1, i - start}, last_status);
+		segment = parse_segment(input, &i, &start, last_status);
+		if (!result)
+			result = ft_dstrdup(&segment);
+		else
+			result[ft_dstrlen(result) - 1]
+				= ft_strjoin(result[ft_dstrlen(result) - 1], segment);
+		free(segment);
 	}
 	return (ft_copy_expand(input, result,
 			(int []){start - 1, i - start}, last_status));

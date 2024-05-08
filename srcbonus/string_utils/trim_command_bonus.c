@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   trim_command_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 11:53:17 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/07 12:17:04 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/05/08 09:35:24 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@ static char	**ft_copy_expand_aux(char **split, char **new_token)
 	{
 		new_token[ft_dstrlen(new_token) - 1]
 			= ft_strjoin(new_token[ft_dstrlen(new_token) - 1], split[0]);
-		free(split[0]);
 	}
+	free(split[0]);
 	if (ft_dstrlen(split) > 1)
 		new_token = ft_dstrjoin(new_token, &split[1]);
 	return (new_token);
@@ -67,7 +67,7 @@ static char	**ft_copy_expand(const char *token, char **new_token,
 	if (!split)
 		error_init("malloc", 1);
 	if (!new_token)
-		new_token = ft_dstrjoin(NULL, split);
+		new_token = ft_dstrjoin(new_token, split);
 	else if (tmp_expanded[0] == ' ')
 		new_token = ft_dstrjoin(new_token, split);
 	else if (tmp_expanded[0] != ' ')
@@ -86,7 +86,7 @@ static char	**parse_quotes(char *input, int len, int last_status)
 	int		i;
 	int		start;
 
-	result = NULL;
+	result = 0;
 	i = -1;
 	start = 0;
 	while (++i < len)
@@ -111,6 +111,7 @@ static char	**parse_quotes(char *input, int len, int last_status)
 char	**trim_command(char *token, int last_status)
 {
 	char	**new_token;
+	char	**tmp;
 
 	new_token = parse_quotes(token, ft_strlen(token), last_status);
 	if (!new_token && token)
@@ -126,6 +127,11 @@ char	**trim_command(char *token, int last_status)
 		}
 		new_token[1] = NULL;
 	}
-	new_token = parse_wildcard(new_token);
+	tmp = parse_wildcard(new_token);
+	if (tmp)
+	{
+		double_free(new_token);
+		new_token = tmp;
+	}
 	return (new_token);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   string_utils2_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 09:31:16 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/07 11:46:25 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/05/08 08:33:32 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ char	**ft_dstrdup(char **str)
 	char	**dup;
 	int		i;
 
-	dup = (char **) ft_calloc(ft_dstrlen(str) + 1, sizeof(char *));
+	dup = (char **) malloc((ft_dstrlen(str) + 1) * sizeof(char *));
 	if (!dup)
 		return (NULL);
 	i = 0;
