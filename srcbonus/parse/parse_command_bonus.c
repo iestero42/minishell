@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 11:48:07 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/08 09:17:56 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/09 14:24:41 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static int	error_command(t_command *cmd, char **tokens)
 {
 	cmd->type = ERROR_COMMAND;
 	double_free(tokens);
-	return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
 }
 
 static char	**trim_args(char **tokens, int last_status)

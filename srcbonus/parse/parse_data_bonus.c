@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 10:48:47 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/09 09:59:05 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/09 14:21:35 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static int	parse_list_command(char **command_list, t_minishell *data)
 int	parse_data(char *command_line, t_minishell *data)
 {
 	char		**command_list;
-
+	
 	g_signal = 0;
 	command_list = split_pipes(command_line);
 	if (!command_list)
@@ -52,6 +52,7 @@ int	parse_data(char *command_line, t_minishell *data)
 		error_init("malloc", 1);
 	if (parse_list_command(command_list, data) == EXIT_FAILURE)
 	{
+		free(data->comand_split);
 		double_free(command_list);
 		return (EXIT_FAILURE);
 	}

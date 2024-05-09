@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_command.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 10:15:38 by iestero-          #+#    #+#             */
-/*   Updated: 2024/04/23 13:24:23 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/05/09 14:44:50 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,16 @@ void	exec_command(t_command *cmd)
 	else if (cmd->type > 0)
 	{
 		if (builtins(*cmd) < 0)
+		{
+			double_free(environ);
 			exit(127);
+		}
 	}
 	else if (cmd->type == ERROR_COMMAND)
+	{
+		double_free(environ);
 		exit(127);
+	}
 }
 
 void	exec_command_special(t_command *cmd, t_minishell *data)

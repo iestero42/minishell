@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 09:29:41 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/09 08:31:33 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/09 14:20:00 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,5 +29,6 @@ int			error_split_operands(int count, int quotes, const char *s);
 //*****Frees*****//
 void		full_free(t_minishell *data);
 void		close_pipes(t_minishell *data);
+void		free_cmd(t_command *cmd);
 
 #endif

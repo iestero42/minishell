@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   frees_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 11:33:49 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/06 09:55:24 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/05/09 14:37:24 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_bonus.h"
 
-static void	free_cmd(t_command *cmd)
+void	free_cmd(t_command *cmd)
 {
 	if (cmd->args != NULL)
 		double_free(cmd->args);
@@ -44,7 +44,8 @@ void	full_free(t_minishell *data)
 	i = 0;
 	while (i < data->n_comands)
 	{
-		free_cmd(&data->comand_split[i]);
+		if (&data->comand_split[i] != NULL)
+			free_cmd(&data->comand_split[i]);
 		i++;
 	}
 	free(data->comand_split);
