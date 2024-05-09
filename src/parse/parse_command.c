@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 11:48:07 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/09 14:25:58 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/09 15:08:07 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ static int	error_command(t_command *cmd, char **tokens)
 {
 	cmd->type = ERROR_COMMAND;
 	double_free(tokens);
+	cmd->name = NULL;
+	cmd->args = NULL;
 	return (EXIT_SUCCESS);
 }
 
