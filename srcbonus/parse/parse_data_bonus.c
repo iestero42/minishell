@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_data_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 10:48:47 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/06 10:41:12 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/05/09 09:59:05 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static int	parse_list_command(char **command_list, t_minishell *data)
 	return (EXIT_SUCCESS);
 }
 
-int	parse_data(const char *command_line, t_minishell *data)
+int	parse_data(char *command_line, t_minishell *data)
 {
 	char		**command_list;
 

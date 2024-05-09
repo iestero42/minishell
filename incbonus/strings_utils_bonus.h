@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   strings_utils_bonus.h                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 09:25:32 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/07 11:47:48 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/05/09 09:58:59 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void		double_free(char **str);
 
 int			ft_dstrlen(char **str);
 
-char		**split_pipes(const char *s);
+char		**split_pipes(char *s);
 
 char		**split_command(const char *s);
 
@@ -38,5 +38,7 @@ char		**ft_dstrdup(char **str);
 char		**ft_realloc(char **ptr, char *arg, int count, int expand);
 
 void		convert_wildcard(char *token, int control);
+
+char		**split_operands(const char *s);
 
 #endif
