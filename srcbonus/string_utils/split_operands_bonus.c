@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 09:03:49 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/09 08:53:54 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/10 08:34:47 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,18 @@
 static int	size_aux(int count, const char *s, int *position)
 {
 	int		i;
+	int		j;
 
 	count++;
 	i = *position;
+	if ((s[i] == '&' || s[i] == '|' || s[i] == '(' || s[i] == ')'))
+	{
+		j = i - 1;
+		while (s[j] == ' ')
+			j--;
+		if (j > 0 && s[j] != '&' && s[j] != '|' && s[j] != '('  && s[j] != ')')
+			count++;
+	}
 	if (s[i] == '&' || s[i] == '|')
 	{
 		if (s[i] != s[i + 1])

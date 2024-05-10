@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+         #
+#    By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/08 11:44:59 by iestero-          #+#    #+#              #
-#    Updated: 2024/02/21 11:02:16 by iestero-         ###   ########.fr        #
+#    Updated: 2024/05/10 07:44:33 by yunlovex         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,10 +18,10 @@ PATHR = build/results/
 PATHT = build/text/
 
 # Archivos
-MINISHELL = ../libs/libMinishell.a
+MINISHELL = ../libs/libMinishellBonus.a
 LIBFT = ../libft/libft.a
 LIBFTINC = ../libft/inc
-MINISHELLINC = ../inc
+MINISHELLINC = ../incbonus
 
 # Flags de compilación
 INCLUDES = -I$(LIBFTINC) -I$(MINISHELLINC)
@@ -30,12 +30,7 @@ CFLAGS = -g $(INCLUDES)
 LINK = gcc -lreadline -fsanitize=address
 
 # Fuentes y objetos
-SRC_FILES 	= 	TestTrimCommand.c	\
-				TestSplitCommand.c	\
-				TestSplitPipes.c	\
-				TestEnvVariable.c	\
-				TestRedirOutput.c	\
-				TestRedirInput.c	\
+SRC_FILES 	= 	TestSplitOperands.c
 
 
 SRCS = $(addprefix $(PATHS),$(SRC_FILES))
@@ -56,7 +51,7 @@ re: clean build
 
 $(PATHR)%.out: $(PATHO)%.o
 	@mkdir -p $(PATHR)
-	$(LINK) $< $(LIBFT) $(MINISHELL) -o $@ 
+	$(LINK) $< $(MINISHELL) $(LIBFT) -o $@ 
 
 $(PATHO)%.o: $(PATHS)%.c
 	@mkdir -p $(@D)

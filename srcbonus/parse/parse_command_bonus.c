@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 11:48:07 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/09 15:06:51 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/10 09:22:30 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,33 @@ static char	**trim_args(char **tokens, int last_status)
 	return (new_token);
 }
 
-int	parse_command(char *command_str, t_command *cmd, t_minishell *data,
+static int parse_command_rec(char **tokens, t_minishell *data, int pos, t_tree *tree)
+{
+	int	count_parentheses;
+	int	i;
+
+	count_parentheses = 0;
+	i = -1;
+	while (tokens[++i] != NULL)
+	{
+		if (ft_strcmp(tokens[i], "&&") || ft_strcmp(tokens[i], "||"))
+			parse_command_rec(ft_dsubstr(tokens), data, pos, tree->right);
+	}
+	
+}
+
+static int parse_command(char *command_str, t_minishell *data, int pos, t_tree **tree)
+{
+	char	**tokens;
+	int		result;
+
+	tokens = split_operands(command_str);
+	result = parse_command_rec(tokens, data, pos, tree);
+	double_free(tokens);
+	return (result);
+}
+
+int	parse_subcmd(char *command_str, t_command *cmd, t_minishell *data,
 		int pos)
 {
 	char	**tokens;

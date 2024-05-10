@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_bonus.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 07:29:23 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/06 10:00:24 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/05/10 08:39:24 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "title_bonus.h"
 # include "libft.h"
 # include "get_next_line.h"
+# include "binary_tree.h"
 # include "builtins_bonus.h"
 # include "structs_bonus.h"
 # include "parse_bonus.h"
