@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_command_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 10:15:38 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/09 14:44:58 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/13 10:13:05 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,10 @@ void	exec_command(t_command *cmd)
 	}
 	else if (cmd->type > 0)
 	{
-		if (builtins(*cmd) < 0)
+		if (builtins(*cmd) > 0)
 		{
 			double_free(environ);
-			exit(127);
+			exit(2);
 		}
 	}
 	else if (cmd->type == ERROR_COMMAND)
@@ -71,15 +71,15 @@ void	exec_command_special(t_command *cmd, t_minishell *data)
 		{
 			show_eof_symbol(&term);
 			if (execve(cmd->name, cmd->args, environ) < 0)
-				error_init("execve", 127);
+				error_init("execve", 2);
 			exit(0);
 		}
 		controller(data, &pid);
 	}
 	else if (cmd->type > 0)
 	{
-		if (builtins(*cmd) < 0)
-			data->last_status_cmd = 127;
+		if (builtins(*cmd) > 0)
+			data->last_status_cmd = 2;
 	}
 	else if (cmd->type == ERROR_COMMAND)
 		data->last_status_cmd = 127;

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_command_bonus.c                              :+:      :+:    :+:   */
+/*   parse_command_new.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/12 11:48:07 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/13 11:16:42 by iestero-         ###   ########.fr       */
+/*   Created: 2024/05/13 08:50:36 by iestero-          #+#    #+#             */
+/*   Updated: 2024/05/13 08:50:38 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,31 @@ static char	**trim_args(char **tokens, int last_status)
 	return (new_token);
 }
 
+static int parse_command_rec(char **tokens, t_minishell *data, int pos, t_tree *tree)
+{
+	int	count_parentheses;
+	int	i;
+
+	count_parentheses = 0;
+	i = -1;
+	while (tokens[++i] != NULL)
+	{
+		if (ft_strcmp(tokens[i], "&&") || ft_strcmp(tokens[i], "||"))
+			parse_command_rec(ft_dsubstr(tokens), data, pos, tree->right);
+	}
+	
+}
+
+static int parse_command_new(char *command_str, t_minishell *data, int pos, t_tree **tree)
+{
+	char	**tokens;
+	int		result;
+
+	tokens = split_operands(command_str);
+	result = parse_command_rec(tokens, data, pos, tree);
+	double_free(tokens);
+	return (result);
+}
 
 int	parse_command(char *command_str, t_command *cmd, t_minishell *data,
 		int pos)
@@ -60,7 +85,6 @@ int	parse_command(char *command_str, t_command *cmd, t_minishell *data,
 		error_init("ft_strtrim", 1);
 	tokens = split_command(cmd_trimmed);
 	free(cmd_trimmed);
-	tokens = trim_args(tokens, data->last_status_cmd);
 	if (parse_redirect(tokens, cmd, pos, data) == EXIT_FAILURE)
 		return (error_command(cmd, tokens));
 	if (data->status == STOPPED)
@@ -69,6 +93,7 @@ int	parse_command(char *command_str, t_command *cmd, t_minishell *data,
 		data->status = RUNNING;
 		return (EXIT_FAILURE);
 	}
+	tokens = trim_args(tokens, data->last_status_cmd);
 	if (!tokens)
 		error_init("malloc", 1);
 	if (parse_command_name(tokens, cmd, data->cmd_list) == EXIT_FAILURE)

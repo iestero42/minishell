@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   frees.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 11:33:49 by iestero-          #+#    #+#             */
-/*   Updated: 2024/04/23 09:16:12 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/05/13 11:27:09 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	free_cmd(t_command *cmd)
+void	free_cmd(t_command *cmd)
 {
 	if (cmd->args != NULL)
 		double_free(cmd->args);

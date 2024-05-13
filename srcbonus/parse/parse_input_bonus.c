@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 11:47:55 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/06 09:55:24 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/05/13 11:36:19 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,26 +26,23 @@ static int	open_input_simple(char **tokens, t_command *cmd,
 				int pos, t_minishell *data)
 {
 	char	*redir;
-	char	**tmp;
 
-	redir = ft_strchr(tokens[0], '<');
+	redir = ft_strchr(tokens[0], '\3');
 	if (redir)
 	{
 		if (cmd->input_redirect > -1)
 			close(cmd->input_redirect);
-		tmp = trim_command(tokens[1], data->last_status_cmd);
-		if (tmp != NULL && **tmp != '\0' && tokens[1][0] != '<'
-			&& tokens[1][0] != '>')
+		if (tokens[1] != NULL && *tokens[1] != '\0' && tokens[1][0] != '\3'
+			&& tokens[1][0] != '\3' && *tokens[1] != '\5')
 		{
-			cmd->input_redirect = open(tmp[0], O_RDONLY, 0644);
+			cmd->input_redirect = open(tokens[1], O_RDONLY, 0644);
 			if (cmd->input_redirect < 0)
-				perror(tmp[0]);
-			free(tmp);
+				perror(tokens[1]);
 			*tokens[1] = '\0';
 			*tokens[0] = '\0';
 		}
 		else
-			return (error_redir(tmp, tokens[1], pos, data));
+			return (error_redir(tokens[1], pos, data));
 	}
 	if (cmd->input_redirect == -1)
 		return (EXIT_FAILURE);
@@ -121,25 +118,22 @@ static int	open_input_double(char **tokens, t_command *cmd,
 				int pos, t_minishell *data)
 {
 	char	*redir;
-	char	**tmp;
 
-	redir = ft_strnstr(tokens[0], "<<", ft_strlen(tokens[0]));
+	redir = ft_strnstr(tokens[0], "\3\3", ft_strlen(tokens[0]));
 	if (redir)
 	{
 		if (cmd->input_redirect > -1)
 			close(cmd->output_redirect);
-		tmp = trim_command(tokens[1], data->last_status_cmd);
-		if (tmp != NULL && **tmp != '\0' && tokens[1][0] != '<'
-			&& tokens[1][0] != '>')
+		if (tokens[1] != NULL && *tokens[1] != '\0' && tokens[1][0] != '\3'
+			&& tokens[1][0] != '\3' && *tokens[1] != '\5')
 		{
-			cmd->input_redirect = write_here_doc(tmp[0],
+			cmd->input_redirect = write_here_doc(tokens[1],
 					data->last_status_cmd, data);
-			free(tmp);
 			*tokens[1] = '\0';
 			*tokens[0] = '\0';
 		}
 		else
-			return (error_redir(tmp, tokens[1], pos, data));
+			return (error_redir(tokens[1], pos, data));
 	}
 	if (cmd->input_redirect == -1)
 		return (EXIT_FAILURE);

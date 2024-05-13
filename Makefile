@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+         #
+#    By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/07 10:56:39 by yunlovex          #+#    #+#              #
-#    Updated: 2024/05/09 08:36:49 by yunlovex         ###   ########.fr        #
+#    Updated: 2024/05/13 11:19:12 by iestero-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -148,6 +148,7 @@ STRING_UTILS_FILES_BONUS	=	split_command_bonus.c		\
 								split_pipes_bonus.c			\
 								string_utils_bonus.c		\
 								string_utils2_bonus.c		\
+								string_utils3_bonus.c		\
 								trim_command_bonus.c		\
 								split_operands_bonus.c		\
 				

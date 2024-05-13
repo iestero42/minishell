@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 08:18:57 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/06 09:55:24 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/05/13 11:18:46 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,12 +82,15 @@ static int	check_own_command(char *token, t_command *cmd, char **cmd_list)
 	return (EXIT_SUCCESS);
 }
 
+
+
 int	parse_command_name(char **tokens, t_command *cmd, char **cmd_list)
 {
 	int		i;
 	char	*path;
 	char	**dirs;
 
+	reconvert_tokens(tokens);
 	cmd->name = NULL;
 	cmd->type = -1;
 	path = getenv("PATH");

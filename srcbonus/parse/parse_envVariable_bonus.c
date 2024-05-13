@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 10:24:02 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/06 09:55:24 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/05/13 11:35:40 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static char	*expand_env_variable(char *token, int *start, int *position,
 		error_init("malloc", 1);
 	env_var = getenv(str);
 	if (!env_var)
-		env_var = ft_strdup("");
+		env_var = ft_strdup("\5");
 	if (env_var == NULL)
 		error_init("malloc", 1);
 	free(str);

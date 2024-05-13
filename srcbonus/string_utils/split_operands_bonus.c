@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_operands_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 09:03:49 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/10 08:34:47 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/13 09:20:13 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int	size_aux(int count, const char *s, int *position)
 		j = i - 1;
 		while (s[j] == ' ')
 			j--;
-		if (j > 0 && s[j] != '&' && s[j] != '|' && s[j] != '('  && s[j] != ')')
+		if (j > 0 && s[j] != '&' && s[j] != '|' && s[j] != '(' && s[j] != ')')
 			count++;
 	}
 	if (s[i] == '&' || s[i] == '|')
@@ -107,7 +107,7 @@ static char	*get_next_substring(int *start, const char *s)
 	i = -1;
 	while (start_chr[++i] && (in_quotes || (start_chr[i] != '&'
 				&& start_chr[i] != '|' && start_chr[i] != '('
-			&& start_chr[i] != ')')))
+				&& start_chr[i] != ')')))
 	{
 		if ((start_chr[i] == '"' || start_chr[i] == '\'') && !in_quotes)
 			in_quotes = start_chr[i];

@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 11:53:17 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/07 12:09:02 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/05/13 10:15:01 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ char	**parse_wildcard(char **token)
 			expand = expand_wildcard(token[i]);
 		if (expand == NULL)
 			expand = ft_strdup(token[i]);
-		convert_wildcard(expand, 0);
+		convert_wildcard(expand, '*', '\1', 0);
 		split = ft_split(expand, '\2');
 		free(expand);
 		if (split == NULL)

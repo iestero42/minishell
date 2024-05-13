@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errors_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 11:53:30 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/09 08:31:14 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/13 11:47:00 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,27 +18,26 @@ int	error_init(char *msg, int error)
 	exit(error);
 }
 
-int	error_redir(char **tmp, char *org, int pos, t_minishell *data)
+int	error_redir(char *org, int pos, t_minishell *data)
 {
 	ft_putstr_fd("minishell: ", 2);
-	if ((tmp == NULL || **tmp == '\0') && pos == data->n_comands - 1)
+	if ((org == NULL || *org == '\0') && pos == data->n_comands - 1)
 		ft_putstr_fd("syntax error near unexpected token `newline'\n", 2);
-	else if (((tmp == NULL || **tmp == '\0') && pos < data->n_comands - 1))
+	else if (((org == NULL || *org == '\0') && pos < data->n_comands - 1))
 		ft_putstr_fd("syntax error near unexpected token `|'\n", 2);
-	if (tmp)
+	if (org)
 	{
-		if (ft_strcmp(tmp[0], org) && **tmp == '\0')
+		if (*org == '\5')
 		{
 			ft_putstr_fd(org, 2);
-			ft_putstr_fd("ambiguous redirect\n", 2);
+			ft_putstr_fd(": ambiguous redirect\n", 2);
 		}
-		else if (tmp[0][0] == '<' || tmp[0][0] == '>')
+		else if (*org == '<' || *org == '>')
 		{
 			ft_putstr_fd("syntax error near unexpected token ", 2);
-			ft_putstr_fd(tmp[0], 2);
+			ft_putstr_fd(org, 2);
 			ft_putstr_fd("\n", 2);
 		}
-		double_free(tmp);
 	}
 	return (EXIT_FAILURE);
 }

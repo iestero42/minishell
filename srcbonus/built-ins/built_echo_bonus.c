@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 10:56:42 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/13 08:45:57 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/05/13 10:07:11 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,21 +17,23 @@ static int	check_n_flag(char **args, int *pos)
 	int	i;
 	int	j;
 
-	j = -1;
-	while (args[1][++j] != '\0')
-		if (args[1][j] != 'n')
-			return (EXIT_FAILURE);
+	j = 1;
+	while (args[1][0] == '-' && args[1][j] != '\0' && args[1][j] == 'n')
+		j++;
+	if (args[1][j] != '\0' || j == 1)
+		return (EXIT_FAILURE);
 	i = 0;
 	while (args[++i] != NULL)
 	{
 		if (args[i][0] == '-')
 		{
-			j = -1;
-			while (args[i][++j] != '\0')
-				if (args[i][j] != 'n')
-					break ;
+			j = 1;
+			while (args[i][j] != '\0' && args[i][j] == 'n')
+				j++;
 			if (args[i][j] == '\0')
 				*pos = *pos + 1;
+			else
+				break ;
 		}
 		else
 			break ;
@@ -48,7 +50,7 @@ int	built_echo(char **args)
 	add_newline = 1;
 	i = 1;
 	len = ft_dstrlen(args);
-	if (len > 1 && check_n_flag(args, &i))
+	if (len > 1 && !check_n_flag(args, &i))
 		add_newline = 0;
 	while (args[i] != NULL)
 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 09:29:41 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/09 14:20:00 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/13 11:19:47 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char		*readline_own(void);
 char		*readline_main(void);
 
 //*****Errors*****//
-int			error_redir(char **tmp, char *org, int pos, t_minishell *data);
+int			error_redir(char *org, int pos, t_minishell *data);
 void		error_export_msg(char *arg);
 int			error_unclosed_quotes(char *arg, int len);
 int			error_init(char *msg, int error);

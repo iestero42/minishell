@@ -12,5 +12,7 @@ si hay tiempo:
 		- limpiar la terminal cuando inicio
 		
 
-
+importante:
+	solucionar la configuracion de terminal
+	
 cosas de javier:
