@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_command_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 10:15:38 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/13 10:13:05 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/05/13 15:24:18 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,6 @@ void	exec_command_special(t_command *cmd, t_minishell *data)
 {
 	pid_t			pid;
 	extern char		**environ;
-	struct termios	term;
-
 	if (cmd->type == PATH_COMMAND)
 	{
 		pid = fork();
@@ -69,7 +67,6 @@ void	exec_command_special(t_command *cmd, t_minishell *data)
 			error_init("fork", 1);
 		if (pid == 0)
 		{
-			show_eof_symbol(&term);
 			if (execve(cmd->name, cmd->args, environ) < 0)
 				error_init("execve", 2);
 			exit(0);

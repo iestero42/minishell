@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 09:23:36 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/09 14:34:15 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/13 15:42:16 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,10 @@ pid_t	create_process(t_command *cmd, int *pipes, int pos, t_minishell *data)
 
 int	execute_command(t_command *cmd, t_minishell *data)
 {
+	struct termios	term;
+
+	if (cmd->input_redirect < 0)
+		show_eof_symbol(&term);
 	if (cmd->input_redirect > -1 && cmd->output_redirect > -1)
 	{
 		dupping(cmd->input_redirect, STDIN_FILENO);
@@ -78,5 +82,7 @@ int	execute_command(t_command *cmd, t_minishell *data)
 		dupping(data->std_fileno[1], STDOUT_FILENO);
 	}
 	exec_command_special(cmd, data);
+	if (cmd->input_redirect < 0)
+		hide_eof_symbol(&term);
 	return (EXIT_SUCCESS);
 }

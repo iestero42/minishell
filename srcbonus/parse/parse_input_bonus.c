@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_input_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 11:47:55 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/13 11:36:19 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/05/13 15:56:22 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ static void	controller_heredoc(pid_t pid, int *fd, t_minishell *data)
 static int	write_here_doc(char *delimiter, int last_status, t_minishell *data)
 {
 	char	*line;
+	char	*tmp;
 	pid_t	pid;
 	int		pipes[2];
 
@@ -94,14 +95,16 @@ static int	write_here_doc(char *delimiter, int last_status, t_minishell *data)
 		line = readline_own();
 		while (ft_strncmp(line, delimiter, ft_strlen(line) - 1))
 		{
-			line = parse_env_variable(line, last_status, '\0');
+			tmp = parse_env_variable(line, last_status, '\0');
+			free(line);
+			line = tmp;
 			ft_putstr_fd(line, pipes[1]);
 			free(line);
 			line = readline_own();
 		}
+		free(line);
 		exit(0);
 	}
-	free(delimiter);
 	controller_heredoc(pid, pipes, data);
 	return (pipes[0]);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal_handler_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 10:22:28 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/06 09:55:24 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/05/13 16:00:07 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,14 @@ void	signal_handler_readline(int signum)
 
 void	signal_handler(int signum)
 {
+	extern char	**environ;
+
 	if (signum == SIGINT)
 	{
 		g_signal = 2;
 	}
+	if (signum  == SIGTERM)
+		double_free(environ);
 }
 
 static void	signal_use(t_minishell *data, pid_t *pid)
@@ -52,7 +56,6 @@ void	controller(t_minishell *data, pid_t *pid)
 	int				result;
 	int				total;
 	int				status;
-	struct termios	term;
 
 	total = 0;
 	status = RUNNING;
@@ -72,5 +75,4 @@ void	controller(t_minishell *data, pid_t *pid)
 	}
 	if (g_signal == 2)
 		printf("\n");
-	hide_eof_symbol(&term);
 }
