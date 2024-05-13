@@ -3,25 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   frees_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 11:33:49 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/06 09:55:24 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/05/09 15:01:04 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_bonus.h"
 
-static void	free_cmd(t_command *cmd)
+void	free_cmd(t_command *cmd)
 {
-	if (cmd->args != NULL)
-		double_free(cmd->args);
-	if (cmd->name != NULL)
-		free(cmd->name);
-	if (cmd->output_redirect > -1)
-		close(cmd->output_redirect);
-	if (cmd->input_redirect > -1)
-		close(cmd->input_redirect);
+	if (cmd)
+	{
+		if (cmd->args != NULL)
+			double_free(cmd->args);
+		if (cmd->name != NULL)
+			free(cmd->name);
+		if (cmd->output_redirect > -1)
+			close(cmd->output_redirect);
+		if (cmd->input_redirect > -1)
+			close(cmd->input_redirect);
+	}
 }
 
 void	close_pipes(t_minishell *data)

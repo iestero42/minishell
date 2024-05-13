@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_command.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 09:03:49 by iestero-          #+#    #+#             */
-/*   Updated: 2024/04/16 09:30:56 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/05/09 14:48:32 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static int	size_aux(int count, const char *s, int *position)
 		while (s[i] == ' ')
 			i++;
 	}
-	if ((s[*position] == ' ' || s[*position - 1] == ' ' || *position == 0)
+	if ((*position == 0 || s[*position] == ' ' || s[*position - 1] == ' ')
 		&& s[*position + 1] != '\0')
 		*position = i - 1;
 	else

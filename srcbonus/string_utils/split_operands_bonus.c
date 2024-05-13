@@ -1,34 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   split_pipes_bonus.c                                :+:      :+:    :+:   */
+/*   split_operands_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/13 09:30:38 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/09 10:20:54 by yunlovex         ###   ########.fr       */
+/*   Created: 2023/12/27 09:03:49 by iestero-          #+#    #+#             */
+/*   Updated: 2024/05/10 08:34:47 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_bonus.h"
 
-static int	error_split(int count, int quotes, const char *s)
+static int	size_aux(int count, const char *s, int *position)
 {
-	int	len;
+	int		i;
+	int		j;
 
-	len = ft_strlen(s);
-	if (quotes)
+	count++;
+	i = *position;
+	if ((s[i] == '&' || s[i] == '|' || s[i] == '(' || s[i] == ')'))
 	{
-		ft_putstr_fd("minishell: syntax error near 'newline'\n", 2);
-		return (-2);
+		j = i - 1;
+		while (s[j] == ' ')
+			j--;
+		if (j > 0 && s[j] != '&' && s[j] != '|' && s[j] != '('  && s[j] != ')')
+			count++;
 	}
-	else if (len > 0 && s[0] == '|')
+	if (s[i] == '&' || s[i] == '|')
 	{
-		ft_putstr_fd("minishell: syntax error near unexpected token '|'\n", 2);
-		return (-2);
+		if (s[i] != s[i + 1])
+			return (-2);
+		else if (s[i] == s[i + 1] && i == 0)
+			i = i + 2;
+		else if (s[i] == s[i + 1])
+			i++;
 	}
-	else if (len > 0 && count == 0)
-		return (1);
+	*position = i;
 	return (count);
 }
 
@@ -38,7 +46,7 @@ static int	error_split(int count, int quotes, const char *s)
  * @param s 
  * @return int 
  */
-static int	size_dstr(char *s)
+static int	size_dstr(const char *s)
 {
 	int		count;
 	int		i;
@@ -47,36 +55,35 @@ static int	size_dstr(char *s)
 	count = 0;
 	in_quotes = UNQUOTED;
 	i = -1;
-	while (s[++i] != '\0')
+	while (s[++i] != '\0' && count >= 0)
 	{
 		if ((s[i] == '"' || s[i] == '\'') && !in_quotes)
 			in_quotes = s[i];
 		else if (in_quotes == s[i] && in_quotes)
-			in_quotes = UNQUOTED;
-		if ((s[i] == '|' || s[i + 1] == '\0') && !in_quotes)
 		{
-			if (s[i + 1] == '|' && i++)
-				continue ;
-			if (s[i] == '|')
-				s[i] = '\2';
+			in_quotes = UNQUOTED;
 			count++;
 		}
+		else if ((s[i + 1] == '\0'
+				|| s[i] == '|' || s[i] == '&'
+				|| s[i] == '(' || s[i] == ')') && !in_quotes)
+			count = size_aux(count, s, &i);
 	}
-	return (error_split(count, in_quotes, s));
+	return (error_split_operands(count, in_quotes, s));
 }
 
-static char	*save_memory(const char *s, size_t len)
+static char	*save_memory(const char *s, size_t len, int *start)
 {
 	char	*substr;
 
-	if (len == 0)
-	{
-		ft_putstr_fd("minishell: syntax error near unexpected token '|'\n", 2);
-		return (NULL);
-	}
-	substr = (char *) malloc(sizeof(char) * (len + 1));
+	if (s[0] == '(' || s[0] == ')')
+		len = 1;
+	if (s[0] == '&' || s[0] == '|')
+		len = 2;
+	*start = *start + len;
+	substr = (char *) malloc(sizeof(char) * (len + 2));
 	if (!substr)
-		error_init("malloc", 1);
+		return (NULL);
 	ft_strlcpy(substr, (char *) s, len + 1);
 	return (substr);
 }
@@ -97,17 +104,19 @@ static char	*get_next_substring(int *start, const char *s)
 	while (s[*start] == ' ')
 		*start = *start + 1;
 	start_chr = &s[*start];
-	i = 0;
-	while (start_chr[i] && (in_quotes || start_chr[i] != '\2'))
+	i = -1;
+	while (start_chr[++i] && (in_quotes || (start_chr[i] != '&'
+				&& start_chr[i] != '|' && start_chr[i] != '('
+			&& start_chr[i] != ')')))
 	{
 		if ((start_chr[i] == '"' || start_chr[i] == '\'') && !in_quotes)
 			in_quotes = start_chr[i];
-		else if (in_quotes == start_chr[i] && in_quotes)
+		else if (start_chr[i] == in_quotes && in_quotes)
 			in_quotes = UNQUOTED;
-		i++;
 	}
-	*start = *start + i + 1;
-	return (save_memory(start_chr, i));
+	if (in_quotes)
+		return (NULL);
+	return (save_memory(start_chr, i, start));
 }
 
 /**
@@ -116,16 +125,16 @@ static char	*get_next_substring(int *start, const char *s)
  * @param s 
  * @return char** 
  */
-char	**split_pipes(char *s)
+char	**split_operands(const char *s)
 {
 	int			num_substrings;
 	char		**substrings;
 	int			start;
 	int			i;
 
-	num_substrings = size_dstr(s);
-	if (num_substrings == 0 || num_substrings == -2)
+	if (s == NULL)
 		return (NULL);
+	num_substrings = size_dstr(s);
 	substrings = malloc(sizeof(char *) * (num_substrings + 1));
 	if (!substrings)
 		error_init("malloc", 1);
@@ -137,7 +146,7 @@ char	**split_pipes(char *s)
 		if (substrings[i] == NULL)
 		{
 			double_free(substrings);
-			return (NULL);
+			error_init("malloc", 1);
 		}
 	}
 	substrings[num_substrings] = NULL;

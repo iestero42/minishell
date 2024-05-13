@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   proc_minishell.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 09:23:36 by iestero-          #+#    #+#             */
-/*   Updated: 2024/04/23 12:11:13 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/05/09 14:41:35 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ pid_t	create_process(t_command *cmd, int *pipes, int pos, t_minishell *data)
 {
 	pid_t			child;
 	struct termios	term;
+	extern char		**environ;
 
 	child = fork();
 	if (child < 0)
@@ -52,6 +53,8 @@ pid_t	create_process(t_command *cmd, int *pipes, int pos, t_minishell *data)
 		child_read(cmd->input_redirect, pipes, pos);
 		close_pipes(data);
 		exec_command(cmd);
+		if (data->access_environ == 1)
+			double_free(environ);
 		exit(0);
 	}
 	return (child);

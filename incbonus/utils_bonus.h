@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 09:29:41 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/06 09:57:51 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/05/09 14:20:00 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,11 @@ int			error_redir(char **tmp, char *org, int pos, t_minishell *data);
 void		error_export_msg(char *arg);
 int			error_unclosed_quotes(char *arg, int len);
 int			error_init(char *msg, int error);
+int			error_split_operands(int count, int quotes, const char *s);
 
 //*****Frees*****//
 void		full_free(t_minishell *data);
 void		close_pipes(t_minishell *data);
+void		free_cmd(t_command *cmd);
 
 #endif

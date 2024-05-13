@@ -69,7 +69,7 @@ static char	*expand_wildcard(const char *token)
 	}
 	return (ret);
 }
-
+/*
 char	**parse_wildcard(char **token)
 {
 	char	**new_token;
@@ -101,6 +101,35 @@ char	**parse_wildcard(char **token)
 				new_token = ft_dstrjoin(new_token, split);
 			free(split);
 		}
+	}
+	return (new_token);
+}*/
+
+char	**parse_wildcard(char **token)
+{
+	char	**new_token;
+	char	*expand;
+	char	**split;
+	int		i;
+
+	if (!token)
+		return (NULL);
+	new_token = NULL;
+	i = -1;
+	while (token[++i] != NULL)
+	{
+		expand = NULL;
+		if (ft_strchr(token[i], '\1'))
+			expand = expand_wildcard(token[i]);
+		if (expand == NULL)
+			expand = ft_strdup(token[i]);
+		convert_wildcard(expand, 0);
+		split = ft_split(expand, '\2');
+		free(expand);
+		if (split == NULL)
+			error_init("malloc", 1);
+		new_token = ft_dstrjoin(new_token, split);
+		free(split);
 	}
 	return (new_token);
 }
