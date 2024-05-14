@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_command_new.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 08:50:36 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/13 08:50:38 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/05/14 14:36:39 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,33 +48,7 @@ static char	**trim_args(char **tokens, int last_status)
 	return (new_token);
 }
 
-static int parse_command_rec(char **tokens, t_minishell *data, int pos, t_tree *tree)
-{
-	int	count_parentheses;
-	int	i;
-
-	count_parentheses = 0;
-	i = -1;
-	while (tokens[++i] != NULL)
-	{
-		if (ft_strcmp(tokens[i], "&&") || ft_strcmp(tokens[i], "||"))
-			parse_command_rec(ft_dsubstr(tokens), data, pos, tree->right);
-	}
-	
-}
-
-static int parse_command_new(char *command_str, t_minishell *data, int pos, t_tree **tree)
-{
-	char	**tokens;
-	int		result;
-
-	tokens = split_operands(command_str);
-	result = parse_command_rec(tokens, data, pos, tree);
-	double_free(tokens);
-	return (result);
-}
-
-int	parse_command(char *command_str, t_command *cmd, t_minishell *data,
+static int	parse_subcmd(char *command_str, t_command *cmd, t_minishell *data,
 		int pos)
 {
 	char	**tokens;
@@ -102,4 +76,39 @@ int	parse_command(char *command_str, t_command *cmd, t_minishell *data,
 		return (error_command(cmd, tokens));
 	double_free(tokens);
 	return (EXIT_SUCCESS);
+}
+
+static int parse_command_rec(char **tokens, t_minishell *data, int pos, t_tree *tree)
+{
+	int	count_parentheses;
+	int	i;
+
+	count_parentheses = 0;
+	i = -1;
+	while (tokens[++i] != NULL)
+	{
+		if (ft_strchr(tokens[i], '('))
+			count_parentheses++;
+		if (ft_strchr(tokens[i], ')'))
+			count_parentheses--;
+		if (count_parentheses == 0 && *tokens[i] == '|' | *tokens[i] == '&')
+			break ;
+	}
+	if (tokens[i] == NULL)
+		return (parse_subcmd(tokens[i], tree->content, data, pos));
+	tree->number = *tokens[i];
+	parse_command_rec(ft_dsubstr(tokens, 0, i), data, pos, tree->left);
+	parse_command_rec(&tokens[i + 1], data, pos, tree->right);
+	return (EXIT_SUCCESS);
+}
+
+int parse_command(char *command_str, t_minishell *data, int pos, t_tree **tree)
+{
+	char	**tokens;
+	int		result;
+
+	tokens = split_operands(command_str);
+	result = parse_command_rec(tokens, data, pos, tree);
+	double_free(tokens);
+	return (result);
 }
