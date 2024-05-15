@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 09:19:54 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/09 09:59:23 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/15 09:08:14 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,5 +36,7 @@ char		*parse_env_variable(char *token, int last_status, int quote);
 char		**parse_wildcard(char **token);
 
 int			parse_args(t_command *cmd, char **tokens);
+
+int 		parse_command_new(char *command_str, t_minishell *data, int pos, t_tree **tree);
 
 #endif
