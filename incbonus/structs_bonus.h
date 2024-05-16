@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 09:20:30 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/09 15:06:05 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/16 08:44:03 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,10 @@
 
 # define RUNNING 1
 # define STOPPED 2
+
+# define PIPE 		0
+# define SEMICOLON 	1
+# define AND 		2
 
 # define OUTPUT 0
 # define INPUT 	1
@@ -49,7 +53,7 @@ typedef struct s_command
 
 typedef struct s_minishell
 {
-	t_command		*comand_split;
+	t_tree			*cmd_tree;
 	struct termios	original_term;
 	int				n_comands;
 	int				status;

@@ -1,6 +1,6 @@
 proximo dia:
 
-	ver que tipo de errores puede dar el parseo de los operandos para crear la funcion de error de eso parseo y hacer pruebas para ver si funciona bien el meter valores en el arbol.
+	hay que hacer un mega cambio porque los operadores && || y | se ejecutan al mismo nivel por tanto en el arbol tienen que estar los tres operadores coexistiendo
 
 	Crear la funcion de busqueda en profundidad para ejecutar comandos y listo.
 

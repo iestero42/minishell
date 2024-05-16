@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_operands_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 09:03:49 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/13 09:20:13 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/05/16 08:30:36 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,11 @@ static int	size_aux(int count, const char *s, int *position)
 	}
 	if (s[i] == '&' || s[i] == '|')
 	{
-		if (s[i] != s[i + 1])
+		if (s[i] == '&' && s[i] != s[i + 1])
 			return (-2);
 		else if (s[i] == s[i + 1] && i == 0)
 			i = i + 2;
-		else if (s[i] == s[i + 1])
+		else if (s[i] == s[i + 1] || (i == 0 && s[i] == '|'))
 			i++;
 	}
 	*position = i;

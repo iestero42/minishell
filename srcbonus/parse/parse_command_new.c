@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 08:50:36 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/15 09:12:28 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/16 08:48:51 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ static int	parse_subcmd(char *command_str, t_command *cmd, t_minishell *data,
 	return (EXIT_SUCCESS);
 }
 
-static int parse_command_rec(char **tokens, t_minishell *data, int pos, t_tree *tree)
+static int parse_command_rec(char **tokens, t_minishell *data, t_tree *tree)
 {
 	int	count_parentheses;
 	int	i;
@@ -94,26 +94,41 @@ static int parse_command_rec(char **tokens, t_minishell *data, int pos, t_tree *
 		if (count_parentheses == 0 && (*tokens[i] == '|' || *tokens[i] == '&'))
 			break ;
 	}
+	remove_parenthesis(tokens);
 	if (error_operands(tokens, count_parentheses, i) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	if (tokens[i] == NULL)
-		return (parse_subcmd(tokens[i], tree->content, data, pos));
-	remove_parenthesis(tokens);
-	tree->number = *tokens[i];
-	parse_command_rec(ft_dsubstr(tokens, 0, i), data, pos, tree->left);
-	parse_command_rec(&tokens[i + 1], data, pos, tree->right);
+	{
+		tree->content = (t_command *) malloc(sizeof(t_command));
+		return (parse_subcmd(tokens[i], tree->content, data, 0));
+	}
+	tree->left = ft_new_node(0, NULL, 0);
+	if (parse_command_rec(ft_dsubstr(tokens, 0, i), data, tree->left) == 1)
+		return (EXIT_FAILURE);
+	tree->right = ft_new_node(0, NULL, 0);
+	if (parse_command_rec(&tokens[i + 1], data, tree->right) == 1)
+		return (EXIT_FAILURE);
+	if (tokens[i][0] == '|' && tokens[i][1] == '|')
+		tree->number = SEMICOLON;
+	else if (tokens[i][0] == '&')
+		tree->number = AND;
+	else
+		tree->number = PIPE;
 	return (EXIT_SUCCESS);
 }
 
-int parse_command_new(char *command_str, t_minishell *data, int pos, t_tree **tree)
+int parse_command_new(char *command_str, t_minishell *data)
 {
 	char	**tokens;
 	int		result;
 
 	tokens = split_operands(command_str);
 	if (!tokens)
+		return (EXIT_FAILURE);
+	data->cmd_tree = ft_new_node(0, NULL, 0);
+	if (!data->cmd_tree)
 		error_init("malloc", 1);
-	result = parse_command_rec(tokens, data, pos, tree);
+	result = parse_command_rec(tokens, data, data->cmd_tree);
 	double_free(tokens);
 	return (result);
 }

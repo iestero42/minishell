@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_insert_node.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 17:18:00 by marvin            #+#    #+#             */
-/*   Updated: 2023/01/16 11:20:11 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/05/16 07:48:29 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,3 +31,4 @@ void	ft_insert_node(t_tree **node, int key, void *content, int number)
 			ft_insert_node(&(*node)->left, key, content, number);
 	}
 }
+
