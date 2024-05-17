@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 09:23:36 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/17 09:27:50 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/17 09:29:59 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,9 @@ int	proc_minishell(t_minishell *data, t_tree *tree)
 			{
 				child_write(-1, data->pipes);
 				close_pipes(data);
-				exit(proc_minishell(data, tree->left));
+				result = proc_minishell(data, tree->left);
+				double_free(environ);
+				exit(result);
 			}
 			child2 = fork();
 			if (child2 < 0)
@@ -117,7 +119,9 @@ int	proc_minishell(t_minishell *data, t_tree *tree)
 			{
 				child_read(-1, data->pipes);
 				close_pipes(data);
-				exit(proc_minishell(data, tree->right));
+				result = proc_minishell(data, tree->right);
+				double_free(environ);
+				exit(result);
 			}
 			close_pipes(data);
 			waitpid(child, &result, 0);
@@ -131,9 +135,6 @@ int	proc_minishell(t_minishell *data, t_tree *tree)
 			result = proc_minishell(data, tree->right);
 	}
 	else
-	{
 		result = exec_command(tree->content, data);
-		double_free(environ);
-	}
 	return (result);
 }

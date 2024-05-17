@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 07:29:18 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/17 09:13:46 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/17 09:39:10 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,10 @@ int	open_pipes(t_minishell *data)
 
 static int	minishell(t_minishell *data)
 {
-	pid_t	*pids;
-	int		i;
-
 	if (data->cmd_tree->left != NULL && data->cmd_tree->right != NULL)
 		data->last_status_cmd = proc_minishell(data, data->cmd_tree);
 	else
-		proc_minishell_special(data->cmd_tree->content, data);
+		data->last_status_cmd = exec_command(data->cmd_tree->content, data);
 	full_free(data);
 	return (EXIT_SUCCESS);
 }

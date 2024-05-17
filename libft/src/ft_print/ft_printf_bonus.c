@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 19:43:09 by marvin            #+#    #+#             */
-/*   Updated: 2022/12/08 19:43:09 by marvin           ###   ########.fr       */
+/*   Updated: 2024/05/17 09:56:48 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
  */
 static void	ft_free_tree(t_tree **format)
 {
-	ft_clean_tree(format);
+	ft_clean_tree(format, NULL);
 	free(format);
 }
 

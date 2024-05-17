@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   parse_output_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 11:35:45 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/13 11:36:44 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/05/17 09:53:11 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_bonus.h"
 
 static int	open_output_simple(char **tokens, t_command *cmd,
-		int pos, t_minishell *data)
+		char *control)
 {
 	char	*redir;
 
@@ -32,7 +32,7 @@ static int	open_output_simple(char **tokens, t_command *cmd,
 			*tokens[0] = '\0';
 		}
 		else
-			return (error_redir(tokens[1], pos, data));
+			return (error_redir(tokens[1], control));
 	}
 	if (cmd->output_redirect == -1)
 		return (EXIT_FAILURE);
@@ -44,7 +44,7 @@ static int	open_output_simple(char **tokens, t_command *cmd,
 */
 
 static int	open_output_double(char **tokens, t_command *cmd,
-		int pos, t_minishell *data)
+		char *control)
 {
 	char	*redir;
 
@@ -64,7 +64,7 @@ static int	open_output_double(char **tokens, t_command *cmd,
 			*tokens[0] = '\0';
 		}
 		else
-			return (error_redir(tokens[1], pos, data));
+			return (error_redir(tokens[1], control));
 	}
 	if (cmd->output_redirect == -1)
 		return (EXIT_FAILURE);
@@ -72,13 +72,13 @@ static int	open_output_double(char **tokens, t_command *cmd,
 }
 
 int	parse_output(char **tokens, t_command *cmd,
-		int pos, t_minishell *data)
+		char *control)
 {
 	if (tokens[0][0] != '"' && tokens[0][0] != '\'')
 	{
-		if (open_output_double(tokens, cmd, pos, data) == EXIT_FAILURE)
+		if (open_output_double(tokens, cmd, control) == EXIT_FAILURE)
 			return (EXIT_FAILURE);
-		if (open_output_simple(tokens, cmd, pos, data) == EXIT_FAILURE)
+		if (open_output_simple(tokens, cmd, control) == EXIT_FAILURE)
 			return (EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);

@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 10:22:28 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/13 16:00:07 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/17 09:44:06 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,9 @@ static void	signal_use(t_minishell *data, pid_t *pid)
 	}
 }
 
-void	controller(t_minishell *data, pid_t *pid)
+int	controller(t_minishell *data, pid_t *pid)
 {
-	int				i;
+	int				status_cmd;
 	int				result;
 	int				total;
 	int				status;
@@ -61,18 +61,15 @@ void	controller(t_minishell *data, pid_t *pid)
 	status = RUNNING;
 	while (status != STOPPED)
 	{
-		i = -1;
-		while (++i < data->n_comands)
-		{
-			result = 0;
-			result = waitpid(pid[i], &data->last_status_cmd, WNOHANG);
-			if (result > 0)
-				total++;
-		}
+		result = 0;
+		result = waitpid(*pid, &status_cmd, WNOHANG);
+		if (result > 0)
+			total++;
 		signal_use(data, pid);
-		if (total == data->n_comands)
+		if (total == 1)
 			status = STOPPED;
 	}
 	if (g_signal == 2)
 		printf("\n");
+	return (status_cmd);
 }

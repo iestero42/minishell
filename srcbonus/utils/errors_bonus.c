@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 11:53:30 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/16 09:07:50 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/17 09:40:30 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	error_init(char *msg, int error)
 	exit(error);
 }
 
-int	error_redir(char *org, char *control, t_minishell *data)
+int	error_redir(char *org, char *control)
 {
 	ft_putstr_fd("minishell: ", 2);
 	if ((org == NULL || *org == '\0') && control == NULL)

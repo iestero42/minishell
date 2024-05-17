@@ -6,7 +6,7 @@
 #    By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/07 10:56:39 by yunlovex          #+#    #+#              #
-#    Updated: 2024/05/15 09:07:43 by yunlovex         ###   ########.fr        #
+#    Updated: 2024/05/17 09:59:54 by yunlovex         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -146,7 +146,6 @@ PARSE_FILES_BONUS		=	parse_data_bonus.c				\
 							parse_wildcard_bonus.c			\
 
 STRING_UTILS_FILES_BONUS	=	split_command_bonus.c		\
-								split_pipes_bonus.c			\
 								string_utils_bonus.c		\
 								string_utils2_bonus.c		\
 								string_utils3_bonus.c		\
@@ -154,6 +153,7 @@ STRING_UTILS_FILES_BONUS	=	split_command_bonus.c		\
 								split_operands_bonus.c		\
 				
 UTILS_FILES_BONUS		=	errors_bonus.c				\
+							errors2_bonus.c				\
 							exec_command_bonus.c		\
 							proc_minishell_bonus.c		\
 							frees_bonus.c				\

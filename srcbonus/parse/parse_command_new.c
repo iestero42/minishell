@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 08:50:36 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/16 08:48:51 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/17 09:49:54 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static char	**trim_args(char **tokens, int last_status)
 }
 
 static int	parse_subcmd(char *command_str, t_command *cmd, t_minishell *data,
-		int pos)
+		char *control)
 {
 	char	**tokens;
 	char	*cmd_trimmed;
@@ -59,7 +59,7 @@ static int	parse_subcmd(char *command_str, t_command *cmd, t_minishell *data,
 		error_init("ft_strtrim", 1);
 	tokens = split_command(cmd_trimmed);
 	free(cmd_trimmed);
-	if (parse_redirect(tokens, cmd, pos, data) == EXIT_FAILURE)
+	if (parse_redirect(tokens, cmd, control, data) == EXIT_FAILURE)
 		return (error_command(cmd, tokens));
 	if (data->status == STOPPED)
 	{
@@ -78,7 +78,7 @@ static int	parse_subcmd(char *command_str, t_command *cmd, t_minishell *data,
 	return (EXIT_SUCCESS);
 }
 
-static int parse_command_rec(char **tokens, t_minishell *data, t_tree *tree)
+static int parse_command_rec(char **tokens, t_minishell *data, t_tree *tree, char *control)
 {
 	int	count_parentheses;
 	int	i;
@@ -95,18 +95,18 @@ static int parse_command_rec(char **tokens, t_minishell *data, t_tree *tree)
 			break ;
 	}
 	remove_parenthesis(tokens);
-	if (error_operands(tokens, count_parentheses, i) == EXIT_FAILURE)
+	if (error_operands(count_parentheses, tokens) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	if (tokens[i] == NULL)
 	{
 		tree->content = (t_command *) malloc(sizeof(t_command));
-		return (parse_subcmd(tokens[i], tree->content, data, 0));
+		return (parse_subcmd(tokens[i], tree->content, data, control));
 	}
 	tree->left = ft_new_node(0, NULL, 0);
-	if (parse_command_rec(ft_dsubstr(tokens, 0, i), data, tree->left) == 1)
+	if (parse_command_rec(ft_dsubstr(tokens, 0, i), data, tree->left, tokens[i]) == 1)
 		return (EXIT_FAILURE);
 	tree->right = ft_new_node(0, NULL, 0);
-	if (parse_command_rec(&tokens[i + 1], data, tree->right) == 1)
+	if (parse_command_rec(&tokens[i + 1], data, tree->right, tokens[i]) == 1)
 		return (EXIT_FAILURE);
 	if (tokens[i][0] == '|' && tokens[i][1] == '|')
 		tree->number = SEMICOLON;
@@ -128,7 +128,7 @@ int parse_command_new(char *command_str, t_minishell *data)
 	data->cmd_tree = ft_new_node(0, NULL, 0);
 	if (!data->cmd_tree)
 		error_init("malloc", 1);
-	result = parse_command_rec(tokens, data, data->cmd_tree);
+	result = parse_command_rec(tokens, data, data->cmd_tree, NULL);
 	double_free(tokens);
 	return (result);
 }

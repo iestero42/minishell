@@ -6,24 +6,26 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 11:33:49 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/17 09:26:36 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/17 09:42:14 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_bonus.h"
 
-void	free_cmd(t_command *cmd)
+void	free_cmd(void *cmd)
 {
-	if (cmd)
+	t_command	*ptr;
+	ptr = (t_command *) cmd;
+	if (ptr)
 	{
-		if (cmd->args != NULL)
-			double_free(cmd->args);
-		if (cmd->name != NULL)
-			free(cmd->name);
-		if (cmd->output_redirect > -1)
-			close(cmd->output_redirect);
-		if (cmd->input_redirect > -1)
-			close(cmd->input_redirect);
+		if (ptr->args != NULL)
+			double_free(ptr->args);
+		if (ptr->name != NULL)
+			free(ptr->name);
+		if (ptr->output_redirect > -1)
+			close(ptr->output_redirect);
+		if (ptr->input_redirect > -1)
+			close(ptr->input_redirect);
 	}
 }
 
