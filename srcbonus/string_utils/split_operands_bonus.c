@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 09:03:49 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/16 08:30:36 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/17 14:47:55 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,9 +76,9 @@ static char	*save_memory(const char *s, size_t len, int *start)
 {
 	char	*substr;
 
-	if (s[0] == '(' || s[0] == ')')
+	if (s[0] == '(' || s[0] == ')' || (s[0] == '|' && s[1] != '|'))
 		len = 1;
-	if (s[0] == '&' || s[0] == '|')
+	if (s[0] == '&' || (s[0] == '|' && s[1] == '|'))
 		len = 2;
 	*start = *start + len;
 	substr = (char *) malloc(sizeof(char) * (len + 2));

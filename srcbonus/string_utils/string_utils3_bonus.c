@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 11:17:36 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/15 08:44:15 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/17 14:36:24 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,25 +55,22 @@ void	remove_parenthesis(char **tokens)
 	int	j;
 	int	count_parentheses;
 
-	i = -1;
+	
 	j = 0;
-	count_parentheses = 0;
-	while (tokens[++i] != NULL)
+	if (*tokens[0] == '(' && *tokens[ft_dstrlen(tokens) - 1] == ')')
 	{
-		if (*tokens[i] == '(')
+		i = 0;
+		count_parentheses = 1;
+		while (tokens[++i] != NULL)
 		{
-			count_parentheses++;
-			if (count_parentheses == 1)
-				tokens[j++] = tokens[i] + 1;
-		}
-		else if (*tokens[i] == ')')
-		{
-			count_parentheses--;
+			if (*tokens[i] == '(')
+				count_parentheses++;
+			else if (*tokens[i] == ')')
+				count_parentheses--;
+			if (count_parentheses != 0)
+				tokens[j++] = tokens[i];
 			if (count_parentheses == 0)
-				tokens[j++] = tokens[i] + 1;
+				tokens[j++] = NULL;
 		}
-		else
-			tokens[j++] = tokens[i];
 	}
-	tokens[j] = NULL;
 }

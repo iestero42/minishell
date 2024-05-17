@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 09:19:54 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/17 09:54:06 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/17 13:10:33 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,6 @@
 # define PARSE_BONUS_H
 
 # include "structs_bonus.h"
-
-int			parse_command(char *command_str, t_command *cmd, t_minishell *data,
-				int pos);
 
 int			parse_data(char *command_line, t_minishell *data);
 
@@ -36,6 +33,6 @@ char		**parse_wildcard(char **token);
 
 int			parse_args(t_command *cmd, char **tokens);
 
-int 		parse_command_new(char *command_str, t_minishell *data);
+int 		parse_command(char *command_str, t_minishell *data);
 
 #endif
