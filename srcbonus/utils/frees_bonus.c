@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 11:33:49 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/17 08:40:55 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/17 09:26:36 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,15 +42,7 @@ void	close_pipes(t_minishell *data)
 
 void	full_free(t_minishell *data)
 {
-	int	i;
-
-	i = 0;
-	while (i < data->n_comands)
-	{
-		free_cmd(&data->comand_split[i]);
-		i++;
-	}
-	free(data->comand_split);
+	ft_clean_tree(&data->cmd_tree, free_cmd);
 	dup2(data->std_fileno[0], 0);
 	dup2(data->std_fileno[1], 1);
 }

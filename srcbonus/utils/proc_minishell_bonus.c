@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 09:23:36 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/17 09:21:20 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/17 09:27:50 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,9 +90,10 @@ int	exec_command(t_command *cmd, t_minishell *data)
 
 int	proc_minishell(t_minishell *data, t_tree *tree)
 {
-	pid_t 	child;
-	pid_t	child2;
-	int		result;
+	pid_t 		child;
+	pid_t		child2;
+	int			result;
+	extern char	**environ;
 
 	result = -1;
 	if (tree->left != NULL && tree->right != NULL)
@@ -130,6 +131,9 @@ int	proc_minishell(t_minishell *data, t_tree *tree)
 			result = proc_minishell(data, tree->right);
 	}
 	else
+	{
 		result = exec_command(tree->content, data);
+		double_free(environ);
+	}
 	return (result);
 }
