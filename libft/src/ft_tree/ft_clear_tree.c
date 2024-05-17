@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 18:01:33 by marvin            #+#    #+#             */
-/*   Updated: 2024/05/17 09:57:01 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/17 15:17:20 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_clean_tree(t_tree **root, void (*del)(void *))
 {
-	if ((*root)->content && del)
+	if (*root != NULL && (*root)->content && del)
 		del((*root)->content);
 	if (*root != NULL)
 	{

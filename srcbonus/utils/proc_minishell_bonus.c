@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 09:23:36 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/17 09:29:59 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/17 15:23:09 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,9 @@ int	exec_command(t_command *cmd, t_minishell *data)
 	}
 	result = exec_command_special(cmd, data);
 	if (cmd->input_redirect < 0)
+	{
 		hide_eof_symbol(&term);
+	}
 	return (result);
 }
 
