@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 10:15:38 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/13 15:24:18 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/17 09:20:21 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,32 +31,7 @@ static int	builtins(t_command cmd)
 	return (EXIT_SUCCESS);
 }
 
-void	exec_command(t_command *cmd)
-{
-	extern char		**environ;
-
-	if (cmd->type == PATH_COMMAND)
-	{
-		if (execve(cmd->name, cmd->args, environ) < 0)
-			error_init("execve", 127);
-		exit(0);
-	}
-	else if (cmd->type > 0)
-	{
-		if (builtins(*cmd) > 0)
-		{
-			double_free(environ);
-			exit(2);
-		}
-	}
-	else if (cmd->type == ERROR_COMMAND)
-	{
-		double_free(environ);
-		exit(127);
-	}
-}
-
-void	exec_command_special(t_command *cmd, t_minishell *data)
+int	exec_command_special(t_command *cmd, t_minishell *data)
 {
 	pid_t			pid;
 	extern char		**environ;
@@ -76,8 +51,9 @@ void	exec_command_special(t_command *cmd, t_minishell *data)
 	else if (cmd->type > 0)
 	{
 		if (builtins(*cmd) > 0)
-			data->last_status_cmd = 2;
+			return (2);
 	}
 	else if (cmd->type == ERROR_COMMAND)
-		data->last_status_cmd = 127;
+		return (127);
+	return (0);
 }

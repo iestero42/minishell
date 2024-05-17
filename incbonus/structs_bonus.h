@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 09:20:30 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/16 08:44:03 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/17 08:13:21 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ typedef struct s_minishell
 	int				last_status_cmd;
 	int				std_fileno[2];
 	char			*cmd_list[NUM_COMMANDS];
-	int				*pipes;
+	int				pipes[2];
 	int				access_environ;
 }	t_minishell;
 

@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 11:33:49 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/09 15:01:04 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/17 08:40:55 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	close_pipes(t_minishell *data)
 	int	i;
 
 	i = 0;
-	while (i < 2 * (data->n_comands - 1))
+	while (i < 2)
 	{
 		if (close(data->pipes[i]) < 0)
 			perror("end");
