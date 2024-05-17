@@ -6,7 +6,7 @@
 #    By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/07 10:56:39 by yunlovex          #+#    #+#              #
-#    Updated: 2024/05/17 09:59:54 by yunlovex         ###   ########.fr        #
+#    Updated: 2024/05/17 10:06:29 by yunlovex         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -136,7 +136,6 @@ MAIN_FILES_BONUS		=	minishell_bonus.c
 
 PARSE_FILES_BONUS		=	parse_data_bonus.c				\
 							parse_command_bonus.c			\
-							parse_command_new.c			\
 							parse_command_name_bonus.c		\
 							parse_envVariable_bonus.c		\
 							parse_args_bonus.c				\

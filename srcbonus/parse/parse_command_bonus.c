@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_command_bonus.c                              :+:      :+:    :+:   */
+/*   parse_command_new.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/12 11:48:07 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/13 11:16:42 by iestero-         ###   ########.fr       */
+/*   Created: 2024/05/13 08:50:36 by iestero-          #+#    #+#             */
+/*   Updated: 2024/05/17 09:49:54 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,8 @@ static char	**trim_args(char **tokens, int last_status)
 	return (new_token);
 }
 
-
-int	parse_command(char *command_str, t_command *cmd, t_minishell *data,
-		int pos)
+static int	parse_subcmd(char *command_str, t_command *cmd, t_minishell *data,
+		char *control)
 {
 	char	**tokens;
 	char	*cmd_trimmed;
@@ -60,8 +59,7 @@ int	parse_command(char *command_str, t_command *cmd, t_minishell *data,
 		error_init("ft_strtrim", 1);
 	tokens = split_command(cmd_trimmed);
 	free(cmd_trimmed);
-	tokens = trim_args(tokens, data->last_status_cmd);
-	if (parse_redirect(tokens, cmd, pos, data) == EXIT_FAILURE)
+	if (parse_redirect(tokens, cmd, control, data) == EXIT_FAILURE)
 		return (error_command(cmd, tokens));
 	if (data->status == STOPPED)
 	{
@@ -69,6 +67,7 @@ int	parse_command(char *command_str, t_command *cmd, t_minishell *data,
 		data->status = RUNNING;
 		return (EXIT_FAILURE);
 	}
+	tokens = trim_args(tokens, data->last_status_cmd);
 	if (!tokens)
 		error_init("malloc", 1);
 	if (parse_command_name(tokens, cmd, data->cmd_list) == EXIT_FAILURE)
@@ -77,4 +76,59 @@ int	parse_command(char *command_str, t_command *cmd, t_minishell *data,
 		return (error_command(cmd, tokens));
 	double_free(tokens);
 	return (EXIT_SUCCESS);
+}
+
+static int parse_command_rec(char **tokens, t_minishell *data, t_tree *tree, char *control)
+{
+	int	count_parentheses;
+	int	i;
+
+	count_parentheses = 0;
+	i = -1;
+	while (tokens[++i] != NULL)
+	{
+		if (*tokens[i] == '(')
+			count_parentheses++;
+		if (*tokens[i] == ')')
+			count_parentheses--;
+		if (count_parentheses == 0 && (*tokens[i] == '|' || *tokens[i] == '&'))
+			break ;
+	}
+	remove_parenthesis(tokens);
+	if (error_operands(count_parentheses, tokens) == EXIT_FAILURE)
+		return (EXIT_FAILURE);
+	if (tokens[i] == NULL)
+	{
+		tree->content = (t_command *) malloc(sizeof(t_command));
+		return (parse_subcmd(tokens[i], tree->content, data, control));
+	}
+	tree->left = ft_new_node(0, NULL, 0);
+	if (parse_command_rec(ft_dsubstr(tokens, 0, i), data, tree->left, tokens[i]) == 1)
+		return (EXIT_FAILURE);
+	tree->right = ft_new_node(0, NULL, 0);
+	if (parse_command_rec(&tokens[i + 1], data, tree->right, tokens[i]) == 1)
+		return (EXIT_FAILURE);
+	if (tokens[i][0] == '|' && tokens[i][1] == '|')
+		tree->number = SEMICOLON;
+	else if (tokens[i][0] == '&')
+		tree->number = AND;
+	else
+		tree->number = PIPE;
+	return (EXIT_SUCCESS);
+}
+
+int parse_command_new(char *command_str, t_minishell *data)
+{
+	char	**tokens;
+	int		result;
+
+	tokens = split_operands(command_str);
+	if (!tokens)
+		return (EXIT_FAILURE);
+	data->cmd_tree = ft_new_node(0, NULL, 0);
+	if (!data->cmd_tree)
+		error_init("malloc", 1);
+	result = parse_command_rec(tokens, data, data->cmd_tree, NULL);
+	double_free(tokens);
+	return (result);
 }
