@@ -49,7 +49,7 @@ static void	child_write(int fd, int *pipes)
 	else if (child == 0)
 	{
 		show_eof_symbol(&term);
-		child_write(cmd->output_redirect, pipes, pos, data->n_comands);
+		child_write(cmd->output_redirect, pipes, pos, data->n_commands);
 		child_read(cmd->input_redirect, pipes, pos);
 		close_pipes(data);
 		exec_command(cmd);

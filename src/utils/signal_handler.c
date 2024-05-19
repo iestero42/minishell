@@ -41,7 +41,7 @@ static void	signal_use(t_minishell *data, pid_t *pid)
 	if (g_signal == 2)
 	{
 		i = -1;
-		while (++i < data->n_comands)
+		while (++i < data->n_commands)
 			kill(pid[i], SIGTERM);
 	}
 }
@@ -60,7 +60,7 @@ void	controller(t_minishell *data, pid_t *pid)
 	while (status != STOPPED)
 	{
 		i = -1;
-		while (++i < data->n_comands)
+		while (++i < data->n_commands)
 		{
 			result = 0;
 			result = waitpid(pid[i], &data->last_status_cmd, WNOHANG);
@@ -68,7 +68,7 @@ void	controller(t_minishell *data, pid_t *pid)
 				total++;
 		}
 		signal_use(data, pid);
-		if (total == data->n_comands)
+		if (total == data->n_commands)
 			status = STOPPED;
 	}
 	if (g_signal == 2)

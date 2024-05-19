@@ -49,9 +49,9 @@ typedef struct s_command
 
 typedef struct s_minishell
 {
-	t_command		*comand_split;
+	t_command		*command_split;
 	struct termios	original_term;
-	int				n_comands;
+	int				n_commands;
 	int				status;
 	int				last_status_cmd;
 	int				std_fileno[2];

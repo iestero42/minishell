@@ -55,7 +55,7 @@ typedef struct s_minishell
 {
 	t_tree			*cmd_tree;
 	struct termios	original_term;
-	int				n_comands;
+	int				n_commands;
 	int				status;
 	int				last_status_cmd;
 	int				std_fileno[2];

@@ -21,9 +21,9 @@ int	error_init(char *msg, int error)
 int	error_redir(char **tmp, char *org, int pos, t_minishell *data)
 {
 	ft_putstr_fd("minishell: ", 2);
-	if ((tmp == NULL || **tmp == '\0') && pos == data->n_comands - 1)
+	if ((tmp == NULL || **tmp == '\0') && pos == data->n_commands - 1)
 		ft_putstr_fd("syntax error near unexpected token `newline'\n", 2);
-	else if (((tmp == NULL || **tmp == '\0') && pos < data->n_comands - 1))
+	else if (((tmp == NULL || **tmp == '\0') && pos < data->n_commands - 1))
 		ft_putstr_fd("syntax error near unexpected token `|'\n", 2);
 	if (tmp)
 	{

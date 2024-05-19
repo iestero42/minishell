@@ -29,11 +29,11 @@ static void	child_read(int fd, int *pipes, int pos)
 		dupping(pipes[2 * (pos - 1)], STDIN_FILENO);
 }
 
-static void	child_write(int fd, int *pipes, int pos, int n_comands)
+static void	child_write(int fd, int *pipes, int pos, int n_commands)
 {
 	if (fd > -1)
 		dupping(fd, STDOUT_FILENO);
-	else if (fd < 0 && pos > -1 && pos < n_comands - 1)
+	else if (fd < 0 && pos > -1 && pos < n_commands - 1)
 		dupping(pipes[pos * 2 + 1], STDOUT_FILENO);
 }
 
@@ -49,7 +49,7 @@ pid_t	create_process(t_command *cmd, int *pipes, int pos, t_minishell *data)
 	else if (child == 0)
 	{
 		show_eof_symbol(&term);
-		child_write(cmd->output_redirect, pipes, pos, data->n_comands);
+		child_write(cmd->output_redirect, pipes, pos, data->n_commands);
 		child_read(cmd->input_redirect, pipes, pos);
 		close_pipes(data);
 		exec_command(cmd);

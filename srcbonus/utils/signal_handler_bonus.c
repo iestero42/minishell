@@ -45,7 +45,7 @@ static void	signal_use(t_minishell *data, pid_t *pid)
 	if (g_signal == 2)
 	{
 		i = -1;
-		while (++i < data->n_comands)
+		while (++i < data->n_commands)
 			kill(pid[i], SIGTERM);
 	}
 }
