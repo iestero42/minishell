@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 10:22:28 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/17 09:44:06 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/22 08:32:45 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	signal_handler(int signum)
 	{
 		g_signal = 2;
 	}
-	if (signum  == SIGTERM)
+	if (signum == SIGTERM)
 		double_free(environ);
 }
 

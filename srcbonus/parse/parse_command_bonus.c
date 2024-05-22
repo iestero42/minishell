@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 08:50:36 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/17 14:53:08 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/22 08:31:34 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int	error_command(t_command *cmd, char **tokens)
 	return (EXIT_SUCCESS);
 }
 
-static char	**trim_args(char **tokens, int last_status)
+static char	**trim_args(char **tokens, int last_status, t_minishell *data)
 {
 	int		i;
 	char	**tmp;
@@ -29,6 +29,7 @@ static char	**trim_args(char **tokens, int last_status)
 
 	i = 0;
 	new_token = 0;
+	alloc_environ(data);
 	while (tokens[i] != NULL)
 	{
 		if (*tokens[i] != '\0')
@@ -59,6 +60,9 @@ static int	parse_subcmd(char *command_str, t_command *cmd, t_minishell *data,
 		error_init("ft_strtrim", 1);
 	tokens = split_command(cmd_trimmed);
 	free(cmd_trimmed);
+	tokens = trim_args(tokens, data->last_status_cmd, data);
+	if (!tokens)
+		error_init("malloc", 1);
 	if (parse_redirect(tokens, cmd, control, data) == EXIT_FAILURE)
 		return (error_command(cmd, tokens));
 	if (data->status == STOPPED)
@@ -67,9 +71,6 @@ static int	parse_subcmd(char *command_str, t_command *cmd, t_minishell *data,
 		data->status = RUNNING;
 		return (EXIT_FAILURE);
 	}
-	tokens = trim_args(tokens, data->last_status_cmd);
-	if (!tokens)
-		error_init("malloc", 1);
 	if (parse_command_name(tokens, cmd, data->cmd_list) == EXIT_FAILURE)
 		return (error_command(cmd, tokens));
 	if (parse_args(cmd, tokens) == EXIT_FAILURE)
@@ -78,7 +79,8 @@ static int	parse_subcmd(char *command_str, t_command *cmd, t_minishell *data,
 	return (EXIT_SUCCESS);
 }
 
-static int parse_command_rec(char **tokens, t_minishell *data, t_tree *tree, char *control)
+static int	parse_command_rec(char **tokens, t_minishell *data, t_tree *tree,
+				char *control)
 {
 	int	count_parentheses;
 	int	i;
@@ -103,7 +105,8 @@ static int parse_command_rec(char **tokens, t_minishell *data, t_tree *tree, cha
 		return (parse_subcmd(tokens[0], tree->content, data, control));
 	}
 	tree->left = ft_new_node(0, NULL, 0);
-	if (parse_command_rec(ft_dsubstr(tokens, 0, i - 1), data, tree->left, tokens[i]) == 1)
+	if (parse_command_rec(ft_dsubstr(tokens, 0, i - 1), data, tree->left,
+			tokens[i]) == 1)
 		return (EXIT_FAILURE);
 	tree->right = ft_new_node(0, NULL, 0);
 	if (parse_command_rec(&tokens[i + 1], data, tree->right, tokens[i]) == 1)
@@ -117,27 +120,17 @@ static int parse_command_rec(char **tokens, t_minishell *data, t_tree *tree, cha
 	return (EXIT_SUCCESS);
 }
 
-int parse_command(char *command_str, t_minishell *data)
+int	parse_command(char *command_str, t_minishell *data)
 {
 	char		**tokens;
 	int			result;
-	extern char	**environ;
-	char		**tmp;
 
-	
 	tokens = split_operands(command_str);
 	if (!tokens)
 		return (EXIT_FAILURE);
 	data->cmd_tree = ft_new_node(0, NULL, 0);
 	if (!data->cmd_tree)
 		error_init("malloc", 1);
-	if (data->access_environ == 0)
-	{
-		tmp = ft_dstrdup(environ);
-		//free(environ); esto puede dar leak
-		environ = tmp;
-		data->access_environ = 1;
-	}
 	result = parse_command_rec(tokens, data, data->cmd_tree, NULL);
 	double_free(tokens);
 	return (result);

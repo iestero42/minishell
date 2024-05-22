@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 09:23:36 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/17 15:23:09 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/22 08:32:24 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,29 +37,6 @@ static void	child_write(int fd, int *pipes)
 		dupping(pipes[1], STDOUT_FILENO);
 }
 
-/*pid_t	proc_minishell(t_minishell *data)
-{
-	pid_t			child;
-	struct termios	term;
-	extern char		**environ;
-
-	child = fork();
-	if (child < 0)
-		error_init("fork", 1);
-	else if (child == 0)
-	{
-		show_eof_symbol(&term);
-		child_write(cmd->output_redirect, pipes, pos, data->n_commands);
-		child_read(cmd->input_redirect, pipes, pos);
-		close_pipes(data);
-		exec_command(cmd);
-		if (data->access_environ == 1)
-			double_free(environ);
-		exit(0);
-	}
-	return (child);
-}*/
-
 int	exec_command(t_command *cmd, t_minishell *data)
 {
 	struct termios	term;
@@ -84,15 +61,13 @@ int	exec_command(t_command *cmd, t_minishell *data)
 	}
 	result = exec_command_special(cmd, data);
 	if (cmd->input_redirect < 0)
-	{
 		hide_eof_symbol(&term);
-	}
 	return (result);
 }
 
 int	proc_minishell(t_minishell *data, t_tree *tree)
 {
-	pid_t 		child;
+	pid_t		child;
 	pid_t		child2;
 	int			result;
 	extern char	**environ;
@@ -130,7 +105,6 @@ int	proc_minishell(t_minishell *data, t_tree *tree)
 			waitpid(child2, &result, 0);
 			return (result);
 		}
-		
 		result = proc_minishell(data, tree->left);
 		if ((tree->number == SEMICOLON && result > EXIT_SUCCESS)
 			|| (tree->number == AND && result == EXIT_SUCCESS))

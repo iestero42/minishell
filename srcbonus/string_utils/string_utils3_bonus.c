@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 11:17:36 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/17 14:36:24 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/22 08:27:35 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,5 +72,19 @@ void	remove_parenthesis(char **tokens)
 			if (count_parentheses == 0)
 				tokens[j++] = NULL;
 		}
+	}
+}
+
+void	alloc_environ(t_minishell *data)
+{
+	char		**tmp;
+	extern char	**environ;
+
+	if (data->access_environ == 0)
+	{
+		tmp = ft_dstrdup(environ);
+		free(environ);
+		environ = tmp;
+		data->access_environ = 1;
 	}
 }

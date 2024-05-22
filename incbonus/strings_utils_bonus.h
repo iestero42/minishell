@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 09:25:32 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/15 08:45:18 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/22 08:27:52 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,5 +44,7 @@ void		reconvert_tokens(char **tokens);
 char		**split_operands(const char *s);
 
 void		remove_parenthesis(char **tokens);
+
+void		alloc_environ(t_minishell *data);
 
 #endif
