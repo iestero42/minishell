@@ -1,8 +1,7 @@
 proximo dia:
 
-	hay que hacer un mega cambio porque los operadores && || y | se ejecutan al mismo nivel por tanto en el arbol tienen que estar los tres operadores coexistiendo
-
-	Crear la funcion de busqueda en profundidad para ejecutar comandos y listo.
+	cambiar para que cuando el command line no este terminado se pueda terminar en el caso de que que termine en && || o | o que ademas
+	no esten cerrados los parentesis
 
 	hacer pruebas locas con los argumentos desordenados y de todo
 	
@@ -14,7 +13,5 @@ si hay tiempo:
 		- limpiar la terminal cuando inicio
 		
 
-importante:
-	solucionar la configuracion de terminal
 	
 cosas de javier:

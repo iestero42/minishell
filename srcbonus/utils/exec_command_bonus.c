@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 10:15:38 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/17 09:36:46 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/22 16:03:39 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int	exec_command_special(t_command *cmd, t_minishell *data)
 {
 	pid_t			pid;
 	extern char		**environ;
+
 	if (cmd->type == PATH_COMMAND)
 	{
 		pid = fork();

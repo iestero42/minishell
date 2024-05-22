@@ -6,23 +6,53 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 14:23:35 by yunlovex          #+#    #+#             */
-/*   Updated: 2024/05/22 08:33:28 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/22 16:14:34 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_bonus.h"
 
-int	error_operands(int count_paranthese, char **tokens)
+int	error_parenthesis(int count_paranthese, char **tokens)
 {
 	if (count_paranthese > 0)
 	{	
-		ft_putstr_fd("minishell: syntax error near 'newline'\n", 2);
+		ft_putstr_fd("minishell: syntax error near unexpected token", 2);
+		ft_putstr_fd(" 'newline'\n", 2);
 		return (EXIT_FAILURE);
 	}
 	else if (count_paranthese < 0 || tokens[0] == NULL)
 	{	
-		ft_putstr_fd("minishell: syntax error near ')'\n", 2);
+		ft_putstr_fd("minishell: syntax error near unexpected token ')'\n", 2);
 		return (EXIT_FAILURE);
+	}
+	return (EXIT_SUCCESS);
+}
+
+int	error_operands(char **tokens)
+{
+	int	i;
+
+	if (*tokens[0] == '|' || *tokens[0] == '&')
+	{
+		ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
+		ft_putstr_fd(tokens[0], 2);
+		ft_putstr_fd("'\n", 2);
+		return (EXIT_FAILURE);
+	}
+	i = -1;
+	while (tokens[++i] != NULL)
+	{
+		if (tokens[i][0] == '|' || tokens[i][0] == '&')
+		{
+			if (*tokens[i + 1] == '|' || *tokens[i + 1] == '&')
+			{
+				ft_putstr_fd("minishell: syntax error near unexpected", 2);
+				ft_putstr_fd(" token `", 2);
+				ft_putstr_fd(tokens[i + 1], 2);
+				ft_putstr_fd("'\n", 2);
+				return (EXIT_FAILURE);
+			}
+		}
 	}
 	return (EXIT_SUCCESS);
 }

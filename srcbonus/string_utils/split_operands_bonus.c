@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 09:03:49 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/17 14:47:55 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/22 15:59:09 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,9 +132,9 @@ char	**split_operands(const char *s)
 	int			start;
 	int			i;
 
-	if (s == NULL)
-		return (NULL);
 	num_substrings = size_dstr(s);
+	if (num_substrings == -2)
+		return (NULL);
 	substrings = malloc(sizeof(char *) * (num_substrings + 1));
 	if (!substrings)
 		error_init("malloc", 1);

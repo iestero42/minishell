@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 09:29:41 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/17 09:45:42 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/22 15:36:46 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ void		error_export_msg(char *arg);
 int			error_unclosed_quotes(char *arg, int len);
 int			error_init(char *msg, int error);
 int			error_split_operands(int count, int quotes, const char *s);
-int			error_operands(int count_paranthese, char **tokens);
+int			error_parenthesis(int count_paranthese, char **tokens);
+int			error_operands(char **tokens);
 
 //*****Frees*****//
 void		full_free(t_minishell *data);
