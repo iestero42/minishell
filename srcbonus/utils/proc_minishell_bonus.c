@@ -65,12 +65,37 @@ int	exec_command(t_command *cmd, t_minishell *data)
 	return (result);
 }
 
+static int	proc_childs(t_minishell *data, t_tree *tree, pid_t *ch, int mode)
+{
+	int			result;
+	extern char	**environ;
+
+	result = -1;
+	*ch = fork();
+	if (*ch < 0)
+		error_init("fork", 1);
+	if (*ch == 0)
+	{
+		if (mode == 0)
+			child_write(-1, data->pipes);
+		else if (mode == 1)
+			child_read(-1, data->pipes);
+		close_pipes(data);
+		if (mode == 0)
+			result = proc_minishell(data, tree->left);
+		else if (mode == 1)
+			result = proc_minishell(data, tree->right);
+		double_free(environ);
+		exit(result);
+	}
+	return (result);
+}
+
 int	proc_minishell(t_minishell *data, t_tree *tree)
 {
 	pid_t		child;
 	pid_t		child2;
 	int			result;
-	extern char	**environ;
 
 	result = -1;
 	if (tree->left != NULL && tree->right != NULL)
@@ -78,28 +103,8 @@ int	proc_minishell(t_minishell *data, t_tree *tree)
 		if (tree->number == PIPE)
 		{
 			open_pipes(data);
-			child = fork();
-			if (child < 0)
-				error_init("fork", 1);
-			if (child == 0)
-			{
-				child_write(-1, data->pipes);
-				close_pipes(data);
-				result = proc_minishell(data, tree->left);
-				double_free(environ);
-				exit(result);
-			}
-			child2 = fork();
-			if (child2 < 0)
-				error_init("fork", 1);
-			if (child2 == 0)
-			{
-				child_read(-1, data->pipes);
-				close_pipes(data);
-				result = proc_minishell(data, tree->right);
-				double_free(environ);
-				exit(result);
-			}
+			result = proc_childs(data, tree, &child, 0);
+			result = proc_childs(data, tree, &child2, 1);
 			close_pipes(data);
 			waitpid(child, &result, 0);
 			waitpid(child2, &result, 0);
