@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal_handler_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 10:22:28 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/06 09:55:24 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/05/22 08:32:45 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,14 @@ void	signal_handler_readline(int signum)
 
 void	signal_handler(int signum)
 {
+	extern char	**environ;
+
 	if (signum == SIGINT)
 	{
 		g_signal = 2;
 	}
+	if (signum == SIGTERM)
+		double_free(environ);
 }
 
 static void	signal_use(t_minishell *data, pid_t *pid)
@@ -41,36 +45,31 @@ static void	signal_use(t_minishell *data, pid_t *pid)
 	if (g_signal == 2)
 	{
 		i = -1;
-		while (++i < data->n_comands)
+		while (++i < data->n_commands)
 			kill(pid[i], SIGTERM);
 	}
 }
 
-void	controller(t_minishell *data, pid_t *pid)
+int	controller(t_minishell *data, pid_t *pid)
 {
-	int				i;
+	int				status_cmd;
 	int				result;
 	int				total;
 	int				status;
-	struct termios	term;
 
 	total = 0;
 	status = RUNNING;
 	while (status != STOPPED)
 	{
-		i = -1;
-		while (++i < data->n_comands)
-		{
-			result = 0;
-			result = waitpid(pid[i], &data->last_status_cmd, WNOHANG);
-			if (result > 0)
-				total++;
-		}
+		result = 0;
+		result = waitpid(*pid, &status_cmd, WNOHANG);
+		if (result > 0)
+			total++;
 		signal_use(data, pid);
-		if (total == data->n_comands)
+		if (total == 1)
 			status = STOPPED;
 	}
 	if (g_signal == 2)
 		printf("\n");
-	hide_eof_symbol(&term);
+	return (status_cmd);
 }

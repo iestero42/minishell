@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_redir_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 09:21:16 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/13 12:38:32 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/05/17 09:54:16 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ static void	rm_slash5(char **token)
 	}
 }
 
-int	parse_redirect(char **tokens, t_command *cmd, int pos, t_minishell *data)
+int	parse_redirect(char **tokens, t_command *cmd, char *control, t_minishell *data)
 {
 	int	i;
 
@@ -82,9 +82,9 @@ int	parse_redirect(char **tokens, t_command *cmd, int pos, t_minishell *data)
 	rm_slash5(tokens);
 	while (tokens[++i] != NULL && data->status != STOPPED)
 	{
-		if (parse_output(&tokens[i], cmd, pos, data) == EXIT_FAILURE)
+		if (parse_output(&tokens[i], cmd, control) == EXIT_FAILURE)
 			return (EXIT_FAILURE);
-		if (parse_input(&tokens[i], cmd, pos, data) == EXIT_FAILURE)
+		if (parse_input(&tokens[i], cmd, control, data) == EXIT_FAILURE)
 			return (EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);

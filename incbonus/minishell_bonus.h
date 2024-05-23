@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 07:29:23 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/10 08:39:24 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/17 09:36:27 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,15 +42,13 @@
 
 //*****Signals*****//
 void		signal_handler(int signum);
-void		controller(t_minishell *data, pid_t *pid);
+int			controller(t_minishell *data, pid_t *pid);
 void		signal_handler_readline(int signum);
 
 //*****Command Execution*****//
-int			execute_command(t_command *cmd, t_minishell *data);
-void		exec_command(t_command *cmd);
-void		exec_command_special(t_command *cmd, t_minishell *data);
-pid_t		create_process(t_command *cmd, int *pipes,
-				int pos, t_minishell *data);
+int			exec_command(t_command *cmd, t_minishell *data);
+int			exec_command_special(t_command *cmd, t_minishell *data);
+int			proc_minishell(t_minishell *data, t_tree *tree);
 
 //*****Configurations*****//
 void		hide_eof_symbol(struct termios *term);

@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 09:23:36 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/09 14:34:15 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/22 08:32:24 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,47 +21,29 @@ static void	dupping(int fd, int mode)
 	}
 }
 
-static void	child_read(int fd, int *pipes, int pos)
+static void	child_read(int fd, int *pipes)
 {
 	if (fd > -1)
 		dupping(fd, STDIN_FILENO);
-	else if (fd < 0 && pos > 0)
-		dupping(pipes[2 * (pos - 1)], STDIN_FILENO);
+	else if (fd < 0)
+		dupping(pipes[0], STDIN_FILENO);
 }
 
-static void	child_write(int fd, int *pipes, int pos, int n_comands)
+static void	child_write(int fd, int *pipes)
 {
 	if (fd > -1)
 		dupping(fd, STDOUT_FILENO);
-	else if (fd < 0 && pos > -1 && pos < n_comands - 1)
-		dupping(pipes[pos * 2 + 1], STDOUT_FILENO);
+	else if (fd < 0)
+		dupping(pipes[1], STDOUT_FILENO);
 }
 
-pid_t	create_process(t_command *cmd, int *pipes, int pos, t_minishell *data)
+int	exec_command(t_command *cmd, t_minishell *data)
 {
-	pid_t			child;
 	struct termios	term;
-	extern char		**environ;
+	int				result;
 
-	child = fork();
-	if (child < 0)
-		error_init("fork", 1);
-	else if (child == 0)
-	{
+	if (cmd->input_redirect < 0)
 		show_eof_symbol(&term);
-		child_write(cmd->output_redirect, pipes, pos, data->n_comands);
-		child_read(cmd->input_redirect, pipes, pos);
-		close_pipes(data);
-		exec_command(cmd);
-		if (data->access_environ == 1)
-			double_free(environ);
-		exit(0);
-	}
-	return (child);
-}
-
-int	execute_command(t_command *cmd, t_minishell *data)
-{
 	if (cmd->input_redirect > -1 && cmd->output_redirect > -1)
 	{
 		dupping(cmd->input_redirect, STDIN_FILENO);
@@ -77,6 +59,58 @@ int	execute_command(t_command *cmd, t_minishell *data)
 		dupping(cmd->input_redirect, STDIN_FILENO);
 		dupping(data->std_fileno[1], STDOUT_FILENO);
 	}
-	exec_command_special(cmd, data);
-	return (EXIT_SUCCESS);
+	result = exec_command_special(cmd, data);
+	if (cmd->input_redirect < 0)
+		hide_eof_symbol(&term);
+	return (result);
+}
+
+int	proc_minishell(t_minishell *data, t_tree *tree)
+{
+	pid_t		child;
+	pid_t		child2;
+	int			result;
+	extern char	**environ;
+
+	result = -1;
+	if (tree->left != NULL && tree->right != NULL)
+	{
+		if (tree->number == PIPE)
+		{
+			open_pipes(data);
+			child = fork();
+			if (child < 0)
+				error_init("fork", 1);
+			if (child == 0)
+			{
+				child_write(-1, data->pipes);
+				close_pipes(data);
+				result = proc_minishell(data, tree->left);
+				double_free(environ);
+				exit(result);
+			}
+			child2 = fork();
+			if (child2 < 0)
+				error_init("fork", 1);
+			if (child2 == 0)
+			{
+				child_read(-1, data->pipes);
+				close_pipes(data);
+				result = proc_minishell(data, tree->right);
+				double_free(environ);
+				exit(result);
+			}
+			close_pipes(data);
+			waitpid(child, &result, 0);
+			waitpid(child2, &result, 0);
+			return (result);
+		}
+		result = proc_minishell(data, tree->left);
+		if ((tree->number == SEMICOLON && result > EXIT_SUCCESS)
+			|| (tree->number == AND && result == EXIT_SUCCESS))
+			result = proc_minishell(data, tree->right);
+	}
+	else
+		result = exec_command(tree->content, data);
+	return (result);
 }

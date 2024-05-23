@@ -30,7 +30,7 @@ static int	parse_list_command(char **command_list, t_minishell *data)
 	}
 	while (command_list[++i] != NULL)
 	{
-		if (parse_command(command_list[i], &data->comand_split[i], data, i)
+		if (parse_command(command_list[i], &data->command_split[i], data, i)
 			== EXIT_FAILURE)
 			return (EXIT_FAILURE);
 	}
@@ -45,10 +45,10 @@ int	parse_data(const char *command_line, t_minishell *data)
 	command_list = split_pipes(command_line);
 	if (!command_list)
 		return (EXIT_FAILURE);
-	data->n_comands = ft_dstrlen(command_list);
-	data->comand_split = (t_command *) malloc(sizeof(t_command)
-			* data->n_comands);
-	if (!data->comand_split)
+	data->n_commands = ft_dstrlen(command_list);
+	data->command_split = (t_command *) malloc(sizeof(t_command)
+			* data->n_commands);
+	if (!data->command_split)
 		error_init("malloc", 1);
 	if (parse_list_command(command_list, data) == EXIT_FAILURE)
 	{

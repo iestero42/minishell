@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   string_utils3_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 11:17:36 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/13 11:21:59 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/05/22 08:27:35 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,5 +46,45 @@ void	reconvert_tokens(char **tokens)
 		convert_wildcard(tokens[i], '<', '\2', 0);
 		convert_wildcard(tokens[i], '>', '\3', 0);
         i++;
+	}
+}
+
+void	remove_parenthesis(char **tokens)
+{
+	int	i;
+	int	j;
+	int	count_parentheses;
+
+	
+	j = 0;
+	if (*tokens[0] == '(' && *tokens[ft_dstrlen(tokens) - 1] == ')')
+	{
+		i = 0;
+		count_parentheses = 1;
+		while (tokens[++i] != NULL)
+		{
+			if (*tokens[i] == '(')
+				count_parentheses++;
+			else if (*tokens[i] == ')')
+				count_parentheses--;
+			if (count_parentheses != 0)
+				tokens[j++] = tokens[i];
+			if (count_parentheses == 0)
+				tokens[j++] = NULL;
+		}
+	}
+}
+
+void	alloc_environ(t_minishell *data)
+{
+	char		**tmp;
+	extern char	**environ;
+
+	if (data->access_environ == 0)
+	{
+		tmp = ft_dstrdup(environ);
+		free(environ);
+		environ = tmp;
+		data->access_environ = 1;
 	}
 }

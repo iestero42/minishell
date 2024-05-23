@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_input_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 11:47:55 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/13 11:36:19 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/05/17 09:53:45 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ extern volatile sig_atomic_t	g_signal;
  * @return int 
  */
 static int	open_input_simple(char **tokens, t_command *cmd,
-				int pos, t_minishell *data)
+				char *control)
 {
 	char	*redir;
 
@@ -42,7 +42,7 @@ static int	open_input_simple(char **tokens, t_command *cmd,
 			*tokens[0] = '\0';
 		}
 		else
-			return (error_redir(tokens[1], pos, data));
+			return (error_redir(tokens[1], control));
 	}
 	if (cmd->input_redirect == -1)
 		return (EXIT_FAILURE);
@@ -80,6 +80,7 @@ static void	controller_heredoc(pid_t pid, int *fd, t_minishell *data)
 static int	write_here_doc(char *delimiter, int last_status, t_minishell *data)
 {
 	char	*line;
+	char	*tmp;
 	pid_t	pid;
 	int		pipes[2];
 
@@ -94,14 +95,16 @@ static int	write_here_doc(char *delimiter, int last_status, t_minishell *data)
 		line = readline_own();
 		while (ft_strncmp(line, delimiter, ft_strlen(line) - 1))
 		{
-			line = parse_env_variable(line, last_status, '\0');
+			tmp = parse_env_variable(line, last_status, '\0');
+			free(line);
+			line = tmp;
 			ft_putstr_fd(line, pipes[1]);
 			free(line);
 			line = readline_own();
 		}
+		free(line);
 		exit(0);
 	}
-	free(delimiter);
 	controller_heredoc(pid, pipes, data);
 	return (pipes[0]);
 }
@@ -115,7 +118,7 @@ static int	write_here_doc(char *delimiter, int last_status, t_minishell *data)
  * @return int 
  */
 static int	open_input_double(char **tokens, t_command *cmd,
-				int pos, t_minishell *data)
+				char *control, t_minishell *data)
 {
 	char	*redir;
 
@@ -133,7 +136,7 @@ static int	open_input_double(char **tokens, t_command *cmd,
 			*tokens[0] = '\0';
 		}
 		else
-			return (error_redir(tokens[1], pos, data));
+			return (error_redir(tokens[1], control));
 	}
 	if (cmd->input_redirect == -1)
 		return (EXIT_FAILURE);
@@ -149,13 +152,13 @@ static int	open_input_double(char **tokens, t_command *cmd,
  * @return int 
  */
 int	parse_input(char **tokens, t_command *cmd,
-		int pos, t_minishell *data)
+		char *control, t_minishell *data)
 {
 	if (tokens[0][0] != '"' && tokens[0][0] != '\'')
 	{
-		if (open_input_double(tokens, cmd, pos, data) == EXIT_FAILURE)
+		if (open_input_double(tokens, cmd, control, data) == EXIT_FAILURE)
 			return (EXIT_FAILURE);
-		if (open_input_simple(tokens, cmd, pos, data) == EXIT_FAILURE)
+		if (open_input_simple(tokens, cmd, control) == EXIT_FAILURE)
 			return (EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);

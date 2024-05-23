@@ -1,34 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_data_bonus.c                                 :+:      :+:    :+:   */
+/*   TestParseCommand.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/11 10:48:47 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/22 16:01:21 by yunlovex         ###   ########.fr       */
+/*   Created: 2024/05/15 14:17:40 by yunlovex          #+#    #+#             */
+/*   Updated: 2024/05/15 14:22:44 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_bonus.h"
 
-extern volatile sig_atomic_t	g_signal;
-
-int	parse_data(char *command_line, t_minishell *data)
+int main(void)
 {
-	char	*tmp;
-	int		result;
+	char	*s;
+	t_tree	*tree;
 
-	g_signal = 0;
-	tmp = ft_strtrim(command_line, " ");
-	if (!tmp)
-		error_init("ft_strtrim", 1);
-	if (*tmp == '\0')
-	{
-		free(tmp);
-		return (EXIT_FAILURE);
-	}
-	result = parse_command(tmp, data);
-	free(tmp);
-	return (result);
+	printf("Test 1: cat hola || echo adios \n\n");
+	tree = ft_new_node(0, NULL, 0);
+	parse_command_new("cat hola || echo adios", NULL, 0, &tree);	
 }

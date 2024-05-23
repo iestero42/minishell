@@ -29,7 +29,7 @@ void	close_pipes(t_minishell *data)
 	int	i;
 
 	i = 0;
-	while (i < 2 * (data->n_comands - 1))
+	while (i < 2 * (data->n_commands - 1))
 	{
 		if (close(data->pipes[i]) < 0)
 			perror("end");
@@ -42,12 +42,12 @@ void	full_free(t_minishell *data)
 	int	i;
 
 	i = 0;
-	while (i < data->n_comands)
+	while (i < data->n_commands)
 	{
-		free_cmd(&data->comand_split[i]);
+		free_cmd(&data->command_split[i]);
 		i++;
 	}
-	free(data->comand_split);
+	free(data->command_split);
 	dup2(data->std_fileno[0], 0);
 	dup2(data->std_fileno[1], 1);
 }

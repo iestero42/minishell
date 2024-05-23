@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_operands_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 09:03:49 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/13 09:20:13 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/05/22 15:59:09 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,11 @@ static int	size_aux(int count, const char *s, int *position)
 	}
 	if (s[i] == '&' || s[i] == '|')
 	{
-		if (s[i] != s[i + 1])
+		if (s[i] == '&' && s[i] != s[i + 1])
 			return (-2);
 		else if (s[i] == s[i + 1] && i == 0)
 			i = i + 2;
-		else if (s[i] == s[i + 1])
+		else if (s[i] == s[i + 1] || (i == 0 && s[i] == '|'))
 			i++;
 	}
 	*position = i;
@@ -76,9 +76,9 @@ static char	*save_memory(const char *s, size_t len, int *start)
 {
 	char	*substr;
 
-	if (s[0] == '(' || s[0] == ')')
+	if (s[0] == '(' || s[0] == ')' || (s[0] == '|' && s[1] != '|'))
 		len = 1;
-	if (s[0] == '&' || s[0] == '|')
+	if (s[0] == '&' || (s[0] == '|' && s[1] == '|'))
 		len = 2;
 	*start = *start + len;
 	substr = (char *) malloc(sizeof(char) * (len + 2));
@@ -132,9 +132,9 @@ char	**split_operands(const char *s)
 	int			start;
 	int			i;
 
-	if (s == NULL)
-		return (NULL);
 	num_substrings = size_dstr(s);
+	if (num_substrings == -2)
+		return (NULL);
 	substrings = malloc(sizeof(char *) * (num_substrings + 1));
 	if (!substrings)
 		error_init("malloc", 1);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errors_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 11:53:30 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/13 11:47:00 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/05/17 09:40:30 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,17 @@ int	error_init(char *msg, int error)
 	exit(error);
 }
 
-int	error_redir(char *org, int pos, t_minishell *data)
+int	error_redir(char *org, char *control)
 {
 	ft_putstr_fd("minishell: ", 2);
-	if ((org == NULL || *org == '\0') && pos == data->n_comands - 1)
+	if ((org == NULL || *org == '\0') && control == NULL)
 		ft_putstr_fd("syntax error near unexpected token `newline'\n", 2);
-	else if (((org == NULL || *org == '\0') && pos < data->n_comands - 1))
-		ft_putstr_fd("syntax error near unexpected token `|'\n", 2);
+	else if (((org == NULL || *org == '\0') && control != NULL))
+	{
+		ft_putstr_fd("syntax error near unexpected token `", 2);
+		ft_putstr_fd(control, 2);
+		ft_putstr_fd("'\n", 2);
+	}
 	if (org)
 	{
 		if (*org == '\5')

@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 07:29:18 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/09 14:53:55 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/17 09:39:10 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,45 +14,19 @@
 
 volatile sig_atomic_t	g_signal = 0;
 
-static int	open_pipes(t_minishell *data)
+int	open_pipes(t_minishell *data)
 {
-	int	i;
-
-	i = 0;
-	while (i < data->n_comands - 1)
-	{
-		if (pipe(data->pipes + 2 * i) < 0)
-			error_init("pipe", 1);
-		i++;
-	}
+	if (pipe(data->pipes) < 0)
+		error_init("pipe", 1);
 	return (EXIT_SUCCESS);
 }
 
 static int	minishell(t_minishell *data)
 {
-	pid_t	*pids;
-	int		i;
-
-	if (data->n_comands > 1)
-	{
-		data->pipes = (int *) malloc(sizeof(int) * 2 * (data->n_comands - 1));
-		if (!data->pipes)
-			error_init("malloc", 1);
-		open_pipes(data);
-		pids = (pid_t *) malloc(sizeof(pid_t) * data->n_comands);
-		if (!pids)
-			error_init("malloc", 1);
-		i = -1;
-		while (++i < data->n_comands)
-			pids[i] = create_process(&data->comand_split[i], data->pipes, i,
-					data);
-		close_pipes(data);
-		free(data->pipes);
-		controller(data, pids);
-		free(pids);
-	}
+	if (data->cmd_tree->left != NULL && data->cmd_tree->right != NULL)
+		data->last_status_cmd = proc_minishell(data, data->cmd_tree);
 	else
-		execute_command(&data->comand_split[0], data);
+		data->last_status_cmd = exec_command(data->cmd_tree->content, data);
 	full_free(data);
 	return (EXIT_SUCCESS);
 }

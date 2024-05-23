@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 15:04:34 by marvin            #+#    #+#             */
-/*   Updated: 2024/05/10 08:40:54 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/17 09:24:37 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,6 @@ t_tree			*ft_find_node(int key, t_tree *root);
 void			ft_insert_node(t_tree **node, int key, void *content,
 					int number);
 
-void			ft_clean_tree(t_tree **root);
+void			ft_clean_tree(t_tree **root, void (*del)(void *));
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 10:55:57 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/23 07:38:15 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/05/23 07:40:28 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,31 +26,16 @@ static void	show_title(void)
 
 void	hide_eof_symbol(struct termios *term)
 {
-	if (tcgetattr(STDIN_FILENO, term) == -1)
-	{
-		perror("tcgetattr");
-		exit(EXIT_FAILURE);
-	}
-	term->c_lflag |= 0001000;
-	if (tcsetattr(STDIN_FILENO, TCSANOW, term) == -1)
-	{
-		perror("tcsetattr");
-		exit(EXIT_FAILURE);
-	}
+	tcgetattr(STDIN_FILENO, term);
+	term->c_lflag &= ~(ECHOCTL);
+	tcsetattr(STDIN_FILENO, TCSANOW, term);
 }
 
 void	show_eof_symbol(struct termios *term)
 {
-	if (tcgetattr(STDIN_FILENO, term) == -1)
-	{
-		perror("tcgetattr");
-		exit(EXIT_FAILURE);
-	}
-	if (tcsetattr(STDIN_FILENO, TCSANOW, term) == -1)
-	{
-		perror("tcsetattr");
-		exit(EXIT_FAILURE);
-	}
+	tcgetattr(STDIN_FILENO, term);
+	term->c_lflag |= ECHOCTL;
+	tcsetattr(STDIN_FILENO, TCSANOW, term);
 }
 
 void	init(t_minishell *data)

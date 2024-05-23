@@ -19,7 +19,7 @@ static int	open_pipes(t_minishell *data)
 	int	i;
 
 	i = 0;
-	while (i < data->n_comands - 1)
+	while (i < data->n_commands - 1)
 	{
 		if (pipe(data->pipes + 2 * i) < 0)
 			error_init("pipe", 1);
@@ -33,18 +33,18 @@ static int	minishell(t_minishell *data)
 	pid_t	*pids;
 	int		i;
 
-	if (data->n_comands > 1)
+	if (data->n_commands > 1)
 	{
-		data->pipes = (int *) malloc(sizeof(int) * 2 * (data->n_comands - 1));
+		data->pipes = (int *) malloc(sizeof(int) * 2 * (data->n_commands - 1));
 		if (!data->pipes)
 			error_init("malloc", 1);
 		open_pipes(data);
-		pids = (pid_t *) malloc(sizeof(pid_t) * data->n_comands);
+		pids = (pid_t *) malloc(sizeof(pid_t) * data->n_commands);
 		if (!pids)
 			error_init("malloc", 1);
 		i = -1;
-		while (++i < data->n_comands)
-			pids[i] = create_process(&data->comand_split[i], data->pipes, i,
+		while (++i < data->n_commands)
+			pids[i] = create_process(&data->command_split[i], data->pipes, i,
 					data);
 		close_pipes(data);
 		free(data->pipes);
@@ -52,7 +52,7 @@ static int	minishell(t_minishell *data)
 		free(pids);
 	}
 	else
-		execute_command(&data->comand_split[0], data);
+		execute_command(&data->command_split[0], data);
 	full_free(data);
 	return (EXIT_SUCCESS);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   strings_utils_bonus.h                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 09:25:32 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/13 11:19:34 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/05/22 08:27:52 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,5 +42,9 @@ void		convert_wildcard(char *token, char chr, char ctrl, int control);
 void		reconvert_tokens(char **tokens);
 
 char		**split_operands(const char *s);
+
+void		remove_parenthesis(char **tokens);
+
+void		alloc_environ(t_minishell *data);
 
 #endif

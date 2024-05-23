@@ -1,6 +1,7 @@
 proximo dia:
 
-	continuar el ultimo bonus, empezando por probar que funciona bien el split de los operandos y despues crear la funcion recursiva que coloca en un arbol cada sub comando
+	cambiar para que cuando el command line no este terminado se pueda terminar en el caso de que que termine en && || o | o que ademas
+	no esten cerrados los parentesis
 
 	hacer pruebas locas con los argumentos desordenados y de todo
 	
@@ -12,7 +13,5 @@ si hay tiempo:
 		- limpiar la terminal cuando inicio
 		
 
-importante:
-	solucionar la configuracion de terminal
 	
 cosas de javier:

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 11:53:30 by iestero-          #+#    #+#             */
-/*   Updated: 2024/04/18 11:31:07 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/05/16 09:06:37 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ int	error_init(char *msg, int error)
 int	error_redir(char **tmp, char *org, int pos, t_minishell *data)
 {
 	ft_putstr_fd("minishell: ", 2);
-	if ((tmp == NULL || **tmp == '\0') && pos == data->n_comands - 1)
+	if ((tmp == NULL || **tmp == '\0') && pos == data->n_commands - 1)
 		ft_putstr_fd("syntax error near unexpected token `newline'\n", 2);
-	else if (((tmp == NULL || **tmp == '\0') && pos < data->n_comands - 1))
+	else if (((tmp == NULL || **tmp == '\0') && pos < data->n_commands - 1))
 		ft_putstr_fd("syntax error near unexpected token `|'\n", 2);
 	if (tmp)
 	{

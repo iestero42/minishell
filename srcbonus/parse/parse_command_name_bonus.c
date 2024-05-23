@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_command_name_bonus.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 08:18:57 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/13 11:18:46 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/05/22 08:29:34 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,6 @@ static int	check_own_command(char *token, t_command *cmd, char **cmd_list)
 	}
 	return (EXIT_SUCCESS);
 }
-
-
 
 int	parse_command_name(char **tokens, t_command *cmd, char **cmd_list)
 {
