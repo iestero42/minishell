@@ -3,15 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   parse_wildcard_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 11:53:17 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/23 09:43:47 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/05/23 15:38:16 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_bonus.h"
 
+/**
+ * @file parse_wildcard_bonus.c
+ * @brief Contains the functions for parsing wildcards.
+ * @author yunlovex <yunlovex@student.42.fr>
+ * @date 2024/05/23
+ */
+
+/**
+ * @brief 
+ * Matches a pattern with a string.
+ *
+ * @details
+ * Recursively matches a pattern with a string. The pattern can contain '\1' 
+ * characters, which match any character in the string.
+ *
+ * @param pattern The pattern to match.
+ * @param str The string to match.
+ * @return 1 if the pattern matches the string, 0 otherwise.
+ */
 static int	wildcard_match_str(const char *pattern, const char *str)
 {
 	if (*pattern == '\0' && *str == '\0')
@@ -26,6 +45,19 @@ static int	wildcard_match_str(const char *pattern, const char *str)
 	return (0);
 }
 
+/**
+ * @brief 
+ * Finds directory entries that match a token.
+ *
+ * @details
+ * Reads directory entries from a directory. If an entry matches 
+ * the token, it appends it to a string.
+ *
+ * @param dir The directory to read from.
+ * @param token The token to match.
+ * @return A string containing the matching directory entries, 
+ * 	separated by '\2' characters.
+ */
 static char	*matching_dir_content(DIR *dir, const char *token)
 {
 	struct dirent	*ent;
@@ -51,6 +83,19 @@ static char	*matching_dir_content(DIR *dir, const char *token)
 	return (ret);
 }
 
+/**
+ * @brief 
+ * Expands a wildcard.
+ *
+ * @details
+ * Opens the current directory and finds entries that match the token. 
+ * The token can contain wildcards, which are expanded to matching 
+ * directory entries.
+ *
+ * @param token The token to expand.
+ * @return A string containing the expanded wildcard, or NULL if 
+ * 	the token is NULL.
+ */
 static char	*expand_wildcard(const char *token)
 {
 	DIR		*dir;
@@ -70,6 +115,18 @@ static char	*expand_wildcard(const char *token)
 	return (ret);
 }
 
+/**
+ * @brief 
+ * Parses wildcards in tokens.
+ *
+ * @details
+ * Iterates over the tokens. If a token contains a wildcard, it expands 
+ * it to matching directory entries. Then, it splits the expanded wildcard 
+ * into separate tokens.
+ *
+ * @param token The tokens to parse.
+ * @return A new array of tokens, with wildcards expanded.
+ */
 char	**parse_wildcard(char **token)
 {
 	char	**new_token;

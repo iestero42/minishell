@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errors_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 11:53:30 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/23 08:48:55 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/05/23 15:46:47 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	error_redir(char *org, char *control)
 	}
 	if (org)
 	{
-		if (*org == '\5')
+		if (*org == ENVP_VAR)
 		{
 			ft_putstr_fd(org, 2);
 			ft_putstr_fd(": ambiguous redirect\n", 2);

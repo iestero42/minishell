@@ -3,15 +3,36 @@
 /*                                                        :::      ::::::::   */
 /*   split_command_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 09:03:49 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/23 08:49:09 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/05/23 15:43:37 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_bonus.h"
 
+/**
+ * @file split_command_bonus.c
+ * @brief Contains the functions for splitting commands.
+ * @author yunlovex <yunlovex@student.42.fr>
+ * @date 2024/05/23
+ */
+
+/**
+ * @brief 
+ * Calculates the size of the next substring in a string.
+ *
+ * @details
+ * Counts the number of characters in the next substring in a string, 
+ * starting from a given position. The position is updated to the end of 
+ * the substring.
+ *
+ * @param count The current count of characters.
+ * @param s The string to calculate the size from.
+ * @param position The starting position in the string.
+ * @return The updated count of characters, or -2 if an error occurs.
+ */
 static int	size_aux(int count, const char *s, int *position)
 {
 	int		i;
@@ -41,9 +62,15 @@ static int	size_aux(int count, const char *s, int *position)
 
 /**
  * @brief 
- * 
- * @param s 
- * @return int 
+ * Calculates the number of substrings in a string.
+ *
+ * @details
+ * Counts the number of substrings in a string. A substring is a 
+ * sequence of characters that are not spaces or special characters, or a 
+ * sequence of characters enclosed in quotes.
+ *
+ * @param s The string to calculate the size from.
+ * @return The number of substrings in the string, or -2 if an error occurs.
  */
 static int	size_dstr(const char *s)
 {
@@ -72,6 +99,21 @@ static int	size_dstr(const char *s)
 	return (error_split_operands(count, in_quotes));
 }
 
+/**
+ * @brief 
+ * Allocates memory for a substring.
+ *
+ * @details
+ * Allocates memory for a substring of a given length, 
+ * and copies the substring into the allocated memory.
+ * The start position is updated to the end of the substring.
+ *
+ * @param s The string to allocate memory from.
+ * @param len The length of the substring.
+ * @param start The starting position in the string.
+ * @return A pointer to the allocated memory, or NULL 
+ * 	if an error occurs.
+ */
 static char	*save_memory(const char *s, size_t len, int *start)
 {
 	char	*substr;
@@ -93,10 +135,17 @@ static char	*save_memory(const char *s, size_t len, int *start)
 }
 
 /**
- * @brief Get the next substring object
- * 
- * @param s 
- * @return char* 
+ * @brief 
+ * Gets the next substring in a string.
+ *
+ * @details
+ * Finds the next substring in a string, starting from a given position.
+ * A substring is a sequence of characters that are not spaces or 
+ * special characters, or a sequence of characters enclosed in quotes.
+ *
+ * @param start The starting position in the string.
+ * @param s The string to get the substring from.
+ * @return A pointer to the substring, or NULL if an error occurs.
  */
 static char	*get_next_substring(int *start, const char *s)
 {
@@ -126,9 +175,15 @@ static char	*get_next_substring(int *start, const char *s)
 
 /**
  * @brief 
- * 
- * @param s 
- * @return char** 
+ * Splits a command into substrings.
+ *
+ * @details
+ * Splits a command into substrings. A substring is a sequence of characters
+ * that are not spaces or special characters, or a sequence of characters enclosed 
+ * in quotes. The substrings are stored in an array.
+ *
+ * @param s The command to split.
+ * @return An array of substrings, or NULL if an error occurs.
  */
 char	**split_command(const char *s)
 {

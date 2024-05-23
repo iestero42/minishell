@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 07:29:23 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/23 14:44:09 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/23 14:56:44 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,16 +40,16 @@
 # include <readline/history.h>
 # include <sys/ioctl.h>
 
-//*****Signals*****//
+//***********SIGNALS***********//
 void		signal_handler(int signum);
 int			controller(t_minishell *data, pid_t *pid);
 void		signal_handler_readline(int signum);
 
-//*****Command Execution*****//
+//***********EXECUTION***********//
 int			exec_command(t_command *cmd, t_minishell *data);
 int			proc_minishell(t_minishell *data, t_tree *tree);
 
-//*****Configurations*****//
+//***********CONFIG***********//
 void		hide_eof_symbol(struct termios *term);
 void		show_eof_symbol(struct termios *term);
 void		configurations(void);

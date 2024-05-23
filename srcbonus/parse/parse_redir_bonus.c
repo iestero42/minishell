@@ -3,15 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   parse_redir_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 09:21:16 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/23 09:19:36 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/05/23 15:35:26 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_bonus.h"
 
+/**
+ * @file parse_redir_bonus.c
+ * @brief Contains the functions for parsing redirections.
+ * @author yunlovex <yunlovex@student.42.fr>
+ * @date 2024/05/23
+ */
+
+/**
+ * @brief 
+ * Checks if a token contains only '\5' characters.
+ *
+ * @details
+ * Counts the number of '\5' characters and other characters in the token.
+ * If the token contains only '\5' characters or no '\5' characters, 
+ * it returns 1. Otherwise, it returns 0.
+ *
+ * @param token The token to check.
+ * @return 1 if the token contains only '\5' characters or no '\5' 
+ * 	characters, 0 otherwise.
+ */
 static int	check_slash5(char *token)
 {
 	int	i;
@@ -34,6 +54,17 @@ static int	check_slash5(char *token)
 		return (0);
 }
 
+/**
+ * @brief 
+ * Removes '\5' characters from a token.
+ *
+ * @details
+ * Iterates over the token. If it finds a '\5' character, 
+ * it removes it from the token.
+ *
+ * @param token The token to modify.
+ * @return The modified token.
+ */
 static char	*remove_char(char *token)
 {
 	char	*tmp;
@@ -59,6 +90,16 @@ static char	*remove_char(char *token)
 	return (tmp);
 }
 
+/**
+ * @brief 
+ * Removes '\5' characters from tokens.
+ *
+ * @details
+ * Iterates over the tokens. If a token contains '\5' characters,
+ * it removes them.
+ *
+ * @param token The tokens to modify.
+ */
 static void	rm_slash5(char **token)
 {
 	int		i;
@@ -72,6 +113,20 @@ static void	rm_slash5(char **token)
 	}
 }
 
+/**
+ * @brief 
+ * Parses the redirections in the tokens.
+ *
+ * @details
+ * Removes '\5' characters from the tokens, then parses 
+ * the output and input redirections.
+ *
+ * @param tokens The tokens to parse.
+ * @param cmd The command structure to modify.
+ * @param control The control character.
+ * @param data The minishell data.
+ * @return EXIT_SUCCESS on success, EXIT_FAILURE on failure.
+ */
 int	parse_redirect(char **tokens, t_command *cmd, char *control,
 		t_minishell *data)
 {

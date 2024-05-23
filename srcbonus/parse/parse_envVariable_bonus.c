@@ -3,15 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   parse_envVariable_bonus.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 10:24:02 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/13 11:35:40 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/05/23 15:28:08 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_bonus.h"
 
+/**
+ * @file parse_envVariable_bonus.c
+ * @brief Contains the functions for parsing environment variables.
+ * @author yunlovex <yunlovex@student.42.fr>
+ * @date 2024/05/23
+ */
+
+/**
+ * @brief 
+ * Handles special environment variables.
+ *
+ * @details
+ * Converts the last status to a string and updates 
+ * the position and start indices.
+ *
+ * @param last_status The last status of the command.
+ * @param position The current position in the token.
+ * @param start The start index of the environment variable in the token.
+ * @return The string representation of the last status.
+ */
 static char	*special_env_variable(int last_status, int *position,
 	int *start)
 {
@@ -27,6 +47,22 @@ static char	*special_env_variable(int last_status, int *position,
 	return (str);
 }
 
+
+/**
+ * @brief 
+ * Expands an environment variable in a token.
+ *
+ * @details
+ * If the token is a special environment variable, it calls special_env_variable.
+ * Otherwise, it extracts the environment variable name, gets its value,
+ * and updates the position and start indices.
+ *
+ * @param token The token to expand.
+ * @param start The start index of the environment variable in the token.
+ * @param position The current position in the token.
+ * @param last_status The last status of the command.
+ * @return The value of the environment variable.
+ */
 static char	*expand_env_variable(char *token, int *start, int *position,
 	int last_status)
 {
@@ -53,6 +89,18 @@ static char	*expand_env_variable(char *token, int *start, int *position,
 	return (env_var);
 }
 
+/**
+ * @brief 
+ * Checks a token for environment variables.
+ *
+ * @details
+ * Iterates over the token. If it finds a '$', it expands 
+ * the environment variable and appends it to the new token.
+ *
+ * @param token The token to check.
+ * @param last_status The last status of the command.
+ * @return The new token with expanded environment variables.
+ */
 static char	*check_token(char *token, int last_status)
 {
 	char	*new_token;
@@ -82,6 +130,20 @@ static char	*check_token(char *token, int last_status)
 	return (new_token);
 }
 
+/**
+ * @brief 
+ * Parses an environment variable in a token.
+ *
+ * @details
+ * If the token is NULL, it returns NULL. If the quote is a single quote,
+ * it returns a copy of the token. Otherwise, it checks the token 
+ * for environment variables.
+ *
+ * @param token The token to parse.
+ * @param last_status The last status of the command.
+ * @param quote The quote character.
+ * @return The parsed token.
+ */
 char	*parse_env_variable(char *token, int last_status, int quote)
 {
 	char	*new_token;

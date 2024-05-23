@@ -3,15 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   parse_output_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 11:35:45 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/23 09:43:14 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/05/23 15:32:46 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_bonus.h"
 
+/**
+ * @file parse_output_bonus.c
+ * @brief Contains the functions for parsing output.
+ * @author yunlovex <yunlovex@student.42.fr>
+ * @date 2024/05/23
+ */
+
+/**
+ * @brief 
+ * Opens a simple output redirection.
+ *
+ * @details
+ * If the token contains an output redirection, it opens the file for writing
+ * and sets the output redirection in the command structure.
+ *
+ * @param tokens The tokens to parse.
+ * @param cmd The command structure to modify.
+ * @param control The control character.
+ * @return EXIT_SUCCESS on success, EXIT_FAILURE on failure.
+ */
 static int	open_output_simple(char **tokens, t_command *cmd,
 		char *control)
 {
@@ -40,6 +60,19 @@ static int	open_output_simple(char **tokens, t_command *cmd,
 	return (EXIT_SUCCESS);
 }
 
+/**
+ * @brief 
+ * Opens a double output redirection (append).
+ *
+ * @details
+ * If the token contains a double output redirection, it opens the file 
+ * for appending and sets the output redirection in the command structure.
+ *
+ * @param tokens The tokens to parse.
+ * @param cmd The command structure to modify.
+ * @param control The control character.
+ * @return EXIT_SUCCESS on success, EXIT_FAILURE on failure.
+ */
 static int	open_output_double(char **tokens, t_command *cmd,
 		char *control)
 {
@@ -69,6 +102,19 @@ static int	open_output_double(char **tokens, t_command *cmd,
 	return (EXIT_SUCCESS);
 }
 
+/**
+ * @brief 
+ * Parses the output redirections in the tokens.
+ *
+ * @details
+ * If the first token is not a quote, it tries to open a double output 
+ * redirection and a simple output redirection.
+ *
+ * @param tokens The tokens to parse.
+ * @param cmd The command structure to modify.
+ * @param control The control character.
+ * @return EXIT_SUCCESS on success, EXIT_FAILURE on failure.
+ */
 int	parse_output(char **tokens, t_command *cmd,
 		char *control)
 {

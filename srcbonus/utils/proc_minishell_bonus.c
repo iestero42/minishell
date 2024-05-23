@@ -6,11 +6,18 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 09:23:36 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/23 14:40:52 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/23 14:50:54 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_bonus.h"
+
+static int	open_pipes(t_minishell *data)
+{
+	if (pipe(data->pipes) < 0)
+		error_init("pipe", 1);
+	return (EXIT_SUCCESS);
+}
 
 static void	child_read(int fd, int *pipes)
 {

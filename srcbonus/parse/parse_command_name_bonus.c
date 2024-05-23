@@ -3,15 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   parse_command_name_bonus.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 08:18:57 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/23 09:40:01 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/05/23 15:23:51 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_bonus.h"
 
+/**
+ * @file parse_command_name_bonus.c
+ * @brief Contains the functions for parsing command names.
+ * @author yunlovex <yunlovex@student.42.fr>
+ * @date 2024/05/23
+ */
+
+/**
+ * @brief 
+ * Prints an error message and returns EXIT_FAILURE.
+ *
+ * @param cmd The command that was not found.
+ * @return Always returns EXIT_FAILURE.
+ */
 static int	print_error(char *cmd)
 {
 	ft_putstr_fd("minishell: ", 2);
@@ -20,6 +34,20 @@ static int	print_error(char *cmd)
 	return (EXIT_FAILURE);
 }
 
+/**
+ * @brief 
+ * Checks if the token is a path command.
+ *
+ * @details
+ * If the command name is not set, it iterates over the directories,
+ * constructs the absolute path, and checks if it is executable.
+ * If it is, it sets the command name and type.
+ *
+ * @param token The token to check.
+ * @param dirs The directories to check.
+ * @param cmd The command structure to modify.
+ * @return EXIT_SUCCESS on success, EXIT_FAILURE on failure.
+ */
 static int	check_path(char *token, char **dirs, t_command *cmd)
 {
 	char	abs_path[1024];
@@ -49,6 +77,18 @@ static int	check_path(char *token, char **dirs, t_command *cmd)
 	return (EXIT_SUCCESS);
 }
 
+/**
+ * @brief 
+ * Checks if the token is a relative path command.
+ *
+ * @details
+ * If the command name is not set, it checks if the token is executable.
+ * If it is, it sets the command name and type.
+ *
+ * @param token The token to check.
+ * @param cmd The command structure to modify.
+ * @return Always returns EXIT_SUCCESS.
+ */
 static int	check_relative_path(char *token, t_command *cmd)
 {
 	if (!cmd->name)
@@ -64,6 +104,19 @@ static int	check_relative_path(char *token, t_command *cmd)
 	return (EXIT_SUCCESS);
 }
 
+/**
+ * @brief 
+ * Checks if the token is an own command.
+ *
+ * @details
+ * Iterates over the command list and compares each command with the token.
+ * If they match, it sets the command name and type.
+ *
+ * @param token The token to check.
+ * @param cmd The command structure to modify.
+ * @param cmd_list The list of own commands.
+ * @return Always returns EXIT_SUCCESS.
+ */
 static int	check_own_command(char *token, t_command *cmd, char **cmd_list)
 {
 	int		i;
@@ -82,6 +135,21 @@ static int	check_own_command(char *token, t_command *cmd, char **cmd_list)
 	return (EXIT_SUCCESS);
 }
 
+/**
+ * @brief 
+ * Parses the command name from the tokens.
+ *
+ * @details
+ * Converts the tokens, gets the PATH environment variable, 
+ * splits it into directories, and checks if the first non-empty 
+ * token is an own command, a relative path command,
+ * or a path command.
+ *
+ * @param tokens The tokens to parse.
+ * @param cmd The command structure to fill.
+ * @param cmd_list The list of own commands.
+ * @return EXIT_SUCCESS on success, EXIT_FAILURE on failure.
+ */
 int	parse_command_name(char **tokens, t_command *cmd, char **cmd_list)
 {
 	int		i;

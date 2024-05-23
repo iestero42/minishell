@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 10:22:28 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/23 14:34:52 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/23 15:05:18 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,15 +41,14 @@ void	signal_handler(int signum)
 	}
 }
 
-static void	signal_use(t_minishell *data, pid_t *pid)
+static void	signal_use(pid_t *pid)
 {
 	int	i;
 
 	if (g_signal == 2)
 	{
 		i = -1;
-		while (++i < data->n_commands)
-			kill(pid[i], SIGTERM);
+		kill(pid[i], SIGTERM);
 	}
 }
 
@@ -68,7 +67,7 @@ int	controller(t_minishell *data, pid_t *pid)
 		result = waitpid(*pid, &status_cmd, WNOHANG);
 		if (result > 0)
 			total++;
-		signal_use(data, pid);
+		signal_use(pid);
 		if (total == 1)
 			status = STOPPED;
 	}

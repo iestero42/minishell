@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_input_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 11:47:55 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/23 09:54:28 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/05/23 15:30:46 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,24 @@
 extern volatile sig_atomic_t	g_signal;
 
 /**
+ * @file parse_input_bonus.c
+ * @brief Contains the functions for parsing input.
+ * @author yunlovex <yunlovex@student.42.fr>
+ * @date 2024/05/23
+ */
+
+/**
  * @brief 
- * 
- * @param token 
- * @param cmd 
- * @param nextToken 
- * @return int 
+ * Opens a simple input redirection.
+ *
+ * @details
+ * If the token contains an input redirection, it opens the file for reading
+ * and sets the input redirection in the command structure.
+ *
+ * @param tokens The tokens to parse.
+ * @param cmd The command structure to modify.
+ * @param control The control character.
+ * @return EXIT_SUCCESS on success, EXIT_FAILURE on failure.
  */
 static int	open_input_simple(char **tokens, t_command *cmd,
 				char *control)
@@ -50,6 +62,17 @@ static int	open_input_simple(char **tokens, t_command *cmd,
 	return (EXIT_SUCCESS);
 }
 
+/**
+ * @brief 
+ * Controls the heredoc process.
+ *
+ * @details
+ * Waits for the heredoc process to finish and handles signals.
+ *
+ * @param pid The process ID of the heredoc process.
+ * @param fd The file descriptor of the heredoc.
+ * @param data The minishell data.
+ */
 static void	controller_heredoc(pid_t pid, int *fd, t_minishell *data)
 {
 	int	status;
@@ -74,9 +97,18 @@ static void	controller_heredoc(pid_t pid, int *fd, t_minishell *data)
 
 /**
  * @brief 
- * 
- * @param delimiter 
- * @return int 
+ * Writes a heredoc to a pipe.
+ *
+ * @details
+ * Forks a new process, reads lines from the standard input until the 
+ * delimiter is found, parses environment variables in the lines, and 
+ * writes them to the pipe.
+ *
+ * @param delimiter The delimiter of the heredoc.
+ * @param last_status The last status of the command.
+ * @param data The minishell data.
+ * @param pipes The pipes to write to.
+ * @return The read end of the pipe.
  */
 static int	write_here_doc(char *delimiter, int last_status, t_minishell *data,
 				int pipes[2])
@@ -110,11 +142,17 @@ static int	write_here_doc(char *delimiter, int last_status, t_minishell *data,
 
 /**
  * @brief 
- * 
- * @param token 
- * @param cmd 
- * @param nextToken 
- * @return int 
+ * Opens a double input redirection (heredoc).
+ *
+ * @details
+ * If the token contains a heredoc, it writes the heredoc to a pipe
+ * and sets the input redirection in the command structure.
+ *
+ * @param tokens The tokens to parse.
+ * @param cmd The command structure to modify.
+ * @param control The control character.
+ * @param data The minishell data.
+ * @return EXIT_SUCCESS on success, EXIT_FAILURE on failure.
  */
 static int	open_input_double(char **tokens, t_command *cmd,
 				char *control, t_minishell *data)
@@ -148,11 +186,17 @@ static int	open_input_double(char **tokens, t_command *cmd,
 
 /**
  * @brief 
- * 
- * @param token 
- * @param cmd 
- * @param nextToken 
- * @return int 
+ * Parses the input redirections in the tokens.
+ *
+ * @details
+ * If the first token is not a quote, it tries to open a double 
+ * input redirection and a simple input redirection.
+ *
+ * @param tokens The tokens to parse.
+ * @param cmd The command structure to modify.
+ * @param control The control character.
+ * @param data The minishell data.
+ * @return EXIT_SUCCESS on success, EXIT_FAILURE on failure.
  */
 int	parse_input(char **tokens, t_command *cmd,
 		char *control, t_minishell *data)

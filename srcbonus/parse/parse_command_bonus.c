@@ -3,15 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   parse_command_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 08:50:36 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/23 09:11:48 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/05/23 15:21:04 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_bonus.h"
 
+/**
+ * @file parse_command_bonus.c
+ * @brief Contains the functions for parsing commands.
+ * @author yunlovex <yunlovex@student.42.fr>
+ * @date 2024/05/23
+ */
+
+/**
+ * @brief 
+ * Handles an error in command parsing.
+ *
+ * @details
+ * Sets the command type to ERROR_COMMAND, clears the name and args,
+ * and frees the tokens.
+ *
+ * @param cmd The command structure to modify.
+ * @param tokens The tokens to free.
+ * @return Always returns EXIT_SUCCESS.
+ */
 static int	error_command(t_command *cmd, char **tokens)
 {
 	cmd->type = ERROR_COMMAND;
@@ -21,6 +40,19 @@ static int	error_command(t_command *cmd, char **tokens)
 	return (EXIT_SUCCESS);
 }
 
+/**
+ * @brief 
+ * Trims the arguments from the tokens.
+ *
+ * @details
+ * Iterates over the tokens, trims each one, and appends
+ * it to the new_token array.
+ *
+ * @param tokens The tokens to trim.
+ * @param last_status The last status of the command.
+ * @param data The minishell data.
+ * @return The new_token array.
+ */
 static char	**trim_args(char **tokens, int last_status, t_minishell *data)
 {
 	int		i;
@@ -47,6 +79,20 @@ static char	**trim_args(char **tokens, int last_status, t_minishell *data)
 	return (new_token);
 }
 
+/**
+ * @brief 
+ * Parses a subcommand from the tokens.
+ *
+ * @details
+ * Trims the arguments, parses the redirection, command name, and arguments,
+ * and handles any errors that occur.
+ *
+ * @param tokens The tokens to parse.
+ * @param cmd The command structure to fill.
+ * @param data The minishell data.
+ * @param control The control character.
+ * @return EXIT_SUCCESS on success, EXIT_FAILURE on failure.
+ */
 static int	parse_subcmd(char **tokens, t_command *cmd, t_minishell *data,
 		char *control)
 {
@@ -71,6 +117,20 @@ static int	parse_subcmd(char **tokens, t_command *cmd, t_minishell *data,
 	return (EXIT_SUCCESS);
 }
 
+/**
+ * @brief 
+ * Recursively parses a command from the tokens.
+ *
+ * @details
+ * Removes parentheses, checks for a new command, and recursively parses
+ * the left and right subcommands.
+ *
+ * @param tokens The tokens to parse.
+ * @param data The minishell data.
+ * @param tree The command tree to fill.
+ * @param control The control character.
+ * @return EXIT_SUCCESS on success, EXIT_FAILURE on failure.
+ */
 static int	parse_command_rec(char **tokens, t_minishell *data, t_tree *tree,
 				char *control)
 {
@@ -100,6 +160,18 @@ static int	parse_command_rec(char **tokens, t_minishell *data, t_tree *tree,
 	return (EXIT_SUCCESS);
 }
 
+/**
+ * @brief 
+ * Parses a command from a string.
+ *
+ * @details
+ * Splits the command string into tokens, creates a new command tree,
+ * and recursively parses the command.
+ *
+ * @param command_str The command string to parse.
+ * @param data The minishell data.
+ * @return EXIT_SUCCESS on success, EXIT_FAILURE on failure.
+ */
 int	parse_command(char *command_str, t_minishell *data)
 {
 	char		**tokens;
