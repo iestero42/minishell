@@ -6,11 +6,20 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 10:15:38 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/22 16:03:39 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/23 14:46:29 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_bonus.h"
+
+static void	dupping(int fd, int mode)
+{
+	if (dup2(fd, mode) < 0)
+	{
+		perror("dup");
+		exit(1);
+	}
+}
 
 static int	builtins(t_command cmd)
 {
@@ -31,7 +40,7 @@ static int	builtins(t_command cmd)
 	return (EXIT_SUCCESS);
 }
 
-int	exec_command_special(t_command *cmd, t_minishell *data)
+static int	execute_command_logic(t_command *cmd, t_minishell *data)
 {
 	pid_t			pid;
 	extern char		**environ;
@@ -57,4 +66,32 @@ int	exec_command_special(t_command *cmd, t_minishell *data)
 	else if (cmd->type == ERROR_COMMAND)
 		return (127);
 	return (0);
+}
+
+int	exec_command(t_command *cmd, t_minishell *data)
+{
+	struct termios	term;
+	int				result;
+
+	if (cmd->input_redirect < 0)
+		show_eof_symbol(&term);
+	if (cmd->input_redirect > -1 && cmd->output_redirect > -1)
+	{
+		dupping(cmd->input_redirect, STDIN_FILENO);
+		dupping(cmd->output_redirect, STDOUT_FILENO);
+	}
+	else if (cmd->input_redirect < 0 && cmd->output_redirect > -1)
+	{
+		dupping(data->std_fileno[0], STDIN_FILENO);
+		dupping(cmd->output_redirect, STDOUT_FILENO);
+	}
+	else if (cmd->input_redirect > -1 && cmd->output_redirect < 0)
+	{
+		dupping(cmd->input_redirect, STDIN_FILENO);
+		dupping(data->std_fileno[1], STDOUT_FILENO);
+	}
+	result = execute_command_logic(cmd, data);
+	if (cmd->input_redirect < 0)
+		hide_eof_symbol(&term);
+	return (result);
 }

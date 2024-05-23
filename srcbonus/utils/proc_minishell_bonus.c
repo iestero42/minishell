@@ -3,66 +3,53 @@
 /*                                                        :::      ::::::::   */
 /*   proc_minishell_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 09:23:36 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/23 11:26:15 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/05/23 14:40:52 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_bonus.h"
 
-static void	dupping(int fd, int mode)
-{
-	if (dup2(fd, mode) < 0)
-	{
-		perror("dup");
-		exit(1);
-	}
-}
-
 static void	child_read(int fd, int *pipes)
 {
 	if (fd > -1)
-		dupping(fd, STDIN_FILENO);
+	{
+		if (dup2(fd, STDIN_FILENO) < 0)
+		{
+			perror("dup");
+			exit(1);
+		}
+	}
 	else if (fd < 0)
-		dupping(pipes[0], STDIN_FILENO);
+	{
+		if (dup2(pipes[0], STDIN_FILENO) < 0)
+		{
+			perror("dup");
+			exit(1);
+		}
+	}
 }
 
 static void	child_write(int fd, int *pipes)
 {
 	if (fd > -1)
-		dupping(fd, STDOUT_FILENO);
+	{
+		if (dup2(fd, STDOUT_FILENO) < 0)
+		{
+			perror("dup");
+			exit(1);
+		}
+	}
 	else if (fd < 0)
-		dupping(pipes[1], STDOUT_FILENO);
-}
-
-int	exec_command(t_command *cmd, t_minishell *data)
-{
-	struct termios	term;
-	int				result;
-
-	if (cmd->input_redirect < 0)
-		show_eof_symbol(&term);
-	if (cmd->input_redirect > -1 && cmd->output_redirect > -1)
 	{
-		dupping(cmd->input_redirect, STDIN_FILENO);
-		dupping(cmd->output_redirect, STDOUT_FILENO);
+		if (dup2(pipes[1], STDOUT_FILENO) < 0)
+		{
+			perror("dup");
+			exit(1);
+		}
 	}
-	else if (cmd->input_redirect < 0 && cmd->output_redirect > -1)
-	{
-		dupping(data->std_fileno[0], STDIN_FILENO);
-		dupping(cmd->output_redirect, STDOUT_FILENO);
-	}
-	else if (cmd->input_redirect > -1 && cmd->output_redirect < 0)
-	{
-		dupping(cmd->input_redirect, STDIN_FILENO);
-		dupping(data->std_fileno[1], STDOUT_FILENO);
-	}
-	result = exec_command_special(cmd, data);
-	if (cmd->input_redirect < 0)
-		hide_eof_symbol(&term);
-	return (result);
 }
 
 static int	proc_childs(t_minishell *data, t_tree *tree, pid_t *ch, int mode)

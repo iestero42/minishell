@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 10:22:28 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/22 08:32:45 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/23 14:34:52 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,10 @@ void	signal_handler(int signum)
 		g_signal = 2;
 	}
 	if (signum == SIGTERM)
+	{
 		double_free(environ);
+		g_signal = 3;
+	}
 }
 
 static void	signal_use(t_minishell *data, pid_t *pid)
@@ -69,7 +72,7 @@ int	controller(t_minishell *data, pid_t *pid)
 		if (total == 1)
 			status = STOPPED;
 	}
-	if (g_signal == 2)
-		printf("\n");
+	if (g_signal == 2 || g_signal == 3)
+		ft_putstr_fd("\n", data->std_fileno[0]);
 	return (status_cmd);
 }
