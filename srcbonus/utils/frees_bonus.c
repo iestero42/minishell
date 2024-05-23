@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   frees_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 11:33:49 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/17 09:42:14 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/23 09:21:27 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	free_cmd(void *cmd)
 {
 	t_command	*ptr;
+
 	ptr = (t_command *) cmd;
 	if (ptr)
 	{

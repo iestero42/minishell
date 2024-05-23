@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 07:29:18 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/17 09:39:10 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/23 09:10:33 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,10 @@ int	main(void)
 	while (data.status != STOPPED)
 	{
 		signal(SIGINT, signal_handler_readline);
-		line = readline_main();
+		line = readline(MINISHELL_ENTRY);
 		if (line == NULL)
 		{
-			print_exit();
+			printf("exit\n");
 			break ;
 		}
 		if (*line != '\0')

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_redir_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 09:21:16 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/17 09:54:16 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/23 09:19:36 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,8 @@ static void	rm_slash5(char **token)
 	}
 }
 
-int	parse_redirect(char **tokens, t_command *cmd, char *control, t_minishell *data)
+int	parse_redirect(char **tokens, t_command *cmd, char *control,
+		t_minishell *data)
 {
 	int	i;
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errors_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 11:53:30 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/17 09:40:30 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/23 08:48:55 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int	error_unclosed_quotes(char *arg, int len)
 	return (quotes);
 }
 
-int	error_split_operands(int count, int quotes, const char *s)
+int	error_split_operands(int count, int quotes)
 {
 	if (quotes)
 	{
@@ -80,9 +80,7 @@ int	error_split_operands(int count, int quotes, const char *s)
 	}
 	else if (count == -2)
 	{
-		ft_putstr_fd("minishell: syntax error near unexpected token ", 2);
-		ft_putchar_fd(s[0], 2);
-		ft_putchar_fd('\n', 2);
+		ft_putstr_fd("minishell: syntax error near unexpected token '&'\n", 2);
 		return (-2);
 	}
 	return (count);

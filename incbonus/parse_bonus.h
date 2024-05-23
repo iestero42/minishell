@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 09:19:54 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/17 13:10:33 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/23 09:14:02 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,6 @@ char		**parse_wildcard(char **token);
 
 int			parse_args(t_command *cmd, char **tokens);
 
-int 		parse_command(char *command_str, t_minishell *data);
+int			parse_command(char *command_str, t_minishell *data);
 
 #endif

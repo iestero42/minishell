@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_bonus.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 07:29:23 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/17 09:36:27 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/23 09:10:57 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ int			proc_minishell(t_minishell *data, t_tree *tree);
 void		hide_eof_symbol(struct termios *term);
 void		show_eof_symbol(struct termios *term);
 void		configurations(void);
-void		print_exit(void);
 void		deinit(t_minishell *data);
 void		init(t_minishell *data);
 

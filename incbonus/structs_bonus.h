@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs_bonus.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 09:20:30 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/17 08:13:21 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/23 09:49:44 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,11 @@
 # define EXIT_COMMAND	7
 
 # define NUM_COMMANDS	7
+
+# define WILDCARD		'\1'
+# define INPUT_REDIR	'\3'
+# define OUTPUT_REDIR	'\4'
+# define ENVP_VAR		'\5'
 
 # include <termios.h>
 

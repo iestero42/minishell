@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 11:53:17 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/13 10:15:01 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/05/23 09:43:47 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,41 +69,6 @@ static char	*expand_wildcard(const char *token)
 	}
 	return (ret);
 }
-/*
-char	**parse_wildcard(char **token)
-{
-	char	**new_token;
-	char	*expand;
-	char	**split;
-	int		i;
-
-	if (token == NULL)
-		return (NULL);
-	i = -1;
-	new_token = NULL;
-	while (token[++i] != NULL)
-	{
-		if (!ft_strchr(token[i], '\1'))
-			new_token = ft_dstrjoin(new_token, &token[i]);
-		else
-		{
-			expand = expand_wildcard(token[i]);
-			if (expand == NULL)
-			{
-				expand = ft_strdup(token[i]);
-				convert_wildcard(expand, 0);
-			}
-			split = ft_split(expand, '\2');
-			free(expand);
-			if (split == NULL)
-				error_init("malloc", 1);
-			else
-				new_token = ft_dstrjoin(new_token, split);
-			free(split);
-		}
-	}
-	return (new_token);
-}*/
 
 char	**parse_wildcard(char **token)
 {
@@ -119,11 +84,11 @@ char	**parse_wildcard(char **token)
 	while (token[++i] != NULL)
 	{
 		expand = NULL;
-		if (ft_strchr(token[i], '\1'))
+		if (ft_strchr(token[i], WILDCARD))
 			expand = expand_wildcard(token[i]);
 		if (expand == NULL)
 			expand = ft_strdup(token[i]);
-		convert_wildcard(expand, '*', '\1', 0);
+		convert_char(expand, '*', WILDCARD, 0);
 		split = ft_split(expand, '\2');
 		free(expand);
 		if (split == NULL)

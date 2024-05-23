@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 09:03:49 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/13 11:29:13 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/05/23 08:49:09 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,19 @@ static int	size_aux(int count, const char *s, int *position)
 
 	count++;
 	i = *position;
-	if (s[i] == '<' || s[i] == '>' || s[i] == ' ')
+	if (s[i] != ')' && s[i] != '(' && s[i] == s[i + 1])
 	{
 		if (s[i] == s[i + 1] && (s[i - 1] == ' ' || i == 0))
 			i = i + 2;
 		else if (s[i] == s[i + 1] && s[i - 1] != ' ' && s[i] != ' ')
 			i++;
-		else if (s[i - 1] == ' ' || i == 0)
-			i = i + 1;
-		while (s[i] == ' ')
-			i++;
 	}
+	else if (s[i] == '&' && s[i] != s[i + 1])
+		return (-2);
+	else if (s[i - 1] == ' ' || i == 0)
+		i = i + 1;
+	while (s[i] == ' ')
+		i++;
 	if ((*position == 0 || s[*position] == ' ' || s[*position - 1] == ' ')
 		&& s[*position + 1] != '\0')
 		*position = i - 1;
@@ -52,7 +54,7 @@ static int	size_dstr(const char *s)
 	count = 0;
 	in_quotes = UNQUOTED;
 	i = -1;
-	while (s[++i] != '\0')
+	while (s[++i] != '\0' && count >= 0)
 	{
 		if ((s[i] == '"' || s[i] == '\'') && !in_quotes)
 			in_quotes = s[i];
@@ -62,21 +64,22 @@ static int	size_dstr(const char *s)
 			count++;
 		}
 		else if ((s[i] == ' ' || s[i + 1] == '\0'
-				|| s[i] == '<' || s[i] == '>') && !in_quotes)
+				|| s[i] == '<' || s[i] == '>'
+				|| s[i] == ')' || s[i] == '('
+				|| s[i] == '&' || s[i] == '|') && !in_quotes)
 			count = size_aux(count, s, &i);
 	}
-	if (in_quotes)
-		return (-2);
-	return (count);
+	return (error_split_operands(count, in_quotes));
 }
 
 static char	*save_memory(const char *s, size_t len, int *start)
 {
 	char	*substr;
 
-	if (s[0] == '<' || s[0] == '>')
+	if (s[0] == '<' || s[0] == '>' || s[0] == '|'
+		|| s[0] == '&' || s[0] == '(' || s[0] == ')')
 	{
-		if (s[0] == s[1])
+		if (s[0] == s[1] && s[0] != '(' && s[0] != ')')
 			len = 2;
 		else
 			len = 1;
@@ -107,7 +110,9 @@ static char	*get_next_substring(int *start, const char *s)
 	start_chr = &s[*start];
 	i = -1;
 	while (start_chr[++i] && (in_quotes || (start_chr[i] != ' '
-				&& start_chr[i] != '<' && start_chr[i] != '>')))
+				&& start_chr[i] != '<' && start_chr[i] != '>'
+				&& start_chr[i] != '(' && start_chr[i] != ')'
+				&& start_chr[i] != '&' && start_chr[i] != '|')))
 	{
 		if ((start_chr[i] == '"' || start_chr[i] == '\'') && !in_quotes)
 			in_quotes = start_chr[i];
@@ -132,9 +137,9 @@ char	**split_command(const char *s)
 	int			start;
 	int			i;
 
-	if (s == NULL)
-		return (NULL);
 	num_substrings = size_dstr(s);
+	if (num_substrings == -2)
+		return (NULL);
 	substrings = malloc(sizeof(char *) * (num_substrings + 1));
 	if (!substrings)
 		error_init("malloc", 1);

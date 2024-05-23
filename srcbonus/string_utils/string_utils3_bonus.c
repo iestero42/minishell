@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   string_utils3_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 11:17:36 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/22 08:27:35 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/23 09:40:01 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_bonus.h"
 
-void	convert_wildcard(char *token, char chr, char ctrl, int control)
+void	convert_char(char *token, char chr, char ctrl, int control)
 {
 	int	i;
 
@@ -35,17 +35,17 @@ void	convert_wildcard(char *token, char chr, char ctrl, int control)
 	}
 }
 
-void	reconvert_tokens(char **tokens)
+void	convert_tokens(char **tokens)
 {
 	int	i;
 
 	i = 0;
 	while (tokens[i] != NULL)
 	{
-		convert_wildcard(tokens[i], '\0', '\4', 0);
-		convert_wildcard(tokens[i], '<', '\2', 0);
-		convert_wildcard(tokens[i], '>', '\3', 0);
-        i++;
+		convert_char(tokens[i], '\0', ENVP_VAR, 0);
+		convert_char(tokens[i], '<', INPUT_REDIR, 0);
+		convert_char(tokens[i], '>', OUTPUT_REDIR, 0);
+		i++;
 	}
 }
 
@@ -55,7 +55,6 @@ void	remove_parenthesis(char **tokens)
 	int	j;
 	int	count_parentheses;
 
-	
 	j = 0;
 	if (*tokens[0] == '(' && *tokens[ft_dstrlen(tokens) - 1] == ')')
 	{
@@ -87,4 +86,11 @@ void	alloc_environ(t_minishell *data)
 		environ = tmp;
 		data->access_environ = 1;
 	}
+}
+
+void	convert_token(char *tokens)
+{
+	convert_char(tokens, '*', WILDCARD, 1);
+	convert_char(tokens, '<', INPUT_REDIR, 1);
+	convert_char(tokens, '>', OUTPUT_REDIR, 1);
 }

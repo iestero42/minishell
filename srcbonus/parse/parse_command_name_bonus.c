@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_command_name_bonus.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 08:18:57 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/22 08:29:34 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/23 09:40:01 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int	parse_command_name(char **tokens, t_command *cmd, char **cmd_list)
 	char	*path;
 	char	**dirs;
 
-	reconvert_tokens(tokens);
+	convert_tokens(tokens);
 	cmd->name = NULL;
 	cmd->type = -1;
 	path = getenv("PATH");

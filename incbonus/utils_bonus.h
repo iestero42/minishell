@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 09:29:41 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/22 15:36:46 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/23 09:11:22 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,18 @@
 
 # include "structs_bonus.h"
 
-//*****Readlines*****//
+//*****Misc*****//
 char		*readline_own(void);
-char		*readline_main(void);
+void		assign_operand(char **tokens, t_tree *tree, int i);
+int			check_new_command(int *pos, char **tokens);
 
 //*****Errors*****//
 int			error_redir(char *org, char *control);
 void		error_export_msg(char *arg);
 int			error_unclosed_quotes(char *arg, int len);
 int			error_init(char *msg, int error);
-int			error_split_operands(int count, int quotes, const char *s);
-int			error_parenthesis(int count_paranthese, char **tokens);
+int			error_split_operands(int count, int quotes);
+int			error_parenthesis(int count_paranthese, char **tokens, int i);
 int			error_operands(char **tokens);
 
 //*****Frees*****//

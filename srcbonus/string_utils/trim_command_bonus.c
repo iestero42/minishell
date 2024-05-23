@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 11:53:17 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/13 11:35:31 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/05/23 09:40:24 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,7 @@ static char	**ft_copy_expand(const char *token, char **new_token,
 	if (!tmp)
 		error_init("malloc", 1);
 	tmp_expanded = parse_env_variable(tmp, last_status, '\0');
-	convert_wildcard(tmp_expanded, '*', '\1', 1);
-	convert_wildcard(tmp_expanded, '<', '\3', 1);
-	convert_wildcard(tmp_expanded, '>', '\4', 1);
+	convert_token(tmp_expanded);
 	free(tmp);
 	split = ft_split(tmp_expanded, ' ');
 	if (!split)

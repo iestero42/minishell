@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   strings_utils_bonus.h                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 09:25:32 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/22 08:27:52 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/23 09:50:12 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,14 @@ char		**ft_dstrdup(char **str);
 
 char		**ft_realloc(char **ptr, char *arg, int count, int expand);
 
-void		convert_wildcard(char *token, char chr, char ctrl, int control);
+void		convert_char(char *token, char chr, char ctrl, int control);
 
-void		reconvert_tokens(char **tokens);
-
-char		**split_operands(const char *s);
+void		convert_tokens(char **tokens);
 
 void		remove_parenthesis(char **tokens);
 
 void		alloc_environ(t_minishell *data);
+
+void		convert_token(char *tokens);
 
 #endif
