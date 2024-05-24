@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 11:47:55 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/24 10:18:28 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/24 14:51:45 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,6 +201,9 @@ static int	open_input_double(char **tokens, t_command *cmd,
 int	parse_input(char **tokens, t_command *cmd,
 		char *control, t_minishell *data)
 {
+	struct termios	term;
+
+	show_eof_symbol(&term);
 	if (tokens[0][0] != '"' && tokens[0][0] != '\'')
 	{
 		if (open_input_double(tokens, cmd, control, data) == EXIT_FAILURE)
@@ -208,5 +211,6 @@ int	parse_input(char **tokens, t_command *cmd,
 		if (open_input_simple(tokens, cmd, control) == EXIT_FAILURE)
 			return (EXIT_FAILURE);
 	}
+	hide_eof_symbol(&term);
 	return (EXIT_SUCCESS);
 }

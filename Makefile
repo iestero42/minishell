@@ -6,7 +6,7 @@
 #    By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/07 10:56:39 by yunlovex          #+#    #+#              #
-#    Updated: 2024/05/24 10:00:58 by yunlovex         ###   ########.fr        #
+#    Updated: 2024/05/24 14:31:16 by yunlovex         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -66,7 +66,7 @@ LDLIBS_BONUS		=	$(LIBMINISHELL_BONUS) $(LIBFT) -lncurses -L/Users/$(USER)/.brew/
 CC					=	gcc
 
 CFLAGS				=	-g -Wall -Werror -Wextra $(INCLUDES) $(SANATIZE)
-CFLAGS_BONUS		=	-g  $(INCLUDES_BONUS)
+CFLAGS_BONUS		=	-g -Wall -Werror -Wextra $(INCLUDES_BONUS)
 LDFLAGS				=   $(LDLIBS) $(SANATIZE)
 LDFLAGS_BONUS		=	$(LDLIBS_BONUS)
 INCLUDES			=	-I$(INC_DIR) -I$(addsuffix $(INC_DIR), $(LIBFT_DIR)/) -I/Users/$(USER)/.brew/opt/readline/include
