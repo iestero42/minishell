@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 10:48:47 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/24 14:52:58 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/24 15:05:17 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,21 +21,25 @@
 
 extern volatile sig_atomic_t	g_signal;
 
-int	ends_with(const char *str, const char *suffix)
+static int	ends_with(const char *str)
 {
-    size_t	lenstr;
-    size_t	lensuffix;
+	int	i;
     
-	if (!str || !suffix)
+	if (!str)
 		return 0;
-	lenstr = ft_strlen(str);
-	lensuffix = ft_strlen(suffix);
-	if (lensuffix > lenstr)
-		return 0;
-	return (ft_strncmp(str + lenstr - lensuffix, suffix, lensuffix) == 0);
+	i = ft_strlen(str) - 1;
+	while (i >= 0 && str[i] == ' ')
+		--i;	
+	if (i > 1 && str[i] == '&' && str[i - 1] == '&')
+		return 1;
+	else if (i > 0 && str[i] == '|')
+		return 1;
+	else if (i > 1 && str[i] == '|' && str[i - 1] == '|')
+		return 1;
+	return (0);
 }
 
-int	has_unclosed_parenthesis(const char *str)
+static int	has_unclosed_parenthesis(const char *str)
 {
     int			count;
     int			in_quote;
@@ -59,12 +63,12 @@ int	has_unclosed_parenthesis(const char *str)
     return (count < 0);
 }
 
-int	ends_with_and_or_pipe(const char *str)
+static int	ends_with_and_or_pipe(const char *str)
 {
 	return (ends_with(str, "&&") || ends_with(str, "||") || ends_with(str, "|"));
 }
 
-void	read_complete_command(char *command_line)
+static void	read_complete_command(char *command_line)
 {
     char	*line;
     size_t	len;
