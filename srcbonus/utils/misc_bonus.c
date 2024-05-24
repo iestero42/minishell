@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 11:33:39 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/24 08:36:06 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/24 08:50:35 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,43 +75,4 @@ void	assign_operand(char **tokens, t_tree *tree, int i)
 		tree->number = AND;
 	else
 		tree->number = PIPE;
-}
-
-/**
- * @brief 
- * Checks for a new command in the tokens.
- *
- * @details
- * Iterates over the tokens until it finds a '|' or '&' token at the top level 
- * of parentheses, or a ')' token followed by a token that is not '|' or '&'.
- * If it finds an error in the parentheses, it returns EXIT_FAILURE.
- * Otherwise, it sets the position to the index of the found token and returns 
- * EXIT_SUCCESS.
- *
- * @param pos The position to set.
- * @param tokens The array of tokens.
- * @return EXIT_SUCCESS if a new command is found, otherwise EXIT_FAILURE.
- */
-int	check_new_command(int *pos, char **tokens)
-{
-	int	count_parentheses;
-	int	i;
-
-	count_parentheses = 0;
-	i = -1;
-	while (tokens[++i] != NULL)
-	{
-		if (*tokens[i] == '(')
-			count_parentheses++;
-		if (*tokens[i] == ')')
-			count_parentheses--;
-		if ((count_parentheses == 0 && (*tokens[i] == '|' || *tokens[i] == '&'))
-			|| (*tokens[i] == ')' && (*tokens[i + 1] != '|'
-					&& *tokens[i + 1] != '&')))
-			break ;
-	}
-	if (error_parenthesis(count_parentheses, tokens, i) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
-	*pos = i;
-	return (EXIT_SUCCESS);
 }

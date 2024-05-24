@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 14:23:35 by yunlovex          #+#    #+#             */
-/*   Updated: 2024/05/24 08:36:41 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/24 08:50:07 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,5 +92,26 @@ int	error_operands(char **tokens)
 			}
 		}
 	}
+	return (EXIT_SUCCESS);
+}
+
+/**
+ * @brief 
+ * Handles an error in command parsing.
+ *
+ * @details
+ * Sets the command type to ERROR_COMMAND, clears the name and args,
+ * and frees the tokens.
+ *
+ * @param cmd The command structure to modify.
+ * @param tokens The tokens to free.
+ * @return Always returns EXIT_SUCCESS.
+ */
+int	error_command(t_command *cmd, char **tokens)
+{
+	cmd->type = ERROR_COMMAND;
+	cmd->name = NULL;
+	cmd->args = NULL;
+	double_free(tokens);
 	return (EXIT_SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 09:29:41 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/23 14:57:19 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/24 08:51:10 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 //***********MISC***********//
 char		*readline_own(void);
 void		assign_operand(char **tokens, t_tree *tree, int i);
-int			check_new_command(int *pos, char **tokens);
 
 //***********ERRORS***********//
 int			error_redir(char *org, char *control);
@@ -28,6 +27,7 @@ int			error_init(char *msg, int error);
 int			error_split_operands(int count, int quotes);
 int			error_parenthesis(int count_paranthese, char **tokens, int i);
 int			error_operands(char **tokens);
+int			error_command(t_command *cmd, char **tokens);
 
 //***********FREES***********//
 void		full_free(t_minishell *data);

@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 08:50:36 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/24 08:39:00 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/24 08:50:58 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,22 +21,40 @@
 
 /**
  * @brief 
- * Handles an error in command parsing.
+ * Checks for a new command in the tokens.
  *
  * @details
- * Sets the command type to ERROR_COMMAND, clears the name and args,
- * and frees the tokens.
+ * Iterates over the tokens until it finds a '|' or '&' token at the top level 
+ * of parentheses, or a ')' token followed by a token that is not '|' or '&'.
+ * If it finds an error in the parentheses, it returns EXIT_FAILURE.
+ * Otherwise, it sets the position to the index of the found token and returns 
+ * EXIT_SUCCESS.
  *
- * @param cmd The command structure to modify.
- * @param tokens The tokens to free.
- * @return Always returns EXIT_SUCCESS.
+ * @param pos The position to set.
+ * @param tokens The array of tokens.
+ * @return EXIT_SUCCESS if a new command is found, otherwise EXIT_FAILURE.
  */
-static int	error_command(t_command *cmd, char **tokens)
+static int	check_new_command(int *pos, char **tokens)
 {
-	cmd->type = ERROR_COMMAND;
-	cmd->name = NULL;
-	cmd->args = NULL;
-	double_free(tokens);
+	int	count_parentheses;
+	int	i;
+
+	count_parentheses = 0;
+	i = -1;
+	while (tokens[++i] != NULL)
+	{
+		if (*tokens[i] == '(')
+			count_parentheses++;
+		if (*tokens[i] == ')')
+			count_parentheses--;
+		if ((count_parentheses == 0 && (*tokens[i] == '|' || *tokens[i] == '&'))
+			|| (*tokens[i] == ')' && (*tokens[i + 1] != '|'
+					&& *tokens[i + 1] != '&')))
+			break ;
+	}
+	if (error_parenthesis(count_parentheses, tokens, i) == EXIT_FAILURE)
+		return (EXIT_FAILURE);
+	*pos = i;
 	return (EXIT_SUCCESS);
 }
 
