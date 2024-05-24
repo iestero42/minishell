@@ -3,15 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   configurations_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 10:55:57 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/23 07:40:28 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/05/24 08:37:07 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+/**
+ * @file configurations_bonus.c
+ * @brief Contains functions for configuring the shell.
+ * @author yunlovex <yunlovex@student.42.fr>
+ * @date 2024/05/23
+ */
+
 #include "minishell_bonus.h"
 
+/**
+ * @brief 
+ * Displays the shell title.
+ *
+ * @details
+ * Prints the shell title using printf. The title is defined by the 
+ * LINE_1 to LINE_8 macros.
+ */
 static void	show_title(void)
 {
 	printf(LINE_1, BLUE, RESET);
@@ -24,6 +39,15 @@ static void	show_title(void)
 	printf(LINE_8, BLUE, RESET);
 }
 
+/**
+ * @brief 
+ * Hides the EOF symbol.
+ *
+ * @details
+ * Modifies the terminal settings to hide the EOF symbol.
+ *
+ * @param term The terminal settings.
+ */
 void	hide_eof_symbol(struct termios *term)
 {
 	tcgetattr(STDIN_FILENO, term);
@@ -31,6 +55,15 @@ void	hide_eof_symbol(struct termios *term)
 	tcsetattr(STDIN_FILENO, TCSANOW, term);
 }
 
+/**
+ * @brief 
+ * Shows the EOF symbol.
+ *
+ * @details
+ * Modifies the terminal settings to show the EOF symbol.
+ *
+ * @param term The terminal settings.
+ */
 void	show_eof_symbol(struct termios *term)
 {
 	tcgetattr(STDIN_FILENO, term);
@@ -38,6 +71,17 @@ void	show_eof_symbol(struct termios *term)
 	tcsetattr(STDIN_FILENO, TCSANOW, term);
 }
 
+/**
+ * @brief 
+ * Initializes the shell.
+ *
+ * @details
+ * Displays the shell title, sets the shell status to RUNNING, 
+ * duplicates the standard input and output file descriptors,
+ * initializes the command list, and hides the EOF symbol.
+ *
+ * @param data The shell data structure.
+ */
 void	init(t_minishell *data)
 {
 	struct termios	term;
@@ -65,6 +109,16 @@ void	init(t_minishell *data)
 	signal(SIGQUIT, SIG_IGN);
 }
 
+/**
+ * @brief 
+ * Deinitializes the shell.
+ *
+ * @details
+ * Frees the environment variables, clears the command history, 
+ * and restores the original terminal settings.
+ *
+ * @param data The shell data structure.
+ */
 void	deinit(t_minishell *data)
 {
 	extern char	**environ;

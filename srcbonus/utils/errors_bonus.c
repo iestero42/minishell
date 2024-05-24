@@ -6,18 +6,47 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 11:53:30 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/23 15:46:47 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/24 08:36:58 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+/**
+ * @file errors_bonus.c
+ * @brief Contains functions for handling errors.
+ * @author yunlovex <yunlovex@student.42.fr>
+ * @date 2024/05/23
+ */
+
 #include "minishell_bonus.h"
 
+/**
+ * @brief 
+ * Handles initialization errors.
+ *
+ * @details
+ * Prints an error message and exits the program with a specified error code.
+ *
+ * @param msg The error message.
+ * @param error The error code.
+ * @return Does not return.
+ */
 int	error_init(char *msg, int error)
 {
 	perror(msg);
 	exit(error);
 }
 
+/**
+ * @brief 
+ * Handles redirection errors.
+ *
+ * @details
+ * Prints an error message depending on the type of redirection error.
+ *
+ * @param org The original command.
+ * @param control The control character.
+ * @return Always returns EXIT_FAILURE.
+ */
 int	error_redir(char *org, char *control)
 {
 	ft_putstr_fd("minishell: ", 2);
@@ -46,6 +75,12 @@ int	error_redir(char *org, char *control)
 	return (EXIT_FAILURE);
 }
 
+/**
+ * @brief 
+ * Prints an error message for invalid export arguments.
+ *
+ * @param arg The invalid argument.
+ */
 void	error_export_msg(char *arg)
 {
 	ft_putstr_fd("export: '", 2);
@@ -54,6 +89,18 @@ void	error_export_msg(char *arg)
 	ft_putchar_fd('\n', 2);
 }
 
+/**
+ * @brief 
+ * Checks for unclosed quotes in a string.
+ *
+ * @details
+ * Iterates over the characters in a string. If it finds an unclosed quote, 
+ * it returns the quote character.
+ *
+ * @param arg The string to check.
+ * @param len The length of the string.
+ * @return The unclosed quote character, or 0 if all quotes are closed.
+ */
 int	error_unclosed_quotes(char *arg, int len)
 {
 	int		i;
@@ -71,6 +118,17 @@ int	error_unclosed_quotes(char *arg, int len)
 	return (quotes);
 }
 
+/**
+ * @brief 
+ * Handles errors in split operands.
+ *
+ * @details
+ * Prints an error message if there are unclosed quotes or unexpected '&' tokens.
+ *
+ * @param count The number of operands.
+ * @param quotes The quote status.
+ * @return The number of operands, or -2 if there is an error.
+ */
 int	error_split_operands(int count, int quotes)
 {
 	if (quotes)

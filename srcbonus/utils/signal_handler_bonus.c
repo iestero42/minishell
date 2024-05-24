@@ -6,14 +6,32 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 10:22:28 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/23 15:05:18 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/24 08:35:42 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+/**
+ * @file signal_handler_bonus.c
+ * @brief Contains functions for handling signals.
+ * @author yunlovex <yunlovex@student.42.fr>
+ * @date 2024/05/23
+ */
 
 #include "minishell_bonus.h"
 
 extern volatile sig_atomic_t	g_signal;
 
+/**
+ * @brief 
+ * Handles signals during readline.
+ *
+ * @details
+ * If the signal is SIGINT, it prints a newline, sets a new line in 
+ * readline, replaces the line with an empty string, redisplays the line, 
+ * and sets the global signal to 2.
+ *
+ * @param signum The signal number.
+ */
 void	signal_handler_readline(int signum)
 {
 	if (signum == SIGINT)
@@ -26,6 +44,17 @@ void	signal_handler_readline(int signum)
 	}
 }
 
+/**
+ * @brief 
+ * Handles signals.
+ *
+ * @details
+ * If the signal is SIGINT, it sets the global signal to 2.
+ * If the signal is SIGTERM, it frees the environment variables 
+ * and sets the global signal to 3.
+ *
+ * @param signum The signal number.
+ */
 void	signal_handler(int signum)
 {
 	extern char	**environ;
@@ -41,6 +70,15 @@ void	signal_handler(int signum)
 	}
 }
 
+/**
+ * @brief 
+ * Sends a signal to a process.
+ *
+ * @details
+ * If the global signal is 2, it sends the SIGTERM signal to the process.
+ *
+ * @param pid The process ID.
+ */
 static void	signal_use(pid_t *pid)
 {
 	int	i;
@@ -52,6 +90,20 @@ static void	signal_use(pid_t *pid)
 	}
 }
 
+/**
+ * @brief 
+ * Controls the execution of a process.
+ *
+ * @details
+ * Waits for the process to change state. If the process has changed state, 
+ * it increments the total. Sends a signal to the process if necessary.
+ * If the total is 1, it sets the status to STOPPED.
+ * If the global signal is 2 or 3, it prints a newline to the standard output.
+ *
+ * @param data The shell data structure.
+ * @param pid The process ID.
+ * @return The status of the process.
+ */
 int	controller(t_minishell *data, pid_t *pid)
 {
 	int				status_cmd;

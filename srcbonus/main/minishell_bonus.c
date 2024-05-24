@@ -6,13 +6,9 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 07:29:18 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/23 15:15:37 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/24 08:39:14 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include "minishell_bonus.h"
-
-volatile sig_atomic_t	g_signal = 0;
 
 /**
  * @file minishell_bonus.c
@@ -20,6 +16,10 @@ volatile sig_atomic_t	g_signal = 0;
  * @author yunlovex <yunlovex@student.42.fr>
  * @date 2024/05/23
  */
+
+#include "minishell_bonus.h"
+
+volatile sig_atomic_t	g_signal = 0;
 
 /**
  * @brief

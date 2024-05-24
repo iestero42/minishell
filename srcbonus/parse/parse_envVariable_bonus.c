@@ -6,11 +6,9 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 10:24:02 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/23 15:28:08 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/24 08:38:35 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include "minishell_bonus.h"
 
 /**
  * @file parse_envVariable_bonus.c
@@ -18,6 +16,8 @@
  * @author yunlovex <yunlovex@student.42.fr>
  * @date 2024/05/23
  */
+
+#include "minishell_bonus.h"
 
 /**
  * @brief 

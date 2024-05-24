@@ -3,15 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   built_env_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 10:58:52 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/06 09:55:24 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/05/24 08:42:12 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+/**
+ * @file built_env_bonus.c
+ * @brief Contains the built_env function for printing environment variables.
+ * @author yunlovex <yunlovex@student.42.fr>
+ * @date 2024/05/23
+ */
+
 #include "minishell_bonus.h"
 
+/**
+ * @brief 
+ * Prints the environment variables to the standard output.
+ *
+ * @details
+ * Iterates over the environment variables. For each variable, 
+ * if the variable is not "LINES" or "COLUMNS", it prints the variable 
+ * and a newline.
+ *
+ * @return EXIT_SUCCESS.
+ */
 int	built_env(void)
 {
 	int			i;

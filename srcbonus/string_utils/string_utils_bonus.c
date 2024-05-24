@@ -6,12 +6,32 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 10:05:08 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/08 09:28:41 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/24 08:37:42 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+/**
+ * @file string_utils_bonus.c
+ * @brief Contains utility functions for strings.
+ * @author yunlovex <yunlovex@student.42.fr>
+ * @date 2024/05/23
+ */
+
 #include "minishell_bonus.h"
 
+/**
+ * @brief 
+ * Compares two strings.
+ *
+ * @details
+ * Compares two strings using ft_strncmp. The length of the longest string 
+ * is used as the length parameter.
+ *
+ * @param s1 The first string to compare.
+ * @param s2 The second string to compare.
+ * @return An integer less than, equal to, or greater than zero if s1 is found, 
+ * 	respectively, to be less than, to match, or be greater than s2.
+ */
 int	ft_strcmp(char *s1, char *s2)
 {
 	int	len_s1;
@@ -26,9 +46,14 @@ int	ft_strcmp(char *s1, char *s2)
 }
 
 /**
- * Function that free a double pointer
- * @param str the double pointer to free
-*/
+ * @brief 
+ * Frees a double pointer.
+ *
+ * @details
+ * Frees each string in the array, then frees the array itself.
+ *
+ * @param str The double pointer to free.
+ */
 void	double_free(char **str)
 {
 	int	i;
@@ -41,6 +66,19 @@ void	double_free(char **str)
 	free(str);
 }
 
+/**
+ * @brief 
+ * Creates a subarray from an array of strings.
+ *
+ * @details
+ * Allocates memory for a new array of strings, then copies a 
+ * range of strings from the original array to the new array.
+ *
+ * @param str_array The original array of strings.
+ * @param start_index The start index of the range.
+ * @param end_index The end index of the range.
+ * @return A pointer to the new array of strings, or NULL if an error occurs.
+ */
 char	**ft_dsubstr(char **str_array, int start_index, int end_index)
 {
 	int		num_elements;
@@ -67,6 +105,16 @@ char	**ft_dsubstr(char **str_array, int start_index, int end_index)
 	return (sub_array);
 }
 
+/**
+ * @brief 
+ * Calculates the length of an array of strings.
+ *
+ * @details
+ * Counts the number of strings in the array.
+ *
+ * @param str The array of strings.
+ * @return The number of strings in the array.
+ */
 int	ft_dstrlen(char **str)
 {
 	int	i;
@@ -77,6 +125,18 @@ int	ft_dstrlen(char **str)
 	return (i);
 }
 
+/**
+ * @brief 
+ * Joins two arrays of strings.
+ *
+ * @details
+ * Allocates memory for a new array of strings, then copies the 
+ * strings from the first array and the second array to the new array.
+ *
+ * @param arr1 The first array of strings.
+ * @param arr2 The second array of strings.
+ * @return A pointer to the new array of strings, or NULL if an error occurs.
+ */
 char	**ft_dstrjoin(char **arr1, char **arr2)
 {
 	int		len1;

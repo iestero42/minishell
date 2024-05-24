@@ -6,13 +6,9 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 11:47:55 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/23 15:30:46 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/24 08:38:26 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include "minishell_bonus.h"
-
-extern volatile sig_atomic_t	g_signal;
 
 /**
  * @file parse_input_bonus.c
@@ -20,6 +16,10 @@ extern volatile sig_atomic_t	g_signal;
  * @author yunlovex <yunlovex@student.42.fr>
  * @date 2024/05/23
  */
+
+#include "minishell_bonus.h"
+
+extern volatile sig_atomic_t	g_signal;
 
 /**
  * @brief 

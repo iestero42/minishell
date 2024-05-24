@@ -6,11 +6,9 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 11:35:45 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/23 15:32:46 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/24 08:38:15 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include "minishell_bonus.h"
 
 /**
  * @file parse_output_bonus.c
@@ -18,6 +16,8 @@
  * @author yunlovex <yunlovex@student.42.fr>
  * @date 2024/05/23
  */
+
+#include "minishell_bonus.h"
 
 /**
  * @brief 

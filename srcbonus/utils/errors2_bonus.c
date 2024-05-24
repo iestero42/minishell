@@ -3,15 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   errors2_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 14:23:35 by yunlovex          #+#    #+#             */
-/*   Updated: 2024/05/23 10:30:07 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/05/24 08:36:41 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+/**
+ * @file errors2_bonus.c
+ * @brief Contains additional functions for handling errors.
+ * @author yunlovex <yunlovex@student.42.fr>
+ * @date 2024/05/23
+ */
+
 #include "minishell_bonus.h"
 
+/**
+ * @brief 
+ * Handles parenthesis errors.
+ *
+ * @details
+ * Prints an error message depending on the type of parenthesis error.
+ *
+ * @param count_paranthese The number of parentheses.
+ * @param tokens The array of tokens.
+ * @param i The current position in the array.
+ * @return EXIT_FAILURE if there is an error, otherwise EXIT_SUCCESS.
+ */
 int	error_parenthesis(int count_paranthese, char **tokens, int i)
 {
 	if (count_paranthese > 0)
@@ -37,6 +56,16 @@ int	error_parenthesis(int count_paranthese, char **tokens, int i)
 	return (EXIT_SUCCESS);
 }
 
+/**
+ * @brief 
+ * Handles operand errors.
+ *
+ * @details
+ * Prints an error message if there are unexpected '|' or '&' tokens.
+ *
+ * @param tokens The array of tokens.
+ * @return EXIT_FAILURE if there is an error, otherwise EXIT_SUCCESS.
+ */
 int	error_operands(char **tokens)
 {
 	int	i;

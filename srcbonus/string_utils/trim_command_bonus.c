@@ -3,15 +3,37 @@
 /*                                                        :::      ::::::::   */
 /*   trim_command_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 11:53:17 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/23 09:40:24 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/05/24 08:37:16 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+/**
+ * @file trim_command_bonus.c
+ * @brief Contains functions for trimming and expanding commands.
+ * @author yunlovex <yunlovex@student.42.fr>
+ * @date 2024/05/23
+ */
+
 #include "minishell_bonus.h"
 
+/**
+ * @brief 
+ * Parses a segment of the input string.
+ *
+ * @details
+ * A segment is a part of the input string that is enclosed in quotes.
+ * The function finds the end of the segment, creates a substring, and 
+ * expands any environment variables in the substring.
+ *
+ * @param input The input string.
+ * @param position The current position in the input string.
+ * @param start The start of the segment.
+ * @param last_status The last status of the shell.
+ * @return The expanded segment.
+ */
 static char	*parse_segment(const char *input,
 	int *position, int *start, int last_status)
 {
@@ -37,6 +59,19 @@ static char	*parse_segment(const char *input,
 	return (segment_expanded);
 }
 
+/**
+ * @brief 
+ * Copies and expands a string.
+ *
+ * @details
+ * The function splits the string at spaces, then joins the split strings 
+ * to the new_token array. If the first character of the string is not a space, 
+ * the first split string is joined to the last string in the new_token array.
+ *
+ * @param split The split strings.
+ * @param new_token The array of strings to join to.
+ * @return The new array of strings.
+ */
 static char	**ft_copy_expand_aux(char **split, char **new_token)
 {
 	if (split[0] != NULL && split[0][0] != '\0')
@@ -50,6 +85,22 @@ static char	**ft_copy_expand_aux(char **split, char **new_token)
 	return (new_token);
 }
 
+/**
+ * @brief 
+ * Copies and expands a segment of the input string.
+ *
+ * @details
+ * The function creates a substring from the input string, expands any 
+ * environment variables in the substring, and converts certain characters to 
+ * control characters. The expanded substring is then split at spaces and 
+ * joined to the new_token array.
+ *
+ * @param token The input string.
+ * @param new_token The array of strings to join to.
+ * @param positions The start and end of the segment.
+ * @param last_status The last status of the shell.
+ * @return The new array of strings.
+ */
 static char	**ft_copy_expand(const char *token, char **new_token,
 	int positions[2], int last_status)
 {
@@ -79,6 +130,21 @@ static char	**ft_copy_expand(const char *token, char **new_token,
 	return (new_token);
 }
 
+/**
+ * @brief 
+ * Parses the input string for quoted segments.
+ *
+ * @details
+ * The function iterates over the characters in the input string.
+ * When it encounters a quote, it copies and expands the segment 
+ * of the string before the quote, then parses the quoted segment.
+ * The expanded segments are joined to the result array.
+ *
+ * @param input The input string.
+ * @param len The length of the input string.
+ * @param last_status The last status of the shell.
+ * @return The array of expanded segments.
+ */
 static char	**parse_quotes(char *input, int len, int last_status)
 {
 	char	**result;
@@ -108,6 +174,21 @@ static char	**parse_quotes(char *input, int len, int last_status)
 			(int []){start - 1, i - start}, last_status));
 }
 
+/**
+ * @brief 
+ * Trims and expands a command.
+ *
+ * @details
+ * The function parses the command for quoted segments and 
+ * expands any environment variables. If the command does not contain 
+ * any quotes, it is duplicated and added to the new_token array. 
+ * The command is then parsed for wildcard characters and expanded 
+ * if any are found.
+ *
+ * @param token The command.
+ * @param last_status The last status of the shell.
+ * @return The array of expanded segments.
+ */
 char	**trim_command(char *token, int last_status)
 {
 	char	**new_token;

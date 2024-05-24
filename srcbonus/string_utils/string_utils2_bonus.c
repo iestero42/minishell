@@ -3,15 +3,36 @@
 /*                                                        :::      ::::::::   */
 /*   string_utils2_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 09:31:16 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/23 09:19:47 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/05/24 08:37:32 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+/**
+ * @file string_utils2_bonus.c
+ * @brief Contains utility functions for strings.
+ * @author yunlovex <yunlovex@student.42.fr>
+ * @date 2024/05/23
+ */
+
 #include "minishell_bonus.h"
 
+/**
+ * @brief 
+ * Copies a substring from a string and appends it to another string.
+ *
+ * @details
+ * Creates a substring from the given string starting from the start index with 
+ * the given length. Then appends this substring to the new_token string.
+ *
+ * @param token The original string.
+ * @param new_token The string to append to.
+ * @param start The starting index for the substring.
+ * @param len The length of the substring.
+ * @return The new string with the appended substring.
+ */
 char	*ft_copy(const char *token, char *new_token, int start, int len)
 {
 	char	*tmp;
@@ -26,6 +47,19 @@ char	*ft_copy(const char *token, char *new_token, int start, int len)
 	return (new_token);
 }
 
+/**
+ * @brief 
+ * Appends a string to an array of strings.
+ *
+ * @details
+ * Creates a new array of strings with an additional space for the new string.
+ * Copies the strings from the original array to the new array, then adds the 
+ * new string to the end.
+ *
+ * @param arr1 The original array of strings.
+ * @param str The string to append.
+ * @return The new array of strings with the appended string.
+ */
 char	**ft_append(char **arr1, char *str)
 {
 	int		len1;
@@ -50,6 +84,21 @@ char	**ft_append(char **arr1, char *str)
 	return (combined);
 }
 
+/**
+ * @brief 
+ * Reallocates an array of strings with additional space for a new string.
+ *
+ * @details
+ * Creates a new array of strings with additional space for the new string.
+ * Copies the strings from the original array to the new array, then adds 
+ * the new string to the end.
+ *
+ * @param ptr The original array of strings.
+ * @param arg The string to append.
+ * @param count The number of strings in the original array.
+ * @param expand The number of additional spaces for new strings.
+ * @return The new array of strings with the appended string.
+ */
 char	**ft_realloc(char **ptr, char *arg, int count, int expand)
 {
 	char	**new_ptr;
@@ -71,6 +120,17 @@ char	**ft_realloc(char **ptr, char *arg, int count, int expand)
 	return (new_ptr);
 }
 
+/**
+ * @brief 
+ * Duplicates an array of strings.
+ *
+ * @details
+ * Creates a new array of strings with the same size as the original array.
+ * Copies the strings from the original array to the new array.
+ *
+ * @param str The original array of strings.
+ * @return The new array of strings with the copied strings.
+ */
 char	**ft_dstrdup(char **str)
 {
 	char	**dup;
