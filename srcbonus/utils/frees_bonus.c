@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 11:33:49 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/24 08:36:14 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/24 10:24:55 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void	free_cmd(void *cmd)
 		if (ptr->input_redirect > -1)
 			close(ptr->input_redirect);
 	}
+	free(ptr);
 }
 
 /**
