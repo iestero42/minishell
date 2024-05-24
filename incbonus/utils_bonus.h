@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 09:29:41 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/24 08:51:10 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/24 10:20:38 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include "structs_bonus.h"
 
 //***********MISC***********//
-char		*readline_own(void);
+char		*readline_own(char *prompt);
 void		assign_operand(char **tokens, t_tree *tree, int i);
 
 //***********ERRORS***********//

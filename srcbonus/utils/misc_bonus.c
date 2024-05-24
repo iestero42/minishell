@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 11:33:39 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/24 08:50:35 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/24 10:18:14 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,14 +38,16 @@ int	ft_putchar(int c)
  * @details
  * Prints a prompt, reads a line from the standard input, 
  * and appends a space to the line if it ends with a newline.
+ * 
+ * @param prompt The prompt to print.
  *
  * @return The line read from the standard input.
  */
-char	*readline_own(void)
+char	*readline_own(char *prompt)
 {
 	char	*line;
 
-	ft_putstr_fd("> ", 1);
+	ft_putstr_fd(prompt, 1);
 	line = get_next_line(STDIN_FILENO);
 	if (*line == '\n')
 	{

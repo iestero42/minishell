@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 10:58:12 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/24 08:46:34 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/24 10:15:43 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,11 +116,14 @@ static int	error_export(char **var, char *arg)
 static int	replace_environ_aux(char *arg)
 {
 	extern char	**environ;
+	char 		**new_environ;
+	int			len;
 
-	environ = ft_realloc(environ, arg,
-			ft_dstrlen(environ), 2);
-	if (environ == NULL)
-		return (EXIT_FAILURE);
+	len = ft_dstrlen(environ);
+	environ = ft_realloc(environ, len * sizeof(char *),
+		(2 + len) * sizeof(char *));
+	environ[len] = ft_strdup(arg);
+	environ[len + 1] = NULL;
 	return (EXIT_SUCCESS);
 }
 

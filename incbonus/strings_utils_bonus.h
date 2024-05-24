@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 09:25:32 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/23 15:03:08 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/24 10:10:51 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ char		**ft_dstrjoin(char **arr1, char **arr2);
 char		**trim_command(char *token, int last_status);
 char		**ft_append(char **arr1, char *str);
 char		**ft_dstrdup(char **str);
-char		**ft_realloc(char **ptr, char *arg, int count, int expand);
 
 //***********STRING COPY***********//
 char		*ft_copy(const char *token, char *new_token, int start, int len);
@@ -38,5 +37,6 @@ void		convert_char(char *token, char chr, char ctrl, int control);
 //***********DE/ALLOCATION***********//
 void		alloc_environ(t_minishell *data);
 void		double_free(char **str);
+void		*ft_realloc(void *ptr, size_t old_size, size_t new_size);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 11:47:55 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/24 08:38:26 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/24 10:18:28 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ static int	write_here_doc(char *delimiter, int last_status, t_minishell *data,
 	if (pid == 0)
 	{
 		close(pipes[0]);
-		line = readline_own();
+		line = readline_own("> ");
 		while (ft_strncmp(line, delimiter, ft_strlen(line) - 1))
 		{
 			tmp = parse_env_variable(line, last_status, '\0');
@@ -131,7 +131,7 @@ static int	write_here_doc(char *delimiter, int last_status, t_minishell *data,
 			line = tmp;
 			ft_putstr_fd(line, pipes[1]);
 			free(line);
-			line = readline_own();
+			line = readline_own("> ");
 		}
 		free(line);
 		exit(0);
