@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 08:50:36 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/24 08:50:58 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/26 10:48:46 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ static int	check_new_command(int *pos, char **tokens)
 					&& *tokens[i + 1] != '&')))
 			break ;
 	}
+	//esto va antes
 	if (error_parenthesis(count_parentheses, tokens, i) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	*pos = i;

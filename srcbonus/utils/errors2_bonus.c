@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 14:23:35 by yunlovex          #+#    #+#             */
-/*   Updated: 2024/05/24 08:50:07 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/26 10:31:03 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,27 @@
  */
 
 #include "minishell_bonus.h"
+
+static check_null_parantheses(char **tokens, int i)
+{
+	int	j;
+
+	j = 0;
+	while (j < i)
+	{
+		if (*tokens[j] == '(' && *tokens[j + 1] == ')')
+		{
+			ft_putstr_fd("minishell: syntax error near unexpected token `)'\n", 2);
+			return (EXIT_FAILURE);
+		}
+		else if (*tokens[j] == '(' && *tokens[j + 1] != ')')
+		{
+			ft_putstr_fd("minishell: syntax error near unexpected token `('\n", 2);
+			return (EXIT_FAILURE);
+		}
+	}
+	return (EXIT_SUCCESS);
+}
 
 /**
  * @brief 
@@ -33,13 +54,7 @@
  */
 int	error_parenthesis(int count_paranthese, char **tokens, int i)
 {
-	if (count_paranthese > 0)
-	{	
-		ft_putstr_fd("minishell: syntax error near unexpected token", 2);
-		ft_putstr_fd(" 'newline'\n", 2);
-		return (EXIT_FAILURE);
-	}
-	else if (count_paranthese < 0 || tokens[0] == NULL || (tokens[1] != NULL
+	if (count_paranthese < 0 || tokens[0] == NULL || (tokens[1] != NULL
 			&& *tokens[1] == ')' && *tokens[0] == '('))
 	{	
 		ft_putstr_fd("minishell: syntax error near unexpected token ')'\n", 2);

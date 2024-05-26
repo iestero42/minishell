@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 10:48:47 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/24 15:05:17 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/26 10:02:08 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,6 @@ int	parse_data(char *command_line, t_minishell *data)
 	int		result;
 
 	g_signal = 0;
-	read_complete_command(command_line);
 	tmp = ft_strtrim(command_line, " ");
 	if (!tmp)
 		error_init("malloc", 1);
