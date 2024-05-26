@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 08:50:36 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/26 10:48:46 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/26 14:42:16 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@
  * @details
  * Iterates over the tokens until it finds a '|' or '&' token at the top level 
  * of parentheses, or a ')' token followed by a token that is not '|' or '&'.
- * If it finds an error in the parentheses, it returns EXIT_FAILURE.
  * Otherwise, it sets the position to the index of the found token and returns 
  * EXIT_SUCCESS.
  *
@@ -52,9 +51,6 @@ static int	check_new_command(int *pos, char **tokens)
 					&& *tokens[i + 1] != '&')))
 			break ;
 	}
-	//esto va antes
-	if (error_parenthesis(count_parentheses, tokens, i) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
 	*pos = i;
 	return (EXIT_SUCCESS);
 }
@@ -197,7 +193,7 @@ int	parse_command(char *command_str, t_minishell *data)
 	int			result;
 
 	tokens = split_command(command_str);
-	if (!tokens)
+	if (!tokens || check_errors_command(tokens) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	data->cmd_tree = ft_new_node(0, NULL, 0);
 	if (!data->cmd_tree)
