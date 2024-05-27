@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 11:53:30 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/24 08:36:58 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/27 15:28:37 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,30 +116,4 @@ int	error_unclosed_quotes(char *arg, int len)
 			quotes = 0;
 	}
 	return (quotes);
-}
-
-/**
- * @brief 
- * Handles errors in split operands.
- *
- * @details
- * Prints an error message if there are unclosed quotes or unexpected '&' tokens.
- *
- * @param count The number of operands.
- * @param quotes The quote status.
- * @return The number of operands, or -2 if there is an error.
- */
-int	error_split_operands(int count, int quotes)
-{
-	if (quotes)
-	{
-		ft_putstr_fd("minishell: syntax error near 'newline'\n", 2);
-		return (-2);
-	}
-	else if (count == -2)
-	{
-		ft_putstr_fd("minishell: syntax error near unexpected token '&'\n", 2);
-		return (-2);
-	}
-	return (count);
 }

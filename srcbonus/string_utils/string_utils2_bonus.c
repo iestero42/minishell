@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 09:31:16 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/24 10:20:08 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/27 17:03:20 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,6 +165,7 @@ void	*ft_realloc(void *ptr, size_t old_size, size_t new_size)
     new_ptr = malloc(new_size);
 	if (new_ptr == NULL)
         return (NULL);
+	ft_memset(new_ptr, 0, new_size); 
 	if (new_size < old_size)
 		copy_size = new_size;
 	else

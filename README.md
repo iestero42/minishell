@@ -1,8 +1,8 @@
 proximo dia:
 
-	cambiar el split del command para que use el realloc
-
-	mirar bien las señales de cuando pido una nueva entrada casos: (completar comando y heredoc)
+	implementar estos dos que son del control d
+		-bash: warning: here-document at line 2 delimited by end-of-file (wanted `hola')
+		bash: syntax error: unexpected end of file
 
 	hacer pruebas locas con los argumentos desordenados y de todo
 	

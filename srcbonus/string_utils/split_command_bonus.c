@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_command_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 09:03:49 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/27 11:44:01 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/05/27 17:01:32 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,84 +21,22 @@
 
 /**
  * @brief 
- * Calculates the size of the next substring in a string.
+ * Handles errors in split operands.
  *
  * @details
- * Counts the number of characters in the next substring in a string, 
- * starting from a given position. The position is updated to the end of 
- * the substring.
+ * Prints an error message if there are unclosed quotes or unexpected '&' tokens.
  *
- * @param count The current count of characters.
- * @param s The string to calculate the size from.
- * @param position The starting position in the string.
- * @return The updated count of characters, or -2 if an error occurs.
+ * @param count The number of operands.
+ * @param quotes The quote status.
+ * @return The number of operands, or -2 if there is an error.
  */
-static int	size_aux(int count, const char *s, int *position)
+static void	*error_split_command(int mode)
 {
-	int		i;
-
-	count++;
-	i = *position;
-	if (s[i] != ')' && s[i] != '(' && s[i] == s[i + 1])
-	{
-		if (i == 0 || s[i - 1] == ' ')
-			i = i + 2;
-		if (s[i - 1] != ' ' && s[i] != ' ')
-			i++;
-		if (s[i - 1] != ' ' && s[i] != ' ' && s[i + 1] == '\0')
-			count++;
-	}
-	else if (s[i] == '&' && s[i] != s[i + 1])
-		return (-2);
-	else if (s[i - 1] == ' ' || i == 0)
-		i = i + 1;
-	while (s[i] == ' ')
-		i++;
-	if ((*position == 0 || s[*position] == ' ' || s[*position - 1] == ' ')
-		&& s[*position + 1] != '\0')
-		*position = i - 1;
-	else
-		*position = i;
-	return (count);
-}
-
-/**
- * @brief 
- * Calculates the number of substrings in a string.
- *
- * @details
- * Counts the number of substrings in a string. A substring is a 
- * sequence of characters that are not spaces or special characters, or a 
- * sequence of characters enclosed in quotes.
- *
- * @param s The string to calculate the size from.
- * @return The number of substrings in the string, or -2 if an error occurs.
- */
-static int	size_dstr(const char *s)
-{
-	int		count;
-	int		i;
-	char	in_quotes;
-
-	count = 0;
-	in_quotes = UNQUOTED;
-	i = -1;
-	while (s[++i] != '\0' && count >= 0)
-	{
-		if ((s[i] == '"' || s[i] == '\'') && !in_quotes)
-			in_quotes = s[i];
-		else if (in_quotes == s[i] && in_quotes)
-		{
-			in_quotes = UNQUOTED;
-			count++;
-		}
-		else if ((s[i] == ' ' || s[i + 1] == '\0'
-				|| s[i] == '<' || s[i] == '>'
-				|| s[i] == ')' || s[i] == '('
-				|| s[i] == '&' || s[i] == '|') && !in_quotes)
-			count = size_aux(count, s, &i);
-	}
-	return (error_split_operands(count, in_quotes));
+	if (mode == 1)
+		ft_putstr_fd("minishell: syntax error near 'newline'\n", 2);
+	else if (mode == 2)
+		ft_putstr_fd("minishell: syntax error near unexpected token '&'\n", 2);
+	return (NULL);
 }
 
 /**
@@ -128,10 +66,12 @@ static char	*save_memory(const char *s, size_t len, int *start)
 		else
 			len = 1;
 	}
+	if (s[0] == '&' && s[1] != '&')
+		return (error_split_command(2));
 	*start = *start + len;
 	substr = (char *) malloc(sizeof(char) * (len + 2));
 	if (!substr)
-		return (NULL);
+		error_init("malloc", 1);
 	ft_strlcpy(substr, (char *) s, len + 1);
 	return (substr);
 }
@@ -171,7 +111,7 @@ static char	*get_next_substring(int *start, const char *s)
 			in_quotes = UNQUOTED;
 	}
 	if (in_quotes)
-		return (NULL);
+		return (error_split_command(1));
 	return (save_memory(start_chr, i, start));
 }
 
@@ -189,28 +129,30 @@ static char	*get_next_substring(int *start, const char *s)
  */
 char	**split_command(const char *s)
 {
-	int			num_substrings;
 	char		**substrings;
 	int			start;
+	int			len;
 	int			i;
 
-	num_substrings = size_dstr(s);
-	if (num_substrings == -2)
-		return (NULL);
-	substrings = malloc(sizeof(char *) * (num_substrings + 1));
+	substrings = (char **) ft_calloc(1, sizeof(char *));
 	if (!substrings)
 		error_init("malloc", 1);
 	start = 0;
-	i = -1;
-	while (++i < num_substrings)
+	i = 0;
+	while (start < (int) ft_strlen(s))
 	{
+		len = ft_dstrlen(substrings);
+		substrings = ft_realloc(substrings, sizeof(char *) * (len + 1),
+						sizeof(char *) * (len + 2));
+		if (!substrings)
+			error_init("malloc", 1);
 		substrings[i] = get_next_substring(&start, s);
-		if (substrings[i] == NULL)
+		if (substrings[i++] == NULL)
 		{
 			double_free(substrings);
-			error_init("malloc", 1);
+			return (NULL);
 		}
 	}
-	substrings[num_substrings] = NULL;
+	substrings[i] = NULL;
 	return (substrings);
 }

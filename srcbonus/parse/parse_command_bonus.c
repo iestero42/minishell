@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_command_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 08:50:36 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/27 10:05:23 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/05/27 15:24:39 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,6 +193,8 @@ int	parse_command(char *command_str, t_minishell *data)
 	int			result;
 
 	tokens = split_command(command_str);
+	if (tokens == NULL)
+		return (EXIT_FAILURE);
 	tokens = check_err_sintax(tokens, data);
 	if (tokens == NULL || data->status == STOPPED)
 	{

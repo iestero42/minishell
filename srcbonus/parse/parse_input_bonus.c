@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_input_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 11:47:55 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/27 12:46:15 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/05/27 16:47:55 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,26 +73,26 @@ static int	open_input_simple(char **tokens, t_command *cmd,
  * @param fd The file descriptor of the heredoc.
  * @param data The minishell data.
  */
-static void	controller_heredoc(pid_t pid, int *fd, t_minishell *data)
+static int	controller_heredoc(pid_t pid, int *fd, t_minishell *data)
 {
 	int	status;
 
 	status = -1;
+	signal(SIGINT, sigint_handler);
 	close(fd[1]);
-	while (1)
+	while (status != 0)
 	{
 		waitpid(pid, &status, WNOHANG);
 		if (g_signal == 2)
 		{
-			close(fd[0]);
-			data->status = STOPPED;
 			kill(pid, SIGTERM);
-			ft_putstr_fd("\n", 1);
-			break ;
+			waitpid(pid, &status, 0);
+			close(fd[0]);
+			return (-1);
 		}
-		if (status != -1)
-			break ;
 	}
+	signal(SIGINT, signal_handler);
+	return (fd[0]);
 }
 
 /**
@@ -123,7 +123,7 @@ static int	write_here_doc(char *delimiter, int last_status, t_minishell *data,
 	if (pid == 0)
 	{
 		close(pipes[0]);
-		line = readline_own("> ", STDIN_FILENO);
+		line = readline("> ");
 		while (ft_strncmp(line, delimiter, ft_strlen(line) - 1))
 		{
 			tmp = parse_env_variable(line, last_status, '\0');
@@ -136,8 +136,8 @@ static int	write_here_doc(char *delimiter, int last_status, t_minishell *data,
 		free(line);
 		exit(0);
 	}
-	controller_heredoc(pid, pipes, data);
-	return (pipes[0]);
+	
+	return (controller_heredoc(pid, pipes, data));
 }
 
 /**

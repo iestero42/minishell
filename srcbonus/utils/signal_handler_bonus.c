@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 10:22:28 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/24 08:35:42 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/27 16:41:12 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,14 @@ void	signal_handler(int signum)
 		double_free(environ);
 		g_signal = 3;
 	}
+}
+
+void	sigint_handler(int sig)
+{
+    (void)sig;
+    g_signal = 2;
+	rl_done = 1;
+	printf("^C\n");
 }
 
 /**

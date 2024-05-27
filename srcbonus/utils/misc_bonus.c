@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   misc_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 11:33:39 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/27 12:45:23 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/05/27 15:29:10 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,12 @@ char	**print_estd(char **tokens, int mode, int i)
     if (mode == 2)
         ft_putstr_fd("minishell: syntax error near unexpected token ')'\n", 2);
     if (mode == 3)
+    {
+        ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
+        ft_putstr_fd(tokens[i], 2);
+        ft_putstr_fd("'\n", 2);
+    }
+	if (mode == 4)
     {
         ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
         ft_putstr_fd(tokens[i + 1], 2);
