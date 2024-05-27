@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 08:50:36 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/27 07:30:16 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/05/27 10:05:23 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,9 +193,12 @@ int	parse_command(char *command_str, t_minishell *data)
 	int			result;
 
 	tokens = split_command(command_str);
-	tokens = check_err_sintax(tokens);
-	if (tokens == NULL)
+	tokens = check_err_sintax(tokens, data);
+	if (tokens == NULL || data->status == STOPPED)
+	{
+		data->status = RUNNING;
 		return (EXIT_FAILURE);
+	}
 	data->cmd_tree = ft_new_node(0, NULL, 0);
 	if (!data->cmd_tree)
 		error_init("malloc", 1);

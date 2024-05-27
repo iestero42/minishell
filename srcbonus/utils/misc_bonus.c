@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 11:33:39 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/27 07:53:14 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/05/27 12:45:23 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,12 @@ int	ft_putchar(int c)
  *
  * @return The line read from the standard input.
  */
-char	*readline_own(char *prompt)
+char	*readline_own(char *prompt, int fd)
 {
 	char	*line;
 
 	ft_putstr_fd(prompt, 1);
-	line = get_next_line(STDIN_FILENO);
+	line = get_next_line(fd);
 	if (*line == '\n')
 	{
 		line = ft_strjoin(line, " ");
