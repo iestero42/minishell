@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 06:27:23 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/27 16:45:12 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/27 21:34:01 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ extern volatile sig_atomic_t	g_signal;
 
 static char	**append_line_token(char **tokens, int fd)
 {
-	char	*line;
-	char	*tmp;
+	char		*line;
+	char		*tmp;
 	
 	line = get_next_line(fd);
 	while (line != NULL)
@@ -41,6 +41,11 @@ static char **read_complete_command(void)
     char    **tokens;
 
 	line = readline("> ");
+	if (!line || *line == '\0')
+	{
+		ft_putstr_fd("minishell: syntax error: unexpected end of file\nexit\n", 2);
+		exit(EXIT_FAILURE);
+	}
 	if (*line != '\0')
 	{
 		tmp = ft_strtrim(line, "\n ");
@@ -69,7 +74,6 @@ static char **read_complete_command(void)
 static char	**controller_main(pid_t pid, int *fd, char **tokens)
 {
 	int		status;
-	char   	*tmp;
 
 	status = -1;
 	signal(SIGINT, sigint_handler);
@@ -77,12 +81,17 @@ static char	**controller_main(pid_t pid, int *fd, char **tokens)
 	while (status != 0)
 	{
 		waitpid(pid, &status, WNOHANG);
-		if (g_signal == 2)
+		if (g_signal == 2 || status > 0)
 		{
-			kill(pid, SIGTERM);
-			waitpid(pid, &status, 0);
 			double_free(tokens);
-			return (NULL);
+			if (status > 0)
+				exit(2);
+			if (g_signal == 2)
+			{
+				kill(pid, SIGTERM);
+				waitpid(pid, &status, 0);
+				return (NULL);
+			}
 		}
 	}
 	signal(SIGINT, signal_handler);
@@ -93,7 +102,6 @@ static char	**controller_main(pid_t pid, int *fd, char **tokens)
 static char	**read_complete_command_main(char **command_line, t_minishell *data)
 {
 	pid_t			pid;
-	struct termios	term;
 	int				pipes[2];
 	int				i;
 	

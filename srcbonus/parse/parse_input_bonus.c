@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 11:47:55 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/27 16:47:55 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/27 21:24:28 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ static int	open_input_simple(char **tokens, t_command *cmd,
  * @param fd The file descriptor of the heredoc.
  * @param data The minishell data.
  */
-static int	controller_heredoc(pid_t pid, int *fd, t_minishell *data)
+static int	controller_heredoc(pid_t pid, int *fd)
 {
 	int	status;
 
@@ -110,7 +110,7 @@ static int	controller_heredoc(pid_t pid, int *fd, t_minishell *data)
  * @param pipes The pipes to write to.
  * @return The read end of the pipe.
  */
-static int	write_here_doc(char *delimiter, int last_status, t_minishell *data,
+static int	write_here_doc(char *delimiter, int last_status,
 				int pipes[2])
 {
 	char	*line;
@@ -137,7 +137,7 @@ static int	write_here_doc(char *delimiter, int last_status, t_minishell *data,
 		exit(0);
 	}
 	
-	return (controller_heredoc(pid, pipes, data));
+	return (controller_heredoc(pid, pipes));
 }
 
 /**
@@ -172,7 +172,7 @@ static int	open_input_double(char **tokens, t_command *cmd,
 			if (pipe(pipes) < 0)
 				error_init("pipe", 1);
 			cmd->input_redirect = write_here_doc(tokens[1],
-					data->last_status_cmd, data, pipes);
+					data->last_status_cmd, pipes);
 			*tokens[1] = '\0';
 			*tokens[0] = '\0';
 		}
