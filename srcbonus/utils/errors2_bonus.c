@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errors2_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 14:23:35 by yunlovex          #+#    #+#             */
-/*   Updated: 2024/05/26 15:02:32 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/27 06:27:36 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,75 +18,6 @@
  */
 
 #include "minishell_bonus.h"
-
-/**
- * @brief 
- * Handles parenthesis errors.
- *
- * @details
- * Prints an error message depending on the type of parenthesis error.
- *
- * @param count_paranthese The number of parentheses.
- * @param tokens The array of tokens.
- * @param i The current position in the array.
- * @return EXIT_FAILURE if there is an error, otherwise EXIT_SUCCESS.
- 
-int	error_parenthesis(int count_paranthese, char **tokens, int i)
-{
-	if (count_paranthese < 0 || tokens[0] == NULL || (tokens[1] != NULL
-			&& *tokens[1] == ')' && *tokens[0] == '('))
-	{	
-		ft_putstr_fd("minishell: syntax error near unexpected token ')'\n", 2);
-		return (EXIT_FAILURE);
-	}
-	else if (tokens[i] != NULL && *tokens[i] == ')' && *tokens[i + 1] != '|'
-		&& *tokens[i + 1] != '&')
-	{
-		ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
-		ft_putstr_fd(tokens[i + 1], 2);
-		ft_putstr_fd("'\n", 2);
-		return (EXIT_FAILURE);
-	}
-	return (EXIT_SUCCESS);
-}*/
-
-int	error_parenthesis(char **tokens)
-{
-	int	i;
-	int	count_parentheses;
-
-	i = 0;
-	count_parentheses = 0;
-	while (tokens[i] != NULL)
-	{
-		if (*tokens[i] == '(')
-			count_parentheses++;
-		if (*tokens[i] == ')')
-			count_parentheses--;
-		if (count_parentheses < 0)
-		{
-			ft_putstr_fd("minishell: syntax error near unexpected token `)'", 2);
-			return (EXIT_FAILURE);
-		}
-		if (count_parentheses > 0 || (tokens[i + 1] == NULL
-			&& count_parentheses == 0 && (*tokens[i] == '&' || *tokens[i] == '|')))
-			tokens = ft_dstrjoin(tokens, /*Aqui va lo del get next line*/);
-		if ((*tokens[i] == '&' || *tokens[i] == '|') && (i == 0
-			|| (tokens[i + 1] != NULL && *tokens[i + 1] == '&' || *tokens[i + 1] == '|')))
-		{
-			ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
-			ft_putstr_fd(tokens[i + 1], 2);
-			ft_putstr_fd("'\n", 2);
-			return (EXIT_FAILURE);
-		}
-		if (*tokens[i] == '(' && (i >  0 && (*tokens[i - 1] !=  '&' || *tokens[i - 1] != '|')))
-		{
-			ft_putstr_fd("minishell: syntax error near unexpected token `)'", 2);
-			return (EXIT_FAILURE);
-		}
-	}
-	return (EXIT_SUCCESS);
-}
 
 /**
  * @brief 

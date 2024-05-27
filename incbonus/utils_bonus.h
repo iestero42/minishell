@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 09:29:41 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/24 10:20:38 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/27 07:55:12 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 //***********MISC***********//
 char		*readline_own(char *prompt);
 void		assign_operand(char **tokens, t_tree *tree, int i);
+char	    **print_estd(char **tokens, int mode, int i);
 
 //***********ERRORS***********//
 int			error_redir(char *org, char *control);
@@ -25,7 +26,7 @@ void		error_export_msg(char *arg);
 int			error_unclosed_quotes(char *arg, int len);
 int			error_init(char *msg, int error);
 int			error_split_operands(int count, int quotes);
-int			error_parenthesis(int count_paranthese, char **tokens, int i);
+char		**check_err_sintax(char **tokens);
 int			error_operands(char **tokens);
 int			error_command(t_command *cmd, char **tokens);
 

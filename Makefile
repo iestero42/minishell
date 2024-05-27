@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+         #
+#    By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/07 10:56:39 by yunlovex          #+#    #+#              #
-#    Updated: 2024/05/24 14:31:16 by yunlovex         ###   ########.fr        #
+#    Updated: 2024/05/27 06:44:54 by iestero-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -158,6 +158,7 @@ UTILS_FILES_BONUS		=	errors_bonus.c				\
 							signal_handler_bonus.c 		\
 							configurations_bonus.c		\
 							misc_bonus.c				\
+							check_error_sintax.c 		\
 
 BUILTINS_FILES_BONUS	=	built_cd_bonus.c		\
 							built_echo_bonus.c		\

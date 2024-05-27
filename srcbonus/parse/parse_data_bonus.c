@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_data_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 10:48:47 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/26 10:02:08 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/27 06:27:51 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,70 +20,6 @@
 #include "minishell_bonus.h"
 
 extern volatile sig_atomic_t	g_signal;
-
-static int	ends_with(const char *str)
-{
-	int	i;
-    
-	if (!str)
-		return 0;
-	i = ft_strlen(str) - 1;
-	while (i >= 0 && str[i] == ' ')
-		--i;	
-	if (i > 1 && str[i] == '&' && str[i - 1] == '&')
-		return 1;
-	else if (i > 0 && str[i] == '|')
-		return 1;
-	else if (i > 1 && str[i] == '|' && str[i - 1] == '|')
-		return 1;
-	return (0);
-}
-
-static int	has_unclosed_parenthesis(const char *str)
-{
-    int			count;
-    int			in_quote;
-    const char	*p;
-
-	count = 0;
-	in_quote = UNQUOTED;
-	p = str;
-    while (*p)
-    {
-        if ((*p == '\'' || *p == '"') && !in_quote)
-            in_quote = *p;
-        else if (*p == in_quote && in_quote)
-            in_quote = UNQUOTED;
-        else if (*p == '(' && !in_quote)
-            count++;
-        else if (*p == ')' && !in_quote)
-            count--;
-        ++p;
-    }
-    return (count < 0);
-}
-
-static int	ends_with_and_or_pipe(const char *str)
-{
-	return (ends_with(str, "&&") || ends_with(str, "||") || ends_with(str, "|"));
-}
-
-static void	read_complete_command(char *command_line)
-{
-    char	*line;
-    size_t	len;
-
-	while (ends_with_and_or_pipe(command_line) || has_unclosed_parenthesis(command_line))
-	{
-        ft_putstr_fd("> ", 1);
-        line = get_next_line(STDIN_FILENO);
-        len = ft_strlen(command_line) + ft_strlen(line);
-        command_line = ft_realloc(command_line, ft_strlen(command_line) * sizeof(char),
-			(len + 1) * sizeof(char));
-        ft_strlcat(command_line, line, len + 1);
-        free(line);
-    }
-}
 
 /**
  * @brief 

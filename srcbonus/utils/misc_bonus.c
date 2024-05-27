@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   misc_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 11:33:39 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/24 10:18:14 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/27 07:53:14 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,4 +77,23 @@ void	assign_operand(char **tokens, t_tree *tree, int i)
 		tree->number = AND;
 	else
 		tree->number = PIPE;
+}
+
+/**
+ * 
+*/
+char	**print_estd(char **tokens, int mode, int i)
+{
+	if (mode == 1)
+        ft_putstr_fd("minishell: syntax error near unexpected token '('\n", 2);
+    if (mode == 2)
+        ft_putstr_fd("minishell: syntax error near unexpected token ')'\n", 2);
+    if (mode == 3)
+    {
+        ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
+        ft_putstr_fd(tokens[i + 1], 2);
+        ft_putstr_fd("'\n", 2);
+    }
+	double_free(tokens);
+	return (NULL);
 }
