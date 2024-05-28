@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 09:29:41 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/27 12:45:13 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/05/28 14:20:37 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 # include "structs_bonus.h"
 
 //***********MISC***********//
-char		*readline_own(char *prompt, int fd);
 void		assign_operand(char **tokens, t_tree *tree, int i);
 char	    **print_estd(char **tokens, int mode, int i);
 
@@ -26,9 +25,12 @@ void		error_export_msg(char *arg);
 int			error_unclosed_quotes(char *arg, int len);
 int			error_init(char *msg, int error);
 int			error_split_operands(int count, int quotes);
-char		**check_err_sintax(char **tokens, t_minishell *data);
 int			error_operands(char **tokens);
 int			error_command(t_command *cmd, char **tokens);
+
+//***********CHECK ERRORS***********//
+char		**check_err_sintax(char **tokens, t_minishell *data);
+void		check_err_heredoc(char *line, int n_line, char *delimiter);
 
 //***********FREES***********//
 void		full_free(t_minishell *data);

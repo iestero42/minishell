@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errors2_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 14:23:35 by yunlovex          #+#    #+#             */
-/*   Updated: 2024/05/27 06:27:36 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/05/28 14:19:53 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,4 +77,20 @@ int	error_command(t_command *cmd, char **tokens)
 	cmd->args = NULL;
 	double_free(tokens);
 	return (EXIT_SUCCESS);
+}
+
+void	check_err_heredoc(char *line, int n_line, char *delimiter)
+{
+	extern char	**environ;
+
+	double_free(environ);
+	if (line == NULL)
+	{
+		ft_putstr_fd("-minishell: warning: here-document at line ", 2);
+		ft_putnbr_fd(n_line, 2);
+		ft_putstr_fd(" delimited by end-of-file (wanted `", 2);
+		ft_putstr_fd(delimiter, 2);
+		ft_putstr_fd("')\n", 2);
+	}
+	exit(0);
 }

@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 11:47:55 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/27 21:24:28 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/28 14:21:01 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,30 +113,31 @@ static int	controller_heredoc(pid_t pid, int *fd)
 static int	write_here_doc(char *delimiter, int last_status,
 				int pipes[2])
 {
-	char	*line;
-	char	*tmp;
-	pid_t	pid;
+	char		*line;
+	int			n_line;
+	char		*tmp;
+	pid_t		pid;
 
 	pid = fork();
 	if (pid < 0)
 		error_init("fork", 1);
 	if (pid == 0)
 	{
+		n_line = 1;
 		close(pipes[0]);
 		line = readline("> ");
-		while (ft_strncmp(line, delimiter, ft_strlen(line) - 1))
+		while (line != NULL && ft_strncmp(line, delimiter, ft_strlen(line) - 1))
 		{
 			tmp = parse_env_variable(line, last_status, '\0');
 			free(line);
 			line = tmp;
 			ft_putstr_fd(line, pipes[1]);
 			free(line);
-			line = readline_own("> ", STDIN_FILENO);
+			line = readline("> ");
+			n_line++;
 		}
-		free(line);
-		exit(0);
+		check_err_heredoc(line, n_line, delimiter);
 	}
-	
 	return (controller_heredoc(pid, pipes));
 }
 
