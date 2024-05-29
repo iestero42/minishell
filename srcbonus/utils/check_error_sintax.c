@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 06:27:23 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/27 21:34:01 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/29 09:19:45 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ static char **read_complete_command(void)
  * @param fd The file descriptor of the heredoc.
  * @param data The minishell data.
  */
-static char	**controller_main(pid_t pid, int *fd, char **tokens)
+static char	**monitor(pid_t pid, int *fd, char **tokens)
 {
 	int		status;
 
@@ -99,7 +99,7 @@ static char	**controller_main(pid_t pid, int *fd, char **tokens)
 	return (tokens);
 }
 
-static char	**read_complete_command_main(char **command_line, t_minishell *data)
+static char	**execute_and_capture_command(char **command_line, t_minishell *data)
 {
 	pid_t			pid;
 	int				pipes[2];
@@ -121,7 +121,7 @@ static char	**read_complete_command_main(char **command_line, t_minishell *data)
 		}
 		exit(EXIT_SUCCESS);
 	}
-	command_line = controller_main(pid, pipes, command_line);
+	command_line = monitor(pid, pipes, command_line);
 	if (command_line == NULL)
 		data->status = STOPPED;
 	return (command_line);
@@ -169,7 +169,7 @@ char	**check_err_sintax(char **tokens, t_minishell *data)
 			return (print_estd(tokens, 4, i));
 		if (tokens[i + 1] == NULL && ((count_parentheses > 0) || (count_parentheses == 0
 			&& (*tokens[i] == '&' || *tokens[i] == '|'))))
-			tokens = read_complete_command_main(tokens, data);
+			tokens = execute_and_capture_command(tokens, data);
 	}
 	return (tokens);
 }
