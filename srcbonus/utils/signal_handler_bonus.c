@@ -41,7 +41,6 @@ void	signal_handler_readline(int signum)
 		rl_replace_line("", 1);
 		rl_redisplay();
 		g_signal = 2;
-		rl_done = 1;
 	}
 }
 
