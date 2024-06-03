@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_error_sintax.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 06:27:23 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/03 12:51:36 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/06/03 16:18:10 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,7 +164,7 @@ static char	**execute_and_capture_command(char **command_line, t_minishell *data
 /**
  * @brief 
  * Handles parenthesis errors.
- *hide_eof_symbol(&term);
+ *
  * @details
  * This function iterates over the tokens and checks for an uneven number of open 
  * and closed parentheses, an open parenthesis that is not preceded by a '&' or '|', 

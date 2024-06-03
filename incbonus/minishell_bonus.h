@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 07:29:23 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/27 16:41:29 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/03 16:17:44 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,8 @@ int			exec_command(t_command *cmd, t_minishell *data);
 int			proc_minishell(t_minishell *data, t_tree *tree);
 
 //***********CONFIG***********//
-void		hide_eof_symbol(struct termios *term);
-void		show_eof_symbol(struct termios *term);
+void		hide_eof_symbol(void);
+void		show_eof_symbol(void);
 void		configurations(void);
 void		deinit(t_minishell *data);
 void		init(t_minishell *data);

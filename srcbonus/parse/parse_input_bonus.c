@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_input_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 11:47:55 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/03 10:38:25 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/06/03 16:31:11 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -203,9 +203,7 @@ static int	open_input_double(char **tokens, t_command *cmd,
 int	parse_input(char **tokens, t_command *cmd,
 		char *control, t_minishell *data)
 {
-	struct termios	term;
-
-	show_eof_symbol(&term);
+	show_eof_symbol();
 	if (tokens[0][0] != '"' && tokens[0][0] != '\'')
 	{
 		if (open_input_double(tokens, cmd, control, data) == EXIT_FAILURE)
@@ -213,6 +211,6 @@ int	parse_input(char **tokens, t_command *cmd,
 		if (open_input_simple(tokens, cmd, control) == EXIT_FAILURE)
 			return (EXIT_FAILURE);
 	}
-	hide_eof_symbol(&term);
+	hide_eof_symbol();
 	return (EXIT_SUCCESS);
 }

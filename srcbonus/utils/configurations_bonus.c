@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   configurations_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 10:55:57 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/27 11:13:48 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/06/03 16:23:12 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,18 @@ static void	show_title(void)
  *
  * @param term The terminal settings.
  */
-void	hide_eof_symbol(struct termios *term)
+void	hide_eof_symbol(void)
 {
+	struct termios *term;
+
+	term = (struct termios *) malloc(sizeof(struct termios));
+	if (term == NULL)
+		error_init("malloc", 1);
+	ft_memset(term, 0, sizeof(struct termios));
 	tcgetattr(STDIN_FILENO, term);
 	term->c_lflag &= ~(ECHOCTL);
 	tcsetattr(STDIN_FILENO, TCSANOW, term);
+	free(term);
 }
 
 /**
@@ -64,11 +71,18 @@ void	hide_eof_symbol(struct termios *term)
  *
  * @param term The terminal settings.
  */
-void	show_eof_symbol(struct termios *term)
+void	show_eof_symbol(void)
 {
+	struct termios *term;
+
+	term = (struct termios *) malloc(sizeof(struct termios));
+	if (term == NULL)
+		error_init("malloc", 1);
+	ft_memset(term, 0, sizeof(struct termios));
 	tcgetattr(STDIN_FILENO, term);
 	term->c_lflag |= ECHOCTL;
 	tcsetattr(STDIN_FILENO, TCSANOW, term);
+	free(term);
 }
 
 /**
@@ -84,8 +98,6 @@ void	show_eof_symbol(struct termios *term)
  */
 void	init(t_minishell *data)
 {
-	struct termios	term;
-
 	show_title();
 	data->status = RUNNING;
 	data->std_fileno[1] = dup(STDOUT_FILENO);
@@ -105,7 +117,7 @@ void	init(t_minishell *data)
 	data->last_status_cmd = 0;
 	if (tcgetattr(STDIN_FILENO, &data->original_term) == -1)
 		error_init("tcgetattr", 1);
-	hide_eof_symbol(&term);
+	hide_eof_symbol();
 	signal(SIGQUIT, SIG_IGN);
 }
 

@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 10:15:38 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/24 08:36:32 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/03 16:18:32 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,11 +134,10 @@ static int	execute_command_logic(t_command *cmd, t_minishell *data)
  */
 int	exec_command(t_command *cmd, t_minishell *data)
 {
-	struct termios	term;
 	int				result;
 
 	if (cmd->input_redirect < 0)
-		show_eof_symbol(&term);
+		show_eof_symbol();
 	if (cmd->input_redirect > -1 && cmd->output_redirect > -1)
 	{
 		dupping(cmd->input_redirect, STDIN_FILENO);
@@ -156,6 +155,6 @@ int	exec_command(t_command *cmd, t_minishell *data)
 	}
 	result = execute_command_logic(cmd, data);
 	if (cmd->input_redirect < 0)
-		hide_eof_symbol(&term);
+		hide_eof_symbol();
 	return (result);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal_handler_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 10:22:28 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/03 09:47:19 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/06/03 16:24:44 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,13 +89,8 @@ void	sigint_handler(int sig)
  */
 static void	signal_use(pid_t *pid)
 {
-	int	i;
-
 	if (g_signal == 2)
-	{
-		i = -1;
-		kill(pid[i], SIGTERM);
-	}
+		kill(*pid, SIGTERM);
 }
 
 /**
