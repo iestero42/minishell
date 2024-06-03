@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 09:23:36 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/24 08:35:57 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/29 09:24:07 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ static void	child_write(int fd, int *pipes)
  * @param mode The mode (0 for write, 1 for read).
  * @return The result of the minishell in the child process.
  */
-static int	proc_childs(t_minishell *data, t_tree *tree, pid_t *ch, int mode)
+static int	handle_child_process(t_minishell *data, t_tree *tree, pid_t *ch, int mode)
 {
 	int			result;
 	extern char	**environ;
@@ -180,8 +180,8 @@ int	proc_minishell(t_minishell *data, t_tree *tree)
 		if (tree->number == PIPE)
 		{
 			open_pipes(data);
-			result = proc_childs(data, tree, &child, 0);
-			result = proc_childs(data, tree, &child2, 1);
+			result = handle_child_process(data, tree, &child, 0);
+			result = handle_child_process(data, tree, &child2, 1);
 			close_pipes(data);
 			waitpid(child, &result, 0);
 			waitpid(child2, &result, 0);

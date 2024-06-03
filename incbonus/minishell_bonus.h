@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 07:29:23 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/23 14:56:44 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/27 16:41:29 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@
 void		signal_handler(int signum);
 int			controller(t_minishell *data, pid_t *pid);
 void		signal_handler_readline(int signum);
+void		sigint_handler(int sig);
 
 //***********EXECUTION***********//
 int			exec_command(t_command *cmd, t_minishell *data);

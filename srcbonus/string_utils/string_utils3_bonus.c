@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 11:17:36 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/24 08:37:24 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/29 09:15:56 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,31 +122,6 @@ void	remove_parenthesis(char **tokens)
 
 /**
  * @brief 
- * Allocates memory for the environment variables.
- *
- * @details
- * Duplicates the environment variables and stores them in a new array.
- * The original array of environment variables is then freed.
- * This function is only called once, when the data->access_environ flag is 0.
- *
- * @param data The shell data structure.
- */
-void	alloc_environ(t_minishell *data)
-{
-	char		**tmp;
-	extern char	**environ;
-
-	if (data->access_environ == 0)
-	{
-		tmp = ft_dstrdup(environ);
-		free(environ);
-		environ = tmp;
-		data->access_environ = 1;
-	}
-}
-
-/**
- * @brief 
  * Converts characters in a string.
  *
  * @details
@@ -162,4 +137,32 @@ void	convert_token(char *tokens)
 	convert_char(tokens, '*', WILDCARD, 1);
 	convert_char(tokens, '<', INPUT_REDIR, 1);
 	convert_char(tokens, '>', OUTPUT_REDIR, 1);
+}
+
+/**
+ * @brief 
+ * Copies a substring from a string and appends it to another string.
+ *
+ * @details
+ * Creates a substring from the given string starting from the start index with 
+ * the given length. Then appends this substring to the new_token string.
+ *
+ * @param token The original string.
+ * @param new_token The string to append to.
+ * @param start The starting index for the substring.
+ * @param len The length of the substring.
+ * @return The new string with the appended substring.
+ */
+char	*ft_copy(const char *token, char *new_token, int start, int len)
+{
+	char	*tmp;
+
+	tmp = ft_substr(token, start + 1, len);
+	if (!tmp)
+		error_init("malloc", 1);
+	new_token = ft_strjoin((char *) new_token, (char *) tmp);
+	if (!new_token)
+		error_init("malloc", 1);
+	free(tmp);
+	return (new_token);
 }

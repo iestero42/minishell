@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 09:31:16 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/24 10:20:08 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/29 09:15:48 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,105 +21,25 @@
 
 /**
  * @brief 
- * Copies a substring from a string and appends it to another string.
+ * Frees a double pointer.
  *
  * @details
- * Creates a substring from the given string starting from the start index with 
- * the given length. Then appends this substring to the new_token string.
+ * Frees each string in the array, then frees the array itself.
  *
- * @param token The original string.
- * @param new_token The string to append to.
- * @param start The starting index for the substring.
- * @param len The length of the substring.
- * @return The new string with the appended substring.
+ * @param str The double pointer to free.
  */
-char	*ft_copy(const char *token, char *new_token, int start, int len)
+void	double_free(char **str)
 {
-	char	*tmp;
+	int	i;
 
-	tmp = ft_substr(token, start + 1, len);
-	if (!tmp)
-		error_init("malloc", 1);
-	new_token = ft_strjoin((char *) new_token, (char *) tmp);
-	if (!new_token)
-		error_init("malloc", 1);
-	free(tmp);
-	return (new_token);
+	i = 0;
+	while (str[i])
+		i++;
+	while (i >= 0)
+		free(str[i--]);
+	free(str);
 }
 
-/**
- * @brief 
- * Appends a string to an array of strings.
- *
- * @details
- * Creates a new array of strings with an additional space for the new string.
- * Copies the strings from the original array to the new array, then adds the 
- * new string to the end.
- *
- * @param arr1 The original array of strings.
- * @param str The string to append.
- * @return The new array of strings with the appended string.
- */
-char	**ft_append(char **arr1, char *str)
-{
-	int		len1;
-	int		i;
-	char	**combined;
-
-	if (arr1 == NULL)
-		len1 = 0;
-	else
-		len1 = ft_dstrlen(arr1);
-	combined = malloc(sizeof(char *) * (len1 + 2));
-	if (combined == NULL)
-		error_init("malloc", 1);
-	i = -1;
-	while (++i < len1)
-		combined[i] = arr1[i];
-	combined[len1] = ft_strdup(str);
-	if (!combined[len1])
-		error_init("malloc", 1);
-	combined[len1 + 1] = NULL;
-	free(arr1);
-	return (combined);
-}
-
-/**
- * Posiblemente esta se borre porque he creado un mejor realloc
- * @brief 
- * Reallocates an array of strings with additional space for a new string.
- *
- * @details
- * Creates a new array of strings with additional space for the new string.
- * Copies the strings from the original array to the new array, then adds 
- * the new string to the end.
- *
- * @param ptr The original array of strings.
- * @param arg The string to append.
- * @param count The number of strings in the original array.
- * @param expand The number of additional spaces for new strings.
- * @return The new array of strings with the appended string.
- */
-char	**borrar_futuro(char **ptr, char *arg, int count, int expand)
-{
-	char	**new_ptr;
-	int		i;
-
-	if (ptr == NULL)
-		return ((char **) ft_calloc(count + expand, sizeof(char *)));
-	new_ptr = (char **) ft_calloc(count + expand, sizeof(char *));
-	if (new_ptr == NULL)
-		error_init("malloc", 1);
-	i = -1;
-	while (++i < count)
-		new_ptr[i] = ptr[i];
-	new_ptr[i] = ft_strdup(arg);
-	if (new_ptr[i] == NULL)
-		error_init("malloc", 1);
-	new_ptr[i + 1] = NULL;
-	free(ptr);
-	return (new_ptr);
-}
 
 /**
  * @brief 
@@ -165,6 +85,7 @@ void	*ft_realloc(void *ptr, size_t old_size, size_t new_size)
     new_ptr = malloc(new_size);
 	if (new_ptr == NULL)
         return (NULL);
+	ft_memset(new_ptr, 0, new_size); 
 	if (new_size < old_size)
 		copy_size = new_size;
 	else
@@ -172,4 +93,29 @@ void	*ft_realloc(void *ptr, size_t old_size, size_t new_size)
     ft_memcpy(new_ptr, ptr, copy_size);
     free(ptr);
     return (new_ptr);
+}
+
+/**
+ * @brief 
+ * Allocates memory for the environment variables.
+ *
+ * @details
+ * Duplicates the environment variables and stores them in a new array.
+ * The original array of environment variables is then freed.
+ * This function is only called once, when the data->access_environ flag is 0.
+ *
+ * @param data The shell data structure.
+ */
+void	alloc_environ(t_minishell *data)
+{
+	char		**tmp;
+	extern char	**environ;
+
+	if (data->access_environ == 0)
+	{
+		tmp = ft_dstrdup(environ);
+		free(environ);
+		environ = tmp;
+		data->access_environ = 1;
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 11:47:55 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/24 14:51:45 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/28 14:21:01 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,26 +73,26 @@ static int	open_input_simple(char **tokens, t_command *cmd,
  * @param fd The file descriptor of the heredoc.
  * @param data The minishell data.
  */
-static void	controller_heredoc(pid_t pid, int *fd, t_minishell *data)
+static int	controller_heredoc(pid_t pid, int *fd)
 {
 	int	status;
 
 	status = -1;
+	signal(SIGINT, sigint_handler);
 	close(fd[1]);
-	while (1)
+	while (status != 0)
 	{
 		waitpid(pid, &status, WNOHANG);
 		if (g_signal == 2)
 		{
-			close(fd[0]);
-			data->status = STOPPED;
 			kill(pid, SIGTERM);
-			ft_putstr_fd("\n", 1);
-			break ;
+			waitpid(pid, &status, 0);
+			close(fd[0]);
+			return (-1);
 		}
-		if (status != -1)
-			break ;
 	}
+	signal(SIGINT, signal_handler);
+	return (fd[0]);
 }
 
 /**
@@ -110,34 +110,35 @@ static void	controller_heredoc(pid_t pid, int *fd, t_minishell *data)
  * @param pipes The pipes to write to.
  * @return The read end of the pipe.
  */
-static int	write_here_doc(char *delimiter, int last_status, t_minishell *data,
+static int	write_here_doc(char *delimiter, int last_status,
 				int pipes[2])
 {
-	char	*line;
-	char	*tmp;
-	pid_t	pid;
+	char		*line;
+	int			n_line;
+	char		*tmp;
+	pid_t		pid;
 
 	pid = fork();
 	if (pid < 0)
 		error_init("fork", 1);
 	if (pid == 0)
 	{
+		n_line = 1;
 		close(pipes[0]);
-		line = readline_own("> ");
-		while (ft_strncmp(line, delimiter, ft_strlen(line) - 1))
+		line = readline("> ");
+		while (line != NULL && ft_strncmp(line, delimiter, ft_strlen(line) - 1))
 		{
 			tmp = parse_env_variable(line, last_status, '\0');
 			free(line);
 			line = tmp;
 			ft_putstr_fd(line, pipes[1]);
 			free(line);
-			line = readline_own("> ");
+			line = readline("> ");
+			n_line++;
 		}
-		free(line);
-		exit(0);
+		check_err_heredoc(line, n_line, delimiter);
 	}
-	controller_heredoc(pid, pipes, data);
-	return (pipes[0]);
+	return (controller_heredoc(pid, pipes));
 }
 
 /**
@@ -172,7 +173,7 @@ static int	open_input_double(char **tokens, t_command *cmd,
 			if (pipe(pipes) < 0)
 				error_init("pipe", 1);
 			cmd->input_redirect = write_here_doc(tokens[1],
-					data->last_status_cmd, data, pipes);
+					data->last_status_cmd, pipes);
 			*tokens[1] = '\0';
 			*tokens[0] = '\0';
 		}

@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 10:05:08 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/24 08:37:42 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/05/29 09:15:27 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,23 +47,39 @@ int	ft_strcmp(char *s1, char *s2)
 
 /**
  * @brief 
- * Frees a double pointer.
+ * Appends a string to an array of strings.
  *
  * @details
- * Frees each string in the array, then frees the array itself.
+ * Creates a new array of strings with an additional space for the new string.
+ * Copies the strings from the original array to the new array, then adds the 
+ * new string to the end.
  *
- * @param str The double pointer to free.
+ * @param arr1 The original array of strings.
+ * @param str The string to append.
+ * @return The new array of strings with the appended string.
  */
-void	double_free(char **str)
+char	**ft_append(char **arr1, char *str)
 {
-	int	i;
+	int		len1;
+	int		i;
+	char	**combined;
 
-	i = 0;
-	while (str[i])
-		i++;
-	while (i >= 0)
-		free(str[i--]);
-	free(str);
+	if (arr1 == NULL)
+		len1 = 0;
+	else
+		len1 = ft_dstrlen(arr1);
+	combined = malloc(sizeof(char *) * (len1 + 2));
+	if (combined == NULL)
+		error_init("malloc", 1);
+	i = -1;
+	while (++i < len1)
+		combined[i] = arr1[i];
+	combined[len1] = ft_strdup(str);
+	if (!combined[len1])
+		error_init("malloc", 1);
+	combined[len1 + 1] = NULL;
+	free(arr1);
+	return (combined);
 }
 
 /**

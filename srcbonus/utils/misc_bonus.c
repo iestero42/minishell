@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   misc_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 11:33:39 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/27 07:53:14 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/05/28 14:01:08 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,31 +29,6 @@
 int	ft_putchar(int c)
 {
 	return (write(1, &c, 1));
-}
-
-/**
- * @brief 
- * Reads a line from the standard input.
- *
- * @details
- * Prints a prompt, reads a line from the standard input, 
- * and appends a space to the line if it ends with a newline.
- * 
- * @param prompt The prompt to print.
- *
- * @return The line read from the standard input.
- */
-char	*readline_own(char *prompt)
-{
-	char	*line;
-
-	ft_putstr_fd(prompt, 1);
-	line = get_next_line(STDIN_FILENO);
-	if (*line == '\n')
-	{
-		line = ft_strjoin(line, " ");
-	}
-	return (line);
 }
 
 /**
@@ -89,6 +64,12 @@ char	**print_estd(char **tokens, int mode, int i)
     if (mode == 2)
         ft_putstr_fd("minishell: syntax error near unexpected token ')'\n", 2);
     if (mode == 3)
+    {
+        ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
+        ft_putstr_fd(tokens[i], 2);
+        ft_putstr_fd("'\n", 2);
+    }
+	if (mode == 4)
     {
         ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
         ft_putstr_fd(tokens[i + 1], 2);
