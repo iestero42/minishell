@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   string_utils2_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 09:31:16 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/29 09:15:48 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/03 07:52:15 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,24 @@ char	**ft_dstrdup(char **str)
 	return (dup);
 }
 
+/**
+ * @brief Reallocates memory block.
+ *
+ * @details This function changes the size of the memory block pointed to by 
+ * `ptr` to `new_size` bytes. The contents will be unchanged to the minimum 
+ * of the old and new sizes; newly allocated memory will be uninitialized. 
+ * If `ptr` is NULL, then the call is equivalent to `malloc(new_size)`, for 
+ * all values of `new_size`. If `new_size` is equal to zero, and `ptr` is not 
+ * NULL, then the call is equivalent to `free(ptr)`. Unless `ptr` is NULL, 
+ * it must have been returned by an earlier call to `malloc()`, `calloc()` or 
+ * `realloc()`. If the area pointed to was moved, a `free(ptr)` is done.
+ *
+ * @param ptr Pointer to the memory area to be reallocated.
+ * @param old_size Size of the old memory block.
+ * @param new_size New size for the memory block.
+ * @return Pointer to the newly allocated memory, or NULL if the allocation 
+ * failed.
+ */
 void	*ft_realloc(void *ptr, size_t old_size, size_t new_size)
 {
 	void	*new_ptr;

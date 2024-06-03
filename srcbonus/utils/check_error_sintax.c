@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_error_sintax.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 06:27:23 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/29 09:19:45 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/03 12:51:36 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,18 @@
 
 extern volatile sig_atomic_t	g_signal;
 
+/**
+ * @brief Appends a line token to the tokens array.
+ *
+ * @details This function reads a line from the given file descriptor using 
+ * `get_next_line`, trims the newline and space characters from the line, and 
+ * appends the trimmed line to the tokens array. This process is repeated until 
+ * `get_next_line` returns NULL, indicating that there are no more lines to read.
+ *
+ * @param tokens The tokens array to append to.
+ * @param fd The file descriptor to read from.
+ * @return The updated tokens array.
+ */
 static char	**append_line_token(char **tokens, int fd)
 {
 	char		*line;
@@ -22,7 +34,7 @@ static char	**append_line_token(char **tokens, int fd)
 	line = get_next_line(fd);
 	while (line != NULL)
 	{
-		tmp = ft_strtrim(line, "\n ");
+		tmp = ft_strtrim(line, "\n");
 		free(line);
 		if (!tmp)
 			error_init("malloc", 1);
@@ -34,6 +46,16 @@ static char	**append_line_token(char **tokens, int fd)
 	return (tokens);
 }
 
+/**
+ * @brief Reads a complete command from the user.
+ *
+ * @details This function reads a line from the user using `readline`, trims the 
+ * newline and space characters from the line, and splits the trimmed line into 
+ * tokens. If the line is empty or NULL, an error message is printed and the 
+ * program exits.
+ *
+ * @return The tokens array representing the command, or NULL if an error occurred.
+ */
 static char **read_complete_command(void)
 {
     char	*line;
@@ -95,10 +117,22 @@ static char	**monitor(pid_t pid, int *fd, char **tokens)
 		}
 	}
 	signal(SIGINT, signal_handler);
-	append_line_token(tokens, fd[0]);
+	tokens = append_line_token(tokens, fd[0]);
 	return (tokens);
 }
 
+/**
+ * @brief Executes a command and captures its output.
+ *
+ * @details This function forks a new process to execute a command and captures
+ * its output. The command is read using `read_complete_command`, and its output
+ * is written to a pipe. The parent process waits for the child to finish and
+ * reads the output from the pipe.
+ *
+ * @param command_line The command to execute.
+ * @param data The shell data.
+ * @return The output of the command, or NULL if the command was stopped.
+ */
 static char	**execute_and_capture_command(char **command_line, t_minishell *data)
 {
 	pid_t			pid;
@@ -160,12 +194,13 @@ char	**check_err_sintax(char **tokens, t_minishell *data)
 		if (count_parentheses < 0 || (*tokens[i] == '('
 			&& tokens[i + 1] != NULL && *tokens[i + 1] == ')'))
 			return (print_estd(tokens, 2, i));
-		if (((*tokens[i] == '&' || *tokens[i] == '|') && (i == 0
-			|| (tokens[i + 1] != NULL && (*tokens[i + 1] == '&'
-			|| *tokens[i + 1] == '|')))))
+		if ((*tokens[i] == '&' || *tokens[i] == '|') && i == 0)
 			return (print_estd(tokens, 3, i));
-		if (*tokens[i] == ')' && tokens[i + 1] != NULL
+		if ((*tokens[i] == ')' && tokens[i + 1] != NULL
 			&& (*tokens[i + 1] != '|' && *tokens[i + 1] != '&'))
+			|| ((*tokens[i] == '&' || *tokens[i] == '|')
+			&& tokens[i + 1] != NULL && (*tokens[i + 1] == '&'
+			|| *tokens[i + 1] == '|')))
 			return (print_estd(tokens, 4, i));
 		if (tokens[i + 1] == NULL && ((count_parentheses > 0) || (count_parentheses == 0
 			&& (*tokens[i] == '&' || *tokens[i] == '|'))))

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   misc_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 11:33:39 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/28 14:01:08 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/03 07:12:36 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,17 @@ void	assign_operand(char **tokens, t_tree *tree, int i)
 }
 
 /**
- * 
-*/
+ * @brief Prints syntax error messages and frees tokens.
+ *
+ * @details This function prints different syntax error messages based on the 
+ * mode provided. It then frees the memory allocated for the tokens array and 
+ * returns NULL.
+ *
+ * @param tokens The tokens array to be freed.
+ * @param mode The mode to determine which error message to print.
+ * @param i The index of the token causing the error.
+ * @return NULL after freeing the tokens array.
+ */
 char	**print_estd(char **tokens, int mode, int i)
 {
 	if (mode == 1)

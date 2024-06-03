@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_command_name_bonus.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 08:18:57 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/24 08:38:51 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/03 10:55:10 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,15 +159,15 @@ int	parse_command_name(char **tokens, t_command *cmd, char **cmd_list)
 	convert_tokens(tokens);
 	cmd->name = NULL;
 	cmd->type = -1;
+	i = 0;
+	while (tokens[i] != NULL && tokens[i][0] == '\0')
+		i++;
+	if (tokens[i] == NULL || tokens[i][0] == '\0')
+		return (EXIT_FAILURE);
 	path = getenv("PATH");
 	dirs = ft_split(path, ':');
 	if (!dirs)
 		error_init("malloc", 1);
-	i = 0;
-	while (tokens[i] != NULL && tokens[i][0] == '\0')
-		i++;
-	if (tokens[i] == NULL)
-		return (EXIT_FAILURE);
 	check_own_command(tokens[i], cmd, cmd_list);
 	check_relative_path(tokens[i], cmd);
 	if (check_path(tokens[i], dirs, cmd) == EXIT_FAILURE)
