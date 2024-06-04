@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 11:53:17 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/24 08:37:16 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/04 08:55:06 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static char	*parse_segment(const char *input,
 	else
 		segment = ft_substr(input, *position + 1, i - *position - 1);
 	if (!segment)
-		error_init("malloc", 1);
+		error_init("malloc9", 1);
 	segment_expanded = parse_env_variable(segment, last_status, quote);
 	free(segment);
 	*start = i + 1;
@@ -110,13 +110,13 @@ static char	**ft_copy_expand(const char *token, char **new_token,
 
 	tmp = ft_substr(token, positions[0] + 1, positions[1]);
 	if (!tmp)
-		error_init("malloc", 1);
+		error_init("malloc6", 1);
 	tmp_expanded = parse_env_variable(tmp, last_status, '\0');
 	convert_token(tmp_expanded);
 	free(tmp);
 	split = ft_split(tmp_expanded, ' ');
 	if (!split)
-		error_init("malloc", 1);
+		error_init("malloc7", 1);
 	if (!new_token)
 		new_token = ft_dstrjoin(new_token, split);
 	else if (tmp_expanded[0] == ' ')
@@ -124,7 +124,7 @@ static char	**ft_copy_expand(const char *token, char **new_token,
 	else if (tmp_expanded[0] != ' ')
 		new_token = ft_copy_expand_aux(split, new_token);
 	if (!new_token)
-		error_init("malloc", 1);
+		error_init("malloc8", 1);
 	free(tmp_expanded);
 	free(split);
 	return (new_token);
@@ -199,7 +199,7 @@ char	**trim_command(char *token, int last_status)
 	{
 		new_token = (char **) malloc(sizeof(char *) * 2);
 		if (!new_token)
-			error_init("malloc", 1);
+			error_init("malloc5", 1);
 		new_token[0] = ft_strdup(token);
 		if (!new_token[0])
 		{

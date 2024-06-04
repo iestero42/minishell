@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 10:58:52 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/24 08:42:12 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/04 09:15:01 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	built_env(void)
 	extern char	**environ;
 
 	i = 0;
-	while (environ[i] != NULL)
+	while (environ && environ[i] != NULL)
 	{
 		if (ft_strncmp(environ[i], "LINES", 5)
 			&& ft_strncmp(environ[i], "COLUMNS", 7))

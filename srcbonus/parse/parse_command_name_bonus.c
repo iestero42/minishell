@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_command_name_bonus.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 08:18:57 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/03 10:55:10 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/06/04 09:22:52 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,20 @@
  * @param cmd The command that was not found.
  * @return Always returns EXIT_FAILURE.
  */
-static int	print_error(char *cmd)
+static int	print_error(char *cmd, char **dirs)
 {
-	ft_putstr_fd("minishell: ", 2);
-	ft_putstr_fd(cmd, 2);
-	ft_putstr_fd(": command not found\n", 2);
+	if (dirs)
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(cmd, 2);
+		ft_putstr_fd(": command not found\n", 2);
+	}
+	else
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(cmd, 2);
+		ft_putstr_fd(": No such file or directory\n", 2);
+	}
 	return (EXIT_FAILURE);
 }
 
@@ -56,7 +65,7 @@ static int	check_path(char *token, char **dirs, t_command *cmd)
 	if (!cmd->name)
 	{
 		i = -1;
-		while (dirs[++i] != NULL)
+		while (dirs != NULL && dirs[++i] != NULL)
 		{
 			ft_memset(abs_path, 0, sizeof(abs_path));
 			ft_strlcat(abs_path, dirs[i], sizeof(abs_path));
@@ -72,7 +81,7 @@ static int	check_path(char *token, char **dirs, t_command *cmd)
 			}
 		}
 		if (cmd->name == NULL)
-			return (print_error(token));
+			return (print_error(token, dirs));
 	}
 	return (EXIT_SUCCESS);
 }
@@ -154,27 +163,25 @@ int	parse_command_name(char **tokens, t_command *cmd, char **cmd_list)
 {
 	int		i;
 	char	*path;
+	int 	error;
 	char	**dirs;
 
-	convert_tokens(tokens);
 	cmd->name = NULL;
 	cmd->type = -1;
 	i = 0;
+	convert_tokens(tokens);
+	path = getenv("PATH");
 	while (tokens[i] != NULL && tokens[i][0] == '\0')
 		i++;
 	if (tokens[i] == NULL || tokens[i][0] == '\0')
-		return (EXIT_FAILURE);
-	path = getenv("PATH");
+		return (EXIT_SUCCESS);
 	dirs = ft_split(path, ':');
-	if (!dirs)
+	if (!dirs && path)
 		error_init("malloc", 1);
 	check_own_command(tokens[i], cmd, cmd_list);
 	check_relative_path(tokens[i], cmd);
-	if (check_path(tokens[i], dirs, cmd) == EXIT_FAILURE)
-	{
+	error = check_path(tokens[i], dirs, cmd);
+	if (dirs)
 		double_free(dirs);
-		return (EXIT_FAILURE);
-	}
-	double_free(dirs);
-	return (EXIT_SUCCESS);
+	return (error);
 }
