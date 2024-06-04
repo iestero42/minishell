@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 10:22:28 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/03 16:24:44 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/04 13:11:54 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,24 +73,15 @@ void	signal_handler(int signum)
 void	sigint_handler(int sig)
 {
     (void)sig;
-    g_signal = 2;
-	rl_done = 1;
 	printf("^C\n");
 }
 
-/**
- * @brief 
- * Sends a signal to a process.
- *
- * @details
- * If the global signal is 2, it sends the SIGTERM signal to the process.
- *
- * @param pid The process ID.
- */
-static void	signal_use(pid_t *pid)
+void	signal_free_environ(int signum)
 {
-	if (g_signal == 2)
-		kill(*pid, SIGTERM);
+	extern char	**environ;
+	
+	double_free(environ);
+	exit(EXIT_FAILURE);
 }
 
 /**
@@ -122,7 +113,8 @@ int	controller(t_minishell *data, pid_t *pid)
 		result = waitpid(*pid, &status_cmd, WNOHANG);
 		if (result > 0)
 			total++;
-		signal_use(pid);
+		if (g_signal == 2)
+			kill(*pid, SIGTERM);
 		if (total == 1)
 			status = STOPPED;
 	}

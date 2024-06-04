@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 06:27:23 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/03 16:35:36 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/04 13:18:01 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,15 +58,18 @@ static char	**append_line_token(char **tokens, int fd)
  */
 static char **read_complete_command(void)
 {
-    char	*line;
-    char    *tmp;
+    char		*line;
+    char    	*tmp;
+	extern char	**environ;
     char    **tokens;
 
+	signal(SIGINT, signal_free_environ);
 	line = readline("> ");
 	if (!line || *line == '\0')
 	{
 		ft_putstr_fd("minishell: syntax error: unexpected end of file\nexit\n", 2);
-		exit(EXIT_FAILURE);
+		double_free(environ);
+		exit(2);
 	}
 	if (*line != '\0')
 	{
@@ -95,25 +98,25 @@ static char **read_complete_command(void)
  */
 static char	**monitor(pid_t pid, int *fd, char **tokens)
 {
-	int		status;
+	int			status;
+	extern char	**environ;
 
 	status = -1;
 	signal(SIGINT, sigint_handler);
 	close(fd[1]);
 	while (status != 0)
 	{
-		waitpid(pid, &status, WNOHANG);
-		if (g_signal == 2 || status > 0)
+		waitpid(pid, &status, 0);
+		if (status > 0)
 		{
 			double_free(tokens);
-			if (status > 0)
-				exit(2);
-			if (g_signal == 2)
+			if (status > 256)
 			{
-				kill(pid, SIGTERM);
-				waitpid(pid, &status, 0);
-				return (NULL);
+				double_free(environ);
+				exit(2);
 			}
+			if (status == 256)
+				return (NULL);
 		}
 	}
 	signal(SIGINT, signal_handler);

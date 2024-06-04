@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 11:47:55 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/03 17:19:23 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/04 13:11:02 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,15 +78,13 @@ static int	controller_heredoc(pid_t pid, int *fd)
 	int	status;
 
 	status = -1;
-	signal(SIGINT, sigint_handler);
 	close(fd[1]);
+	signal(SIGINT, sigint_handler);
 	while (status != 0)
 	{
-		waitpid(pid, &status, WNOHANG);
-		if (g_signal == 2)
+		waitpid(pid, &status, 0);
+		if (status == 256)
 		{
-			kill(pid, SIGTERM);
-			waitpid(pid, &status, 0);
 			close(fd[0]);
 			return (-1);
 		}
@@ -123,6 +121,7 @@ static int	write_here_doc(char *delimiter, int last_status,
 		error_init("fork", 1);
 	if (pid == 0)
 	{
+		signal(SIGINT, signal_free_environ);
 		n_line = 1;
 		close(pipes[0]);
 		line = readline("> ");

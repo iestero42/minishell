@@ -1,5 +1,7 @@
 proximo dia:
 
+	tengo que cambiar como manejo environ porque readline lo necesita y no puedo hacer una copia dinamica de environ porque luego no puedo liberarlo si readline sale con control c
+
 	hacer pruebas locas con los argumentos desordenados y de todo
 	
 
