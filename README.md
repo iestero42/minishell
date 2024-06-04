@@ -13,9 +13,7 @@ si hay tiempo:
 	
 cosas de javier:
 	-errores en general:
-		*al ejecutar minishell en minishell, no recibe variables de env
-		*al ejecutar sin variables de env (env -i ./minishell_bonus) peta
-		*esto no sé si nosotros tenemos que gestionarlo: me meto en sgoinfre y hago cd .. y me lleva a /sgoinfre/students (BASH me lleva a mi home)
+		*(esto no deberia depender de nosotros) esto no sé si nosotros tenemos que gestionarlo: me meto en sgoinfre y hago cd .. y me lleva a /sgoinfre/students (BASH me lleva a mi home)
 	-buscar leaks y errores de free
 	-Ver códigos de salida (echo $?)
 		*cat NOEXISTE.txt: código BASH 1 (devolvemos 256)

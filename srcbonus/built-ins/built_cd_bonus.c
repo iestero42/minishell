@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 10:57:42 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/24 08:39:57 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/04 09:27:11 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,7 @@ int	built_cd(char **args)
 
 	len = ft_dstrlen(args);
 	dir = NULL;
-	if (len == 1)
-	{
-		dir = getenv("HOME");
-		if (chdir(dir) != 0)
-			perror(dir);
-	}
-	else if (!ft_strcmp(args[1], "~"))
+	if (len == 1 || !ft_strcmp(args[1], "~"))
 	{
 		dir = getenv("HOME");
 		if (chdir(dir) != 0)
