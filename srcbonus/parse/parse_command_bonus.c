@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 08:50:36 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/04 09:19:34 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/05 13:49:58 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ static int	check_new_command(int *pos, char **tokens)
  * @param data The minishell data.
  * @return The new_token array.
  */
-static char	**trim_args(char **tokens, int last_status, t_minishell *data)
+static char	**trim_args(char **tokens, int last_status)
 {
 	int		i;
 	char	**tmp;
@@ -76,7 +76,6 @@ static char	**trim_args(char **tokens, int last_status, t_minishell *data)
 
 	i = 0;
 	new_token = 0;
-	alloc_environ(data);
 	while (tokens[i] != NULL)
 	{
 		if (*tokens[i] != '\0')
@@ -113,7 +112,7 @@ static int	parse_subcmd(char **tokens, t_command *cmd, t_minishell *data,
 {
 	char	**new_tokens;
 
-	new_tokens = trim_args(tokens, data->last_status_cmd, data);
+	new_tokens = trim_args(tokens, data->last_status_cmd);
 	if (!new_tokens)
 		error_init("malloc", 1);
 	if (parse_redirect(new_tokens, cmd, control, data) == EXIT_FAILURE)

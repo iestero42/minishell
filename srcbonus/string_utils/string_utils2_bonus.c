@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   string_utils2_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 09:31:16 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/03 07:52:15 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/06/05 13:51:09 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
  */
 
 #include "minishell_bonus.h"
+
+extern volatile sig_atomic_t	g_signal;
 
 /**
  * @brief 
@@ -132,7 +134,6 @@ void	alloc_environ(t_minishell *data)
 	if (data->access_environ == 0)
 	{
 		tmp = ft_dstrdup(environ);
-		free(environ);
 		environ = tmp;
 		data->access_environ = 1;
 	}

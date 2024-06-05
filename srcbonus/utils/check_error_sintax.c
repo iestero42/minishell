@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 06:27:23 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/04 13:18:01 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/05 13:53:30 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,10 @@ static char **read_complete_command(void)
 
 	signal(SIGINT, signal_free_environ);
 	line = readline("> ");
+	double_free(environ);
 	if (!line || *line == '\0')
 	{
 		ft_putstr_fd("minishell: syntax error: unexpected end of file\nexit\n", 2);
-		double_free(environ);
 		exit(2);
 	}
 	if (*line != '\0')
@@ -102,7 +102,7 @@ static char	**monitor(pid_t pid, int *fd, char **tokens)
 	extern char	**environ;
 
 	status = -1;
-	signal(SIGINT, sigint_handler);
+	signal(SIGINT, signal_handler);
 	close(fd[1]);
 	while (status != 0)
 	{
@@ -110,16 +110,16 @@ static char	**monitor(pid_t pid, int *fd, char **tokens)
 		if (status > 0)
 		{
 			double_free(tokens);
-			if (status > 256)
+			if (status == 512)
 			{
 				double_free(environ);
 				exit(2);
 			}
-			if (status == 256)
+			if ((status >> 8) == 130)
 				return (NULL);
 		}
 	}
-	signal(SIGINT, signal_handler);
+	signal(SIGINT, SIG_IGN);
 	tokens = append_line_token(tokens, fd[0]);
 	return (tokens);
 }

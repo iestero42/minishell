@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 07:29:18 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/04 09:18:51 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/05 13:12:51 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,13 +69,12 @@ int	main(void)
 		line = readline(MINISHELL_ENTRY);
 		if (line == NULL)
 		{
-			printf("exit\n");
+			printf("exit");
 			break ;
 		}
 		if (*line != '\0')
 		{
 			add_history(line);
-			signal(SIGINT, signal_handler);
 			if (parse_data(line, &data) == EXIT_SUCCESS)
 				minishell(&data);
 		}

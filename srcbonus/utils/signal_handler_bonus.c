@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 10:22:28 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/05 10:04:07 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/05 13:44:12 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,37 +40,10 @@ void	signal_handler_readline(int signum)
 		rl_on_new_line();
 		rl_replace_line("", 1);
 		rl_redisplay();
-		g_signal = 2;
 	}
 }
 
-/**
- * @brief 
- * Handles signals.
- *
- * @details
- * If the signal is SIGINT, it sets the global signal to 2.
- * If the signal is SIGTERM, it frees the environment variables 
- * and sets the global signal to 3.
- *
- * @param signum The signal number.
- */
-void	signal_handler(int signum)
-{
-	extern char	**environ;
-
-	if (signum == SIGINT)
-	{
-		g_signal = 2;
-	}
-	if (signum == SIGTERM)
-	{
-		double_free(environ);
-		g_signal = 3;
-	}
-}
-
-void	sigint_handler(int sig)
+void	signal_handler(int sig)
 {
     (void)sig;
 	printf("^C\n");
@@ -79,10 +52,11 @@ void	sigint_handler(int sig)
 void	signal_free_environ(int signum)
 {
 	extern char	**environ;
-	
+
+	double_free(environ);
 	if (signum == SIGINT)
-		double_free(environ);
-	exit(EXIT_FAILURE);
+		exit(130);
+	
 }
 
 /**
@@ -109,21 +83,16 @@ int	controller(t_minishell *data, pid_t *pid)
 	total = 0;
 	status = RUNNING;
 	status_cmd = -1;
+	signal(SIGINT, SIG_IGN);
 	while (status != STOPPED)
 	{
 		result = 0;
 		result = waitpid(*pid, &status_cmd, WNOHANG);
 		if (result > 0)
 			total++;
-		if (g_signal == 2)
-		{
-			kill(*pid, SIGTERM);
-			status_cmd = (130 << 8);
-		}		
 		if (total == 1 || status_cmd != -1)
 			status = STOPPED;
 	}
-	if (g_signal == 2 || g_signal == 3)
-		ft_putstr_fd("\n", data->std_fileno[0]);
+	ft_putstr_fd("\n", data->std_fileno[0]);
 	return (status_cmd);
 }

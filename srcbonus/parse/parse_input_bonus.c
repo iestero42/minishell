@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 11:47:55 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/04 13:11:02 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/05 13:39:30 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,17 +79,17 @@ static int	controller_heredoc(pid_t pid, int *fd)
 
 	status = -1;
 	close(fd[1]);
-	signal(SIGINT, sigint_handler);
+	signal(SIGINT, signal_handler);
 	while (status != 0)
 	{
 		waitpid(pid, &status, 0);
-		if (status == 256)
+		if ((status >> 8) == 130)
 		{
 			close(fd[0]);
 			return (-1);
 		}
 	}
-	signal(SIGINT, signal_handler);
+	signal(SIGINT, SIG_IGN);
 	return (fd[0]);
 }
 

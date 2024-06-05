@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 07:29:23 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/05 09:50:14 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/05 13:19:02 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@
 void		signal_handler(int signum);
 int			controller(t_minishell *data, pid_t *pid);
 void		signal_handler_readline(int signum);
-void		sigint_handler(int sig);
 void		signal_free_environ(int signum);
 
 //***********EXECUTION***********//
