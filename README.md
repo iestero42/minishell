@@ -12,6 +12,9 @@ si hay tiempo:
 
 	
 cosas de javier:
+
+	Javi importante mirate los errores con todos los builtins porque son los importantes el resto ya estan todos arreglados
+
 	-errores en general:
 		*(esto no deberia depender de nosotros) esto no sé si nosotros tenemos que gestionarlo: me meto en sgoinfre y hago cd .. y me lleva a /sgoinfre/students (BASH me lleva a mi home)
 	-buscar leaks y errores de free
