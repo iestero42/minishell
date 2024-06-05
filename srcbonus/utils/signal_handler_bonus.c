@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 10:22:28 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/05 13:44:12 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/05 15:46:08 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,23 +76,14 @@ void	signal_free_environ(int signum)
 int	controller(t_minishell *data, pid_t *pid)
 {
 	int				status_cmd;
-	int				result;
-	int				total;
-	int				status;
 
-	total = 0;
-	status = RUNNING;
 	status_cmd = -1;
 	signal(SIGINT, SIG_IGN);
-	while (status != STOPPED)
+	waitpid(*pid, &status_cmd, 0);
+	if (status_cmd == 2)
 	{
-		result = 0;
-		result = waitpid(*pid, &status_cmd, WNOHANG);
-		if (result > 0)
-			total++;
-		if (total == 1 || status_cmd != -1)
-			status = STOPPED;
+		ft_putstr_fd("\n", data->std_fileno[0]);
+		status_cmd = 130 << 8;
 	}
-	ft_putstr_fd("\n", data->std_fileno[0]);
 	return (status_cmd);
 }

@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 11:47:55 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/05 13:39:30 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/05 16:04:02 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,21 +73,20 @@ static int	open_input_simple(char **tokens, t_command *cmd,
  * @param fd The file descriptor of the heredoc.
  * @param data The minishell data.
  */
-static int	controller_heredoc(pid_t pid, int *fd)
+static int	controller_heredoc(pid_t pid, int *fd, t_minishell *data)
 {
 	int	status;
 
 	status = -1;
 	close(fd[1]);
 	signal(SIGINT, signal_handler);
-	while (status != 0)
+	waitpid(pid, &status, 0);
+	if (status == 33280)
 	{
-		waitpid(pid, &status, 0);
-		if ((status >> 8) == 130)
-		{
-			close(fd[0]);
-			return (-1);
-		}
+		data->last_status_cmd = status;
+		close(fd[0]);
+		data->status = STOPPED;
+		return (-1);
 	}
 	signal(SIGINT, SIG_IGN);
 	return (fd[0]);
@@ -109,7 +108,7 @@ static int	controller_heredoc(pid_t pid, int *fd)
  * @return The read end of the pipe.
  */
 static int	write_here_doc(char *delimiter, int last_status,
-				int pipes[2])
+				int pipes[2], t_minishell *data)
 {
 	char		*line;
 	int			n_line;
@@ -138,7 +137,7 @@ static int	write_here_doc(char *delimiter, int last_status,
 		}
 		check_err_heredoc(line, n_line, delimiter);
 	}
-	return (controller_heredoc(pid, pipes));
+	return (controller_heredoc(pid, pipes, data));
 }
 
 /**
@@ -173,7 +172,7 @@ static int	open_input_double(char **tokens, t_command *cmd,
 			if (pipe(pipes) < 0)
 				error_init("pipe", 1);
 			cmd->input_redirect = write_here_doc(tokens[1],
-					data->last_status_cmd, pipes);
+					data->last_status_cmd, pipes, data);
 			*tokens[1] = '\0';
 			*tokens[0] = '\0';
 		}

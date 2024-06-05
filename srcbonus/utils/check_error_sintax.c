@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 06:27:23 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/05 13:53:30 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/05 14:40:24 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ static char **read_complete_command(void)
  * @param fd The file descriptor of the heredoc.
  * @param data The minishell data.
  */
-static char	**monitor(pid_t pid, int *fd, char **tokens)
+static char	**monitor(pid_t pid, int *fd, char **tokens, t_minishell *data)
 {
 	int			status;
 	extern char	**environ;
@@ -109,6 +109,7 @@ static char	**monitor(pid_t pid, int *fd, char **tokens)
 		waitpid(pid, &status, 0);
 		if (status > 0)
 		{
+			data->last_status_cmd = status;
 			double_free(tokens);
 			if (status == 512)
 			{
@@ -158,7 +159,7 @@ static char	**execute_and_capture_command(char **command_line, t_minishell *data
 		}
 		exit(EXIT_SUCCESS);
 	}
-	command_line = monitor(pid, pipes, command_line);
+	command_line = monitor(pid, pipes, command_line, data);
 	if (command_line == NULL)
 		data->status = STOPPED;
 	return (command_line);
