@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 10:57:42 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/04 09:27:11 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/05 10:13:50 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,17 @@
  */
 
 #include "minishell_bonus.h"
+
+static int	error_cd_msg(char *arg)
+{
+	ft_putstr_fd("minishell: ", STDERR_FILENO);
+	ft_putstr_fd("cd: ", STDERR_FILENO);
+	if (arg)
+		perror(arg);
+	else
+		perror(" ");
+	return (EXIT_FAILURE << 8);
+}
 
 /**
  * @brief 
@@ -43,12 +54,12 @@ int	built_cd(char **args)
 	{
 		dir = getenv("HOME");
 		if (chdir(dir) != 0)
-			perror(dir);
+			return (error_cd_msg(args[1]));
 	}
 	else
 	{
 		if (chdir(args[1]) != 0)
-			perror(args[1]);
+			return (error_cd_msg(args[1]));
 	}
 	return (EXIT_SUCCESS);
 }

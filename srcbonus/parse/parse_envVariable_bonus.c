@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 10:24:02 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/04 08:54:23 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/05 09:48:56 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ static char	*special_env_variable(int last_status, int *position,
 	i = *position;
 	*position = i + 1;
 	*start = *position + 1;
+	last_status = (last_status >> 8) & 0xFF;
 	str = ft_itoa(last_status);
 	if (!str)
 		error_init("malloc", 1);

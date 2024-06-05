@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 10:22:28 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/04 13:11:54 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/05 10:04:07 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,8 @@ void	signal_free_environ(int signum)
 {
 	extern char	**environ;
 	
-	double_free(environ);
+	if (signum == SIGINT)
+		double_free(environ);
 	exit(EXIT_FAILURE);
 }
 
@@ -107,6 +108,7 @@ int	controller(t_minishell *data, pid_t *pid)
 
 	total = 0;
 	status = RUNNING;
+	status_cmd = -1;
 	while (status != STOPPED)
 	{
 		result = 0;
@@ -114,8 +116,11 @@ int	controller(t_minishell *data, pid_t *pid)
 		if (result > 0)
 			total++;
 		if (g_signal == 2)
+		{
 			kill(*pid, SIGTERM);
-		if (total == 1)
+			status_cmd = (130 << 8);
+		}		
+		if (total == 1 || status_cmd != -1)
 			status = STOPPED;
 	}
 	if (g_signal == 2 || g_signal == 3)
