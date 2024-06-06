@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 08:18:57 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/04 09:22:52 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/06 11:43:14 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,15 @@ static int	print_error(char *cmd, char **dirs)
 {
 	if (dirs)
 	{
-		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd("minishell: ", STDERR_FILENO);
 		ft_putstr_fd(cmd, 2);
-		ft_putstr_fd(": command not found\n", 2);
+		ft_putstr_fd(": command not found\n", STDERR_FILENO);
 	}
 	else
 	{
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(cmd, 2);
-		ft_putstr_fd(": No such file or directory\n", 2);
+		ft_putstr_fd(": No such file or directory\n", STDERR_FILENO);
 	}
 	return (EXIT_FAILURE);
 }

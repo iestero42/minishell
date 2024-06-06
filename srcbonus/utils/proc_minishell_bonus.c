@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 09:23:36 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/29 09:24:07 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/06 11:48:51 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ static void	child_write(int fd, int *pipes)
 		if (dup2(fd, STDOUT_FILENO) < 0)
 		{
 			perror("dup");
-			exit(1);
+			exit(EXIT_FAILURE);
 		}
 	}
 	else if (fd < 0)
@@ -97,7 +97,7 @@ static void	child_write(int fd, int *pipes)
 		if (dup2(pipes[1], STDOUT_FILENO) < 0)
 		{
 			perror("dup");
-			exit(1);
+			exit(EXIT_FAILURE);
 		}
 	}
 }

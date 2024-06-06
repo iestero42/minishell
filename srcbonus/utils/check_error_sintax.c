@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 06:27:23 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/06 11:21:04 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/06 11:45:49 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,8 @@ static char **read_complete_command(void)
 	double_free(environ);
 	if (!line || *line == '\0')
 	{
-		ft_putstr_fd("minishell: syntax error: unexpected end of file\nexit\n", 2);
+		ft_putstr_fd("minishell: syntax error: unexpected end of file\nexit\n",
+			STDERR_FILENO);
 		exit(2);
 	}
 	if (*line != '\0')

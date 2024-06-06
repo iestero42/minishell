@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 14:23:35 by yunlovex          #+#    #+#             */
-/*   Updated: 2024/06/06 11:35:26 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/06 11:47:17 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,10 @@ int	error_operands(char **tokens)
 
 	if (*tokens[0] == '|' || *tokens[0] == '&')
 	{
-		ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
-		ft_putstr_fd(tokens[0], 2);
-		ft_putstr_fd("'\n", 2);
+		ft_putstr_fd("minishell: syntax error near unexpected token `",
+			STDERR_FILENO);
+		ft_putstr_fd(tokens[0], STDERR_FILENO);
+		ft_putstr_fd("'\n", STDERR_FILENO);
 		return (EXIT_FAILURE);
 	}
 	i = -1;
@@ -47,10 +48,11 @@ int	error_operands(char **tokens)
 		{
 			if (*tokens[i + 1] == '|' || *tokens[i + 1] == '&')
 			{
-				ft_putstr_fd("minishell: syntax error near unexpected", 2);
-				ft_putstr_fd(" token `", 2);
-				ft_putstr_fd(tokens[i + 1], 2);
-				ft_putstr_fd("'\n", 2);
+				ft_putstr_fd("minishell: syntax error near unexpected",
+					STDERR_FILENO);
+				ft_putstr_fd(" token `", STDERR_FILENO);
+				ft_putstr_fd(tokens[i + 1], STDERR_FILENO);
+				ft_putstr_fd("'\n", STDERR_FILENO);
 				return (EXIT_FAILURE);
 			}
 		}
@@ -83,11 +85,12 @@ void	check_err_heredoc(char *line, int n_line, char *delimiter)
 {
 	if (line == NULL)
 	{
-		ft_putstr_fd("-minishell: warning: here-document at line ", 2);
-		ft_putnbr_fd(n_line, 2);
-		ft_putstr_fd(" delimited by end-of-file (wanted `", 2);
-		ft_putstr_fd(delimiter, 2);
-		ft_putstr_fd("')\n", 2);
+		ft_putstr_fd("-minishell: warning: here-document at line ",
+			STDERR_FILENO);
+		ft_putnbr_fd(n_line, STDERR_FILENO);
+		ft_putstr_fd(" delimited by end-of-file (wanted `", STDERR_FILENO);
+		ft_putstr_fd(delimiter, STDERR_FILENO);
+		ft_putstr_fd("')\n", STDERR_FILENO);
 	}
-	exit(0);
+	exit(EXIT_SUCCESS);
 }

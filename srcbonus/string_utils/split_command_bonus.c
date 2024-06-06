@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_command_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 09:03:49 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/03 12:49:37 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/06/06 11:44:16 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,10 @@
 static void	*error_split_command(int mode)
 {
 	if (mode == 1)
-		ft_putstr_fd("minishell: syntax error near 'newline'\n", 2);
+		ft_putstr_fd("minishell: syntax error near 'newline'\n", STDERR_FILENO);
 	else if (mode == 2)
-		ft_putstr_fd("minishell: syntax error near unexpected token '&'\n", 2);
+		ft_putstr_fd("minishell: syntax error near unexpected token '&'\n",
+			STDERR_FILENO);
 	return (NULL);
 }
 

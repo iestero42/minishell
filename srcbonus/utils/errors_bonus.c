@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 11:53:30 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/27 15:28:37 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/06 11:46:33 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,27 +49,28 @@ int	error_init(char *msg, int error)
  */
 int	error_redir(char *org, char *control)
 {
-	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd("minishell: ", STDERR_FILENO);
 	if ((org == NULL || *org == '\0') && control == NULL)
-		ft_putstr_fd("syntax error near unexpected token `newline'\n", 2);
+		ft_putstr_fd("syntax error near unexpected token `newline'\n",
+			STDERR_FILENO);
 	else if (((org == NULL || *org == '\0') && control != NULL))
 	{
-		ft_putstr_fd("syntax error near unexpected token `", 2);
-		ft_putstr_fd(control, 2);
-		ft_putstr_fd("'\n", 2);
+		ft_putstr_fd("syntax error near unexpected token `", STDERR_FILENO);
+		ft_putstr_fd(control, STDERR_FILENO);
+		ft_putstr_fd("'\n", STDERR_FILENO);
 	}
 	if (org)
 	{
 		if (*org == ENVP_VAR)
 		{
-			ft_putstr_fd(org, 2);
-			ft_putstr_fd(": ambiguous redirect\n", 2);
+			ft_putstr_fd(org, STDERR_FILENO);
+			ft_putstr_fd(": ambiguous redirect\n", STDERR_FILENO);
 		}
 		else if (*org == '<' || *org == '>')
 		{
-			ft_putstr_fd("syntax error near unexpected token ", 2);
-			ft_putstr_fd(org, 2);
-			ft_putstr_fd("\n", 2);
+			ft_putstr_fd("syntax error near unexpected token ", STDERR_FILENO);
+			ft_putstr_fd(org, STDERR_FILENO);
+			ft_putstr_fd("\n", STDERR_FILENO);
 		}
 	}
 	return (EXIT_FAILURE);
@@ -83,10 +84,10 @@ int	error_redir(char *org, char *control)
  */
 void	error_export_msg(char *arg)
 {
-	ft_putstr_fd("export: '", 2);
-	ft_putstr_fd(arg, 2);
-	ft_putstr_fd("': not a valid identifier", 2);
-	ft_putchar_fd('\n', 2);
+	ft_putstr_fd("export: '", STDERR_FILENO);
+	ft_putstr_fd(arg, STDERR_FILENO);
+	ft_putstr_fd("': not a valid identifier", STDERR_FILENO);
+	ft_putchar_fd('\n', STDERR_FILENO);
 }
 
 /**
