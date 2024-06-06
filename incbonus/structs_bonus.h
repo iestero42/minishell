@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 09:20:30 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/04 09:06:12 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/06 11:34:55 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@
 
 # define UNQUOTED 		0
 
-# define ERROR_COMMAND		-1
+# define ERROR_REDIR		(2 << 8)
+# define ERROR_CMD_NAME		(127 << 8)
 # define NO_EXEC_COMMAND	-2
 # define PATH_COMMAND		0
 

@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 06:27:23 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/05 14:40:24 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/06 11:21:04 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,18 +194,18 @@ char	**check_err_sintax(char **tokens, t_minishell *data)
 			count_parentheses--;
 		if (*tokens[i] == '(' && ++count_parentheses
 			&& (i > 0 && *tokens[i - 1] !=  '&' && *tokens[i - 1] != '|'))
-			return (print_estd(tokens, 1, i));
+			return (print_estd(tokens, 1, i, data));
 		if (count_parentheses < 0 || (*tokens[i] == '('
 			&& tokens[i + 1] != NULL && *tokens[i + 1] == ')'))
-			return (print_estd(tokens, 2, i));
+			return (print_estd(tokens, 2, i, data));
 		if ((*tokens[i] == '&' || *tokens[i] == '|') && i == 0)
-			return (print_estd(tokens, 3, i));
+			return (print_estd(tokens, 3, i, data));
 		if ((*tokens[i] == ')' && tokens[i + 1] != NULL
 			&& (*tokens[i + 1] != '|' && *tokens[i + 1] != '&'))
 			|| ((*tokens[i] == '&' || *tokens[i] == '|')
 			&& tokens[i + 1] != NULL && (*tokens[i + 1] == '&'
 			|| *tokens[i + 1] == '|')))
-			return (print_estd(tokens, 4, i));
+			return (print_estd(tokens, 4, i, data));
 		if (tokens[i + 1] == NULL && ((count_parentheses > 0) || (count_parentheses == 0
 			&& (*tokens[i] == '&' || *tokens[i] == '|'))))
 			tokens = execute_and_capture_command(tokens, data);

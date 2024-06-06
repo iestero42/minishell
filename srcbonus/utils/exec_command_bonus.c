@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 10:15:38 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/05 16:04:15 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/06 11:41:05 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,10 +103,10 @@ static int	execute_command_logic(t_command *cmd, t_minishell *data)
 		}
 		return (controller(data, &pid));
 	}
-	else if (cmd->type > 0)
+	else if (cmd->type > 0 && cmd->type < 8)
 		return (builtins(*cmd));
-	else if (cmd->type == ERROR_COMMAND)
-		return (127);
+	else if (cmd->type == ERROR_CMD_NAME || cmd->type == ERROR_REDIR)
+		return (cmd->type);
 	return (0);
 }
 

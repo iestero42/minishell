@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 14:23:35 by yunlovex          #+#    #+#             */
-/*   Updated: 2024/06/04 12:41:20 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/06 11:35:26 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,9 @@ int	error_operands(char **tokens)
  * @param tokens The tokens to free.
  * @return Always returns EXIT_SUCCESS.
  */
-int	error_command(t_command *cmd, char **tokens)
+int	error_command(t_command *cmd, char **tokens, int type_error)
 {
-	cmd->type = ERROR_COMMAND;
+	cmd->type = type_error;
 	cmd->name = NULL;
 	cmd->args = NULL;
 	double_free(tokens);

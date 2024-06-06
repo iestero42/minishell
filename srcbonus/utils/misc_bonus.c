@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 11:33:39 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/04 12:46:07 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/06 11:22:19 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	assign_operand(char **tokens, t_tree *tree, int i)
  * @param i The index of the token causing the error.
  * @return NULL after freeing the tokens array.
  */
-char	**print_estd(char **tokens, int mode, int i)
+char	**print_estd(char **tokens, int mode, int i, t_minishell *data)
 {
 	if (mode == 1)
         ft_putstr_fd("minishell: syntax error near unexpected token '('\n", 2);
@@ -84,6 +84,7 @@ char	**print_estd(char **tokens, int mode, int i)
         ft_putstr_fd(tokens[i + 1], 2);
         ft_putstr_fd("'\n", 2);
     }
+    data->last_status_cmd = (2 << 8);
 	double_free(tokens);
 	return (NULL);
 }

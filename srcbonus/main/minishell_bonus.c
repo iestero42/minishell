@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 07:29:18 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/05 13:12:51 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/06 11:25:10 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	main(void)
 		line = readline(MINISHELL_ENTRY);
 		if (line == NULL)
 		{
-			printf("exit");
+			printf("exit\n");
 			break ;
 		}
 		if (*line != '\0')
