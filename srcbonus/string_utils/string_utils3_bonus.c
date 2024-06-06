@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 11:17:36 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/29 09:15:56 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/06 12:50:51 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ void	convert_tokens(char **tokens)
 	i = 0;
 	while (tokens[i] != NULL)
 	{
-		convert_char(tokens[i], '\0', ENVP_VAR, 0);
 		convert_char(tokens[i], '<', INPUT_REDIR, 0);
 		convert_char(tokens[i], '>', OUTPUT_REDIR, 0);
 		i++;

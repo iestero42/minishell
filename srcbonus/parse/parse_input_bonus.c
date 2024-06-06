@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 11:47:55 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/05 16:04:02 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/06 12:42:33 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,7 @@ extern volatile sig_atomic_t	g_signal;
 static int	open_input_simple(char **tokens, t_command *cmd,
 				char *control)
 {
-	char	*redir;
-
-	redir = ft_strchr(tokens[0], INPUT_REDIR);
-	if (redir)
+	if (tokens[0][0] == INPUT_REDIR)
 	{
 		if (cmd->input_redirect > -1)
 			close(cmd->input_redirect);
@@ -157,11 +154,9 @@ static int	write_here_doc(char *delimiter, int last_status,
 static int	open_input_double(char **tokens, t_command *cmd,
 				char *control, t_minishell *data)
 {
-	char	*redir;
 	int		pipes[2];
 
-	redir = ft_strnstr(tokens[0], "\3\3", ft_strlen(tokens[0]));
-	if (redir)
+	if (tokens[0][0] == INPUT_REDIR && tokens[0][1] == INPUT_REDIR)
 	{
 		if (cmd->input_redirect > -1)
 			close(cmd->output_redirect);
@@ -173,8 +168,8 @@ static int	open_input_double(char **tokens, t_command *cmd,
 				error_init("pipe", 1);
 			cmd->input_redirect = write_here_doc(tokens[1],
 					data->last_status_cmd, pipes, data);
-			*tokens[1] = '\0';
-			*tokens[0] = '\0';
+			*tokens[1] = '\5';
+			*tokens[0] = '\5';
 		}
 		else
 			return (error_redir(tokens[1], control));

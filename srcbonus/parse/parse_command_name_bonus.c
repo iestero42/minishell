@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 08:18:57 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/06 11:43:14 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/06 12:57:29 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,7 +171,7 @@ int	parse_command_name(char **tokens, t_command *cmd, char **cmd_list)
 	i = 0;
 	convert_tokens(tokens);
 	path = getenv("PATH");
-	while (tokens[i] != NULL && tokens[i][0] == '\0')
+	while (tokens[i] != NULL && (tokens[i][0] == '\0' || tokens[i][0] == '\5'))
 		i++;
 	if (tokens[i] == NULL || tokens[i][0] == '\0')
 		return (EXIT_SUCCESS);

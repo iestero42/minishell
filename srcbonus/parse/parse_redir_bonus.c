@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 09:21:16 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/24 08:38:08 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/06 12:32:27 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ static void	rm_slash5(char **token)
 	i = 0;
 	while (token[i] != NULL)
 	{
-		if (!check_slash5(token[i]))
+		if (!check_slash5(token[i]) && ft_strlen(token[i]) > 1)
 			token[i] = remove_char(token[i]);
 		i++;
 	}

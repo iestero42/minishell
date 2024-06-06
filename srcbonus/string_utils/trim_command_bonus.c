@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 11:53:17 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/06 11:44:54 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/06 12:43:25 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,7 +209,7 @@ char	**trim_command(char *token, int last_status)
 		new_token[1] = NULL;
 	}
 	tmp = parse_wildcard(new_token);
-	if (tmp)
+	if (tmp && *tmp)
 	{
 		double_free(new_token);
 		new_token = tmp;

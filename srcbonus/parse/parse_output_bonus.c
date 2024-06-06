@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 11:35:45 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/24 08:38:15 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/06 12:54:13 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,7 @@
 static int	open_output_simple(char **tokens, t_command *cmd,
 		char *control)
 {
-	char	*redir;
-
-	redir = ft_strchr(tokens[0], OUTPUT_REDIR);
-	if (redir)
+	if (tokens[0][0] == OUTPUT_REDIR)
 	{
 		if (cmd->output_redirect > -1)
 			close(cmd->output_redirect);
@@ -49,8 +46,8 @@ static int	open_output_simple(char **tokens, t_command *cmd,
 			cmd->output_redirect = open(tokens[1], O_RDWR | O_CREAT, 0666);
 			if (cmd->output_redirect < 0)
 				perror(tokens[1]);
-			*tokens[1] = '\0';
-			*tokens[0] = '\0';
+			*tokens[1] = '\5';
+			*tokens[0] = '\5';
 		}
 		else
 			return (error_redir(tokens[1], control));
@@ -76,10 +73,7 @@ static int	open_output_simple(char **tokens, t_command *cmd,
 static int	open_output_double(char **tokens, t_command *cmd,
 		char *control)
 {
-	char	*redir;
-
-	redir = ft_strnstr(tokens[0], "\4\4", ft_strlen(tokens[0]));
-	if (redir)
+	if (tokens[0][0] == OUTPUT_REDIR && tokens[0][1] == OUTPUT_REDIR)
 	{
 		if (cmd->output_redirect > -1)
 			close(cmd->output_redirect);
@@ -91,8 +85,8 @@ static int	open_output_double(char **tokens, t_command *cmd,
 				= open(tokens[1], O_RDWR | O_CREAT | O_APPEND, 0666);
 			if (cmd->output_redirect < 0)
 				perror(tokens[1]);
-			*tokens[1] = '\0';
-			*tokens[0] = '\0';
+			*tokens[1] = '\5';
+			*tokens[0] = '\5';
 		}
 		else
 			return (error_redir(tokens[1], control));
