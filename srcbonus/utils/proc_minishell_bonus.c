@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 09:23:36 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/06 11:48:51 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/06 13:23:55 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ static void	child_write(int fd, int *pipes)
  * @param mode The mode (0 for write, 1 for read).
  * @return The result of the minishell in the child process.
  */
-static int	handle_child_process(t_minishell *data, t_tree *tree, pid_t *ch, int mode)
+static void	handle_child_process(t_minishell *data, t_tree *tree, pid_t *ch, int mode)
 {
 	int			result;
 	extern char	**environ;
@@ -141,9 +141,8 @@ static int	handle_child_process(t_minishell *data, t_tree *tree, pid_t *ch, int 
 		else if (mode == 1)
 			result = proc_minishell(data, tree->right);
 		double_free(environ);
-		exit(result);
+		exit((result >> 8) & 0xFF);
 	}
-	return (result);
 }
 
 /**
@@ -180,10 +179,10 @@ int	proc_minishell(t_minishell *data, t_tree *tree)
 		if (tree->number == PIPE)
 		{
 			open_pipes(data);
-			result = handle_child_process(data, tree, &child, 0);
-			result = handle_child_process(data, tree, &child2, 1);
+			handle_child_process(data, tree, &child, 0);
+			handle_child_process(data, tree, &child2, 1);
 			close_pipes(data);
-			waitpid(child, &result, 0);
+			waitpid(child, NULL, 0);
 			waitpid(child2, &result, 0);
 			return (result);
 		}
