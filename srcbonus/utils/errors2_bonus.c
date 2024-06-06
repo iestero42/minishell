@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 14:23:35 by yunlovex          #+#    #+#             */
-/*   Updated: 2024/06/06 11:47:17 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/06 14:51:26 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,27 @@ int	error_command(t_command *cmd, char **tokens, int type_error)
 	return (EXIT_SUCCESS);
 }
 
+
+/**
+ * @brief 
+ * Checks for heredoc termination without the specified delimiter.
+ * 
+ * @details
+ * This function is called to check if a heredoc has been terminated by an
+ * end-of-file (EOF) rather than the specified delimiter. If the line parameter
+ * is NULL, indicating that EOF was reached before the delimiter, it prints a
+ * warning message to STDERR indicating the line number where the heredoc
+ * started and the expected delimiter.
+ * 
+ * @param line The current line read from the heredoc. If NULL,
+ * 	EOF was reached.
+ * @param n_line The line number where the heredoc started.
+ * @param delimiter The delimiter string that was expected to terminate 
+ * 	the heredoc.
+ * 
+ * @note This function always exits with EXIT_SUCCESS, which may not be
+ * appropriate if you need to handle this as an actual error condition.
+ */
 void	check_err_heredoc(char *line, int n_line, char *delimiter)
 {
 	if (line == NULL)
