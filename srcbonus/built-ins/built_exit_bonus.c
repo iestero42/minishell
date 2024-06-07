@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 10:59:11 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/24 08:43:39 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/07 09:02:46 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,9 +80,12 @@ int	built_exit(char **args)
 	i = ft_dstrlen(args);
 	ft_putstr_fd("exit\n", 1);
 	if (check_args(args) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
+		return (EXIT_FAILURE << 8);
 	if (i > 2)
+	{
 		ft_putstr_fd("exit: too many arguments\n", 2);
+		return (EXIT_FAILURE << 8);
+	}
 	else
 	{
 		if (i > 1)
