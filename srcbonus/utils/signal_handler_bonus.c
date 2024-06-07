@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 10:22:28 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/06 14:54:58 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/07 08:25:50 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@
  */
 
 #include "minishell_bonus.h"
-
-extern volatile sig_atomic_t	g_signal;
 
 /**
  * @brief 
@@ -57,7 +55,7 @@ void	signal_handler_readline(int signum)
  */
 void	signal_handler(int sig)
 {
-    (void)sig;
+	(void) sig;
 	printf("^C\n");
 }
 
@@ -82,7 +80,6 @@ void	signal_free_environ(int signum)
 	double_free(environ);
 	if (signum == SIGINT)
 		exit(130);
-	
 }
 
 /**

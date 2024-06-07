@@ -6,13 +6,11 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 06:27:23 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/06 11:45:49 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/07 08:21:34 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_bonus.h"
-
-extern volatile sig_atomic_t	g_signal;
 
 /**
  * @brief Appends a line token to the tokens array.
@@ -30,11 +28,11 @@ static char	**append_line_token(char **tokens, int fd)
 {
 	char		*line;
 	char		*tmp;
-	
+
 	line = get_next_line(fd);
 	while (line != NULL)
 	{
-		tmp = ft_strtrim(line, "\n");
+		tmp = ft_strtrim(line, "\n ");
 		free(line);
 		if (!tmp)
 			error_init("malloc", 1);
@@ -49,19 +47,20 @@ static char	**append_line_token(char **tokens, int fd)
 /**
  * @brief Reads a complete command from the user.
  *
- * @details This function reads a line from the user using `readline`, trims the 
- * newline and space characters from the line, and splits the trimmed line into 
- * tokens. If the line is empty or NULL, an error message is printed and the 
- * program exits.
+ * @details This function reads a line from the user using `readline`,
+ * trims the newline and space characters from the line, and splits 
+ * the trimmed line into tokens. If the line is empty or NULL, 
+ * an error message is printed and the program exits.
  *
- * @return The tokens array representing the command, or NULL if an error occurred.
+ * @return The tokens array representing the command, or NULL 
+ * if an error occurred.
  */
-static char **read_complete_command(void)
+static char	**read_complete_command(void)
 {
-    char		*line;
-    char    	*tmp;
+	char		*line;
+	char		*tmp;
 	extern char	**environ;
-    char    **tokens;
+	char		**tokens;
 
 	signal(SIGINT, signal_free_environ);
 	line = readline("> ");
@@ -72,18 +71,15 @@ static char **read_complete_command(void)
 			STDERR_FILENO);
 		exit(2);
 	}
-	if (*line != '\0')
-	{
-		tmp = ft_strtrim(line, "\n ");
-		if (!tmp)
-			error_init("malloc", 1);
-		tokens = split_command(tmp);
-		if (!tokens)
-			error_init("malloc", 1);
-		free(line);
-		free(tmp);
-	}
-    return (tokens);
+	tmp = ft_strtrim(line, "\n ");
+	if (!tmp)
+		error_init("malloc", 1);
+	tokens = split_command(tmp);
+	if (!tokens)
+		error_init("malloc", 1);
+	free(line);
+	free(tmp);
+	return (tokens);
 }
 
 /**
@@ -138,12 +134,13 @@ static char	**monitor(pid_t pid, int *fd, char **tokens, t_minishell *data)
  * @param data The shell data.
  * @return The output of the command, or NULL if the command was stopped.
  */
-static char	**execute_and_capture_command(char **command_line, t_minishell *data)
+static char	**execute_and_capture_command(char **command_line,
+	t_minishell *data)
 {
 	pid_t			pid;
 	int				pipes[2];
 	int				i;
-	
+
 	pipe(pipes);
 	pid = fork();
 	if (pid < 0)
@@ -171,44 +168,41 @@ static char	**execute_and_capture_command(char **command_line, t_minishell *data
  * Handles parenthesis errors.
  *
  * @details
- * This function iterates over the tokens and checks for an uneven number of open 
- * and closed parentheses, an open parenthesis that is not preceded by a '&' or '|', 
- * or a '&' or '|' that is not correctly placed.
- * If any of these errors are found, an error message is printed and EXIT_FAILURE 
- * is returned. If no errors
+ * This function iterates over the tokens and checks for an uneven number 
+ * of open and closed parentheses, an open parenthesis that is not 
+ * preceded by a '&' or '|', or a '&' or '|' that is not correctly placed.
+ * If any of these errors are found, an error message is printed 
+ * and EXIT_FAILURE is returned. If no errors
  * are found, EXIT_SUCCESS is returned.
  *
  * @param tokens An array of char pointers containing the input tokens.
  * @return Returns EXIT_FAILURE if a parenthesis error is found, and 
  * 	EXIT_SUCCESS otherwise.
  */
-char	**check_err_sintax(char **tokens, t_minishell *data)
+char	**check_err_sintax(char **tokens, t_minishell *data, int count)
 {
 	int	i;
-	int	count_parentheses;
 
 	i = -1;
-	count_parentheses = 0;
 	while (data->status == RUNNING && tokens[++i] != NULL)
 	{
 		if (*tokens[i] == ')')
-			count_parentheses--;
-		if (*tokens[i] == '(' && ++count_parentheses
-			&& (i > 0 && *tokens[i - 1] !=  '&' && *tokens[i - 1] != '|'))
+			count--;
+		if (*tokens[i] == '(' && ++count && (i > 0
+				&& *tokens[i - 1] != '&' && *tokens[i - 1] != '|'))
 			return (print_estd(tokens, 1, i, data));
-		if (count_parentheses < 0 || (*tokens[i] == '('
-			&& tokens[i + 1] != NULL && *tokens[i + 1] == ')'))
+		if (count < 0 || (*tokens[i] == '(' && tokens[i + 1] 
+				&& *tokens[i + 1] == ')'))
 			return (print_estd(tokens, 2, i, data));
 		if ((*tokens[i] == '&' || *tokens[i] == '|') && i == 0)
 			return (print_estd(tokens, 3, i, data));
-		if ((*tokens[i] == ')' && tokens[i + 1] != NULL
-			&& (*tokens[i + 1] != '|' && *tokens[i + 1] != '&'))
-			|| ((*tokens[i] == '&' || *tokens[i] == '|')
-			&& tokens[i + 1] != NULL && (*tokens[i + 1] == '&'
-			|| *tokens[i + 1] == '|')))
+		if ((*tokens[i] == ')' && tokens[i + 1] && (*tokens[i + 1] != '|'
+					&& *tokens[i + 1] != '&')) || ((*tokens[i] == '&'
+					|| *tokens[i] == '|') && tokens[i + 1]
+				&& (*tokens[i + 1] == '&' || *tokens[i + 1] == '|')))
 			return (print_estd(tokens, 4, i, data));
-		if (tokens[i + 1] == NULL && ((count_parentheses > 0) || (count_parentheses == 0
-			&& (*tokens[i] == '&' || *tokens[i] == '|'))))
+		if ((count > 0) || (count == 0 && (*tokens[i] == '&'
+					|| *tokens[i] == '|')))
 			tokens = execute_and_capture_command(tokens, data);
 	}
 	return (tokens);

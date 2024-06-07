@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 09:29:41 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/06 11:36:28 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/07 08:22:09 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 //***********MISC***********//
 void		assign_operand(char **tokens, t_tree *tree, int i);
-char	    **print_estd(char **tokens, int mode, int i, t_minishell *data);
+char		**print_estd(char **tokens, int mode, int i, t_minishell *data);
 
 //***********ERRORS***********//
 int			error_redir(char *org, char *control);
@@ -29,7 +29,7 @@ int			error_operands(char **tokens);
 int			error_command(t_command *cmd, char **tokens, int type_error);
 
 //***********CHECK ERRORS***********//
-char		**check_err_sintax(char **tokens, t_minishell *data);
+char		**check_err_sintax(char **tokens, t_minishell *data, int count);
 void		check_err_heredoc(char *line, int n_line, char *delimiter);
 
 //***********FREES***********//

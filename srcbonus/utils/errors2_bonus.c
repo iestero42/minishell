@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 14:23:35 by yunlovex          #+#    #+#             */
-/*   Updated: 2024/06/06 14:51:26 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/07 08:23:38 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,7 @@ int	error_operands(char **tokens)
 
 	if (*tokens[0] == '|' || *tokens[0] == '&')
 	{
-		ft_putstr_fd("minishell: syntax error near unexpected token `",
-			STDERR_FILENO);
+		ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
 		ft_putstr_fd(tokens[0], STDERR_FILENO);
 		ft_putstr_fd("'\n", STDERR_FILENO);
 		return (EXIT_FAILURE);
@@ -48,8 +47,7 @@ int	error_operands(char **tokens)
 		{
 			if (*tokens[i + 1] == '|' || *tokens[i + 1] == '&')
 			{
-				ft_putstr_fd("minishell: syntax error near unexpected",
-					STDERR_FILENO);
+				ft_putstr_fd("minishell: syntax error near unexpected", 2);
 				ft_putstr_fd(" token `", STDERR_FILENO);
 				ft_putstr_fd(tokens[i + 1], STDERR_FILENO);
 				ft_putstr_fd("'\n", STDERR_FILENO);
@@ -80,7 +78,6 @@ int	error_command(t_command *cmd, char **tokens, int type_error)
 	double_free(tokens);
 	return (EXIT_SUCCESS);
 }
-
 
 /**
  * @brief 

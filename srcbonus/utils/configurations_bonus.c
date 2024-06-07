@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 10:55:57 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/05 15:57:00 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/07 08:23:02 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static void	show_title(void)
  */
 void	hide_eof_symbol(void)
 {
-	struct termios *term;
+	struct termios	*term;
 
 	term = (struct termios *) malloc(sizeof(struct termios));
 	if (term == NULL)
@@ -73,7 +73,7 @@ void	hide_eof_symbol(void)
  */
 void	show_eof_symbol(void)
 {
-	struct termios *term;
+	struct termios	*term;
 
 	term = (struct termios *) malloc(sizeof(struct termios));
 	if (term == NULL)
@@ -115,6 +115,7 @@ void	init(t_minishell *data)
 	data->cmd_list[6] = "exit";
 	data->access_environ = 0;
 	data->last_status_cmd = 0;
+	data->n_line = 1;
 	if (tcgetattr(STDIN_FILENO, &data->original_term) == -1)
 		error_init("tcgetattr", 1);
 	hide_eof_symbol();

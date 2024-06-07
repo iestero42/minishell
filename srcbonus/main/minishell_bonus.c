@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 07:29:18 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/06 11:25:10 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/07 07:43:41 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@
  */
 
 #include "minishell_bonus.h"
-
-volatile sig_atomic_t	g_signal = 0;
 
 /**
  * @brief

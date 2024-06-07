@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 09:31:16 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/05 13:51:09 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/07 07:56:28 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@
  */
 
 #include "minishell_bonus.h"
-
-extern volatile sig_atomic_t	g_signal;
 
 /**
  * @brief 
@@ -95,24 +93,24 @@ void	*ft_realloc(void *ptr, size_t old_size, size_t new_size)
 	void	*new_ptr;
 	size_t	copy_size;
 
-    if (new_size == 0 && ptr != NULL)
+	if (new_size == 0 && ptr != NULL)
 	{
 		free(ptr);
 		return (NULL);
-    }
+	}
 	if (ptr == NULL)
 		return (malloc(new_size));
-    new_ptr = malloc(new_size);
+	new_ptr = malloc(new_size);
 	if (new_ptr == NULL)
-        return (NULL);
-	ft_memset(new_ptr, 0, new_size); 
+		return (NULL);
+	ft_memset(new_ptr, 0, new_size);
 	if (new_size < old_size)
 		copy_size = new_size;
 	else
 		copy_size = old_size;
-    ft_memcpy(new_ptr, ptr, copy_size);
-    free(ptr);
-    return (new_ptr);
+	ft_memcpy(new_ptr, ptr, copy_size);
+	free(ptr);
+	return (new_ptr);
 }
 
 /**

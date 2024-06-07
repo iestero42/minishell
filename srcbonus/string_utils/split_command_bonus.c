@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 09:03:49 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/06 11:44:16 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/07 07:55:38 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,18 @@
  */
 
 #include "minishell_bonus.h"
+
+static char	**alloc_subtrings(char **substrings)
+{
+	int	len;
+
+	len = ft_dstrlen(substrings);
+	substrings = ft_realloc(substrings, sizeof(char *) * (len + 1),
+			sizeof(char *) * (len + 2));
+	if (!substrings)
+		error_init("malloc", 1);
+	return (substrings);
+}
 
 /**
  * @brief 
@@ -121,14 +133,15 @@ static char	*get_next_substring(int *start, const char *s)
  * Splits a command into substrings.
  *
  * @details
- * Splits a command into substrings. A substring is a sequence of characters
- * that are not spaces or special characters, or a sequence of characters enclosed 
+ * Splits a command into substrings. A substring is a sequence of 
+ * characters that are not spaces or special characters, or a 
+ * sequence of characters enclosed 
  * in quotes. The substrings are stored in an array.
  *
  * @param s The command to split.
  * @return An array of substrings, or NULL if an error occurs.
  */
-char	**split_command(const char *s)
+char	**split_command(const char *s, int len_s)
 {
 	char		**substrings;
 	int			start;
@@ -140,13 +153,9 @@ char	**split_command(const char *s)
 		error_init("malloc", 1);
 	start = 0;
 	i = 0;
-	while (start < (int) ft_strlen(s))
+	while (start < len_s)
 	{
-		len = ft_dstrlen(substrings);
-		substrings = ft_realloc(substrings, sizeof(char *) * (len + 1),
-						sizeof(char *) * (len + 2));
-		if (!substrings)
-			error_init("malloc", 1);
+		substrings = alloc_subtrings(substrings);
 		substrings[i] = get_next_substring(&start, s);
 		if (substrings[i++] == NULL)
 		{

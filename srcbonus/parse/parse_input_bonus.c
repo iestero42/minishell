@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 11:47:55 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/06 12:42:33 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/07 07:49:54 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@
  */
 
 #include "minishell_bonus.h"
-
-extern volatile sig_atomic_t	g_signal;
 
 /**
  * @brief 
@@ -108,17 +106,13 @@ static int	write_here_doc(char *delimiter, int last_status,
 				int pipes[2], t_minishell *data)
 {
 	char		*line;
-	int			n_line;
 	char		*tmp;
 	pid_t		pid;
 
 	pid = fork();
-	if (pid < 0)
-		error_init("fork", 1);
 	if (pid == 0)
 	{
 		signal(SIGINT, signal_free_environ);
-		n_line = 1;
 		close(pipes[0]);
 		line = readline("> ");
 		while (line != NULL && ft_strncmp(line, delimiter, ft_strlen(line) - 1))
@@ -130,9 +124,9 @@ static int	write_here_doc(char *delimiter, int last_status,
 			ft_putstr_fd(line, pipes[1]);
 			free(line);
 			line = readline("> ");
-			n_line++;
+			data->n_line++;
 		}
-		check_err_heredoc(line, n_line, delimiter);
+		check_err_heredoc(line, data->n_line, delimiter);
 	}
 	return (controller_heredoc(pid, pipes, data));
 }

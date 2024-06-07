@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 08:50:36 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/06 11:26:42 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/07 08:22:25 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ static int	parse_subcmd(char **tokens, t_command *cmd, t_minishell *data,
 		error_init("malloc", 1);
 	if (parse_redirect(new_tokens, cmd, control, data) == EXIT_FAILURE
 		&& data->status != STOPPED)
-		return (error_command(cmd, new_tokens , ERROR_REDIR));
+		return (error_command(cmd, new_tokens, ERROR_REDIR));
 	if (data->status == STOPPED)
 	{
 		double_free(new_tokens);
@@ -194,7 +194,7 @@ int	parse_command(char *command_str, t_minishell *data)
 	tokens = split_command(command_str);
 	if (tokens == NULL)
 		return (EXIT_FAILURE);
-	tokens = check_err_sintax(tokens, data);
+	tokens = check_err_sintax(tokens, data, 0);
 	if (tokens == NULL || data->status == STOPPED)
 	{
 		data->status = RUNNING;

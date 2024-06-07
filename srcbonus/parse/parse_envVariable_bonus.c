@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 10:24:02 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/05 16:06:12 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/07 07:45:07 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ static char	*special_env_variable(int last_status, int *position,
 		error_init("malloc", 1);
 	return (str);
 }
-
 
 /**
  * @brief 
