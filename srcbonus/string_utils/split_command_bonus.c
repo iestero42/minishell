@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 09:03:49 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/07 07:55:38 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/07 08:34:40 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,11 +141,10 @@ static char	*get_next_substring(int *start, const char *s)
  * @param s The command to split.
  * @return An array of substrings, or NULL if an error occurs.
  */
-char	**split_command(const char *s, int len_s)
+char	**split_command(const char *s)
 {
 	char		**substrings;
 	int			start;
-	int			len;
 	int			i;
 
 	substrings = (char **) ft_calloc(1, sizeof(char *));
@@ -153,7 +152,7 @@ char	**split_command(const char *s, int len_s)
 		error_init("malloc", 1);
 	start = 0;
 	i = 0;
-	while (start < len_s)
+	while (start < (int) ft_strlen(s))
 	{
 		substrings = alloc_subtrings(substrings);
 		substrings[i] = get_next_substring(&start, s);
