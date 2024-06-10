@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 08:18:57 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/10 09:54:24 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/06/10 12:54:55 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,7 @@ int	parse_command_name(char **tokens, t_command *cmd, char **cmd_list)
 {
 	int		i;
 	char	*path;
-	int 	error;
+	int		error;
 	char	**dirs;
 
 	cmd->name = NULL;

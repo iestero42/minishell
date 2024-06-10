@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 10:57:42 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/10 12:19:25 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/06/10 12:57:19 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static int	change_env_var(const char *varname, const char *newvalue,
 	extern char	**environ;
 	char		*new_entry;
 	size_t		new_entry_len;
-    size_t		i;
+	size_t		i;
 
 	i = -1;
 	while (environ[++i] != NULL)
@@ -107,7 +107,7 @@ static int	change_pwd(char *dir)
 	extern char	**environ;
 	char		*oldpwd;
 	char		*tmp;
-	int 		len;
+	int			len;
 
 	oldpwd = getenv("PWD");
 	tmp = ft_strdup("OLDPWD=");

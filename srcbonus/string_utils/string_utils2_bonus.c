@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 09:31:16 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/10 08:16:03 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/06/10 12:57:36 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ void	double_free(char **str)
 		free(str[i--]);
 	free(str);
 }
-
 
 /**
  * @brief 
@@ -113,7 +112,6 @@ void	*ft_realloc(void *ptr, size_t old_size, size_t new_size)
 	return (new_ptr);
 }
 
-
 static char	**init_environ(void)
 {
 	char	**tmp;
@@ -135,7 +133,6 @@ static char	**init_environ(void)
 	tmp[2] = ft_strdup("_=/usr/bin/env");
 	tmp[3] = NULL;
 	return (tmp);
-
 }
 
 /**
