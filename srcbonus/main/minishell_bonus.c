@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 07:29:18 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/07 07:43:41 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/10 12:07:53 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ int	main(void)
 		}
 		if (*line != '\0')
 		{
+			data.n_line++;
 			add_history(line);
 			if (parse_data(line, &data) == EXIT_SUCCESS)
 				minishell(&data);

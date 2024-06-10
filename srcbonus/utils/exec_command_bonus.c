@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 10:15:38 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/10 09:53:51 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/06/10 12:02:29 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ static int	builtins(t_command cmd)
  * @param cmd The command that was not found.
  * @return Always returns EXIT_FAILURE.
  */
-static void	print_error(char *cmd, int type)
+static int	print_error(char *cmd, int type)
 {
 	char	*path;
 
@@ -95,6 +95,7 @@ static void	print_error(char *cmd, int type)
 			ft_putstr_fd(": command not found\n", STDERR_FILENO);
 		}
 	}
+	return (type);
 }
 
 /**
@@ -126,7 +127,7 @@ static int	execute_command_logic(t_command *cmd, t_minishell *data)
 		if (pid == 0)
 		{
 			if (execve(cmd->name, cmd->args, environ) < 0)
-				error_init("execve", 2);
+				exit((print_error(cmd->name, ERROR_CMD_NAME) >> 8) & 0xFF);
 			exit(EXIT_SUCCESS);
 		}
 		return (controller(data, &pid));
@@ -134,10 +135,7 @@ static int	execute_command_logic(t_command *cmd, t_minishell *data)
 	else if (cmd->type > 0 && cmd->type < 8)
 		return (builtins(*cmd));
 	else if (cmd->type == ERROR_CMD_NAME || cmd->type == ERROR_REDIR)
-	{
-		print_error(cmd->name, cmd->type);
-		return (cmd->type);
-	}
+		return (print_error(cmd->name, cmd->type));
 	return (EXIT_SUCCESS);
 }
 

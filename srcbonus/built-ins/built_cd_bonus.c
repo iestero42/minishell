@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 10:57:42 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/10 09:26:27 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/06/10 12:19:25 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,19 @@
 
 #include "minishell_bonus.h"
 
+/**
+ * @brief 
+ * Prints an error message for the `cd` command and returns a failure status.
+ *
+ * @details
+ * This function prints an error message to the standard error file 
+ * descriptor. The message includes the name of the shell, the `cd` command, 
+ * and the argument that caused the error. If the argument is NULL, it prints 
+ * "HOME not set".
+ *
+ * @param arg The argument that caused the error.
+ * @return The exit failure status shifted left by 8 bits.
+ */
 static int	error_cd_msg(char *arg)
 {
 	ft_putstr_fd("minishell: ", STDERR_FILENO);
@@ -29,55 +42,76 @@ static int	error_cd_msg(char *arg)
 		ft_putstr_fd("HOME not set\n", STDERR_FILENO);
 	return (EXIT_FAILURE << 8);
 }
-	
-int	change_env_var(const char *varname, const char *newvalue, size_t varname_len, size_t newvalue_len)
+
+/**
+ * @brief 
+ * Changes the value of an environment variable.
+ *
+ * @details 
+ * This function searches for an environment variable with the given 
+ * name and changes its value to the new value. If the variable is found, its 
+ * old value is freed and replaced with the new value. If the variable is not 
+ * found, the function returns 1.
+ *
+ * @param varname The name of the environment variable to change.
+ * @param newvalue The new value for the environment variable.
+ * @param varname_len The length of the variable name.
+ * @param newvalue_len The length of the new value.
+ * @return 0 if the variable was found and changed, 1 otherwise.
+ */
+static int	change_env_var(const char *varname, const char *newvalue,
+		size_t varname_len, size_t newvalue_len)
 {
 	extern char	**environ;
-	size_t 		new_entry_len;
-	char 		*new_entry;
-    size_t 		i;
+	char		*new_entry;
+	size_t		new_entry_len;
+    size_t		i;
 
 	i = -1;
-    while (environ[++i] != NULL)
+	while (environ[++i] != NULL)
 	{
-        if (!ft_strncmp(environ[i], varname, varname_len) && environ[i][varname_len] == '=')
+		if (!ft_strncmp(environ[i], varname, varname_len)
+			&& environ[i][varname_len] == '=')
 		{
-            new_entry_len = varname_len + 1 + newvalue_len + 1;
-            new_entry = malloc(sizeof(char) * new_entry_len);
-            if (!new_entry)
+			new_entry_len = varname_len + 1 + newvalue_len + 1;
+			new_entry = malloc(sizeof(char) * new_entry_len);
+			if (!new_entry)
 				error_init("malloc", 1);
-            ft_memcpy(new_entry, varname, varname_len);
-            new_entry[varname_len] = '=';
-            ft_memcpy(new_entry + varname_len + 1, newvalue, newvalue_len);
-            new_entry[new_entry_len - 1] = '\0';
+			ft_memcpy(new_entry, varname, varname_len);
+			new_entry[varname_len] = '=';
+			ft_memcpy(new_entry + varname_len + 1, newvalue, newvalue_len);
+			new_entry[new_entry_len - 1] = '\0';
 			free(environ[i]);
-            environ[i] = new_entry;
-            return (0);
-        }
-    }
+			environ[i] = new_entry;
+			return (EXIT_SUCCESS);
+		}
+	}
+	return (EXIT_FAILURE);
 }
 
+/**
+ * @brief 
+ * Changes the working directory.
+ *
+ * @details 
+ * This function changes the working directory to the directory 
+ * specified by `dir`. It also updates the `PWD` and `OLDPWD` environment 
+ * variables to reflect the change. If the `OLDPWD` variable does not exist, 
+ * it is created.
+ *
+ * @param dir The directory to change to.
+ * @return The exit success status.
+ */
 static int	change_pwd(char *dir)
 {
 	extern char	**environ;
 	char		*oldpwd;
 	char		*tmp;
 	int 		len;
-	int			i;
 
 	oldpwd = getenv("PWD");
 	tmp = ft_strdup("OLDPWD=");
-	i = -1;
-	while (environ && environ[++i] != NULL)
-	{
-		if (!ft_strncmp(environ[i], "OLDPWD=", 7))
-		{
-			free(environ[i]);
-			environ[i] = ft_strjoin(tmp, oldpwd);
-			break ;
-		}
-	}
-	if (environ[i] == NULL)
+	if (change_env_var("OLDPWD", oldpwd, 6, ft_strlen(oldpwd)))
 	{
 		len = ft_dstrlen(environ);
 		environ = ft_realloc(environ, len * sizeof(char *),
