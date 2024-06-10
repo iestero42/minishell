@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_error_sintax.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 06:27:23 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/07 08:21:34 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/10 09:39:43 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,8 +201,8 @@ char	**check_err_sintax(char **tokens, t_minishell *data, int count)
 					|| *tokens[i] == '|') && tokens[i + 1]
 				&& (*tokens[i + 1] == '&' || *tokens[i + 1] == '|')))
 			return (print_estd(tokens, 4, i, data));
-		if ((count > 0) || (count == 0 && (*tokens[i] == '&'
-					|| *tokens[i] == '|')))
+		if (!tokens[i + 1] && ((count > 0) || (count == 0
+			&& (*tokens[i] == '&' || *tokens[i] == '|'))))
 			tokens = execute_and_capture_command(tokens, data);
 	}
 	return (tokens);

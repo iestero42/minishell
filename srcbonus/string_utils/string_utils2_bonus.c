@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   string_utils2_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 09:31:16 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/07 07:56:28 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/10 08:16:03 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,31 @@ void	*ft_realloc(void *ptr, size_t old_size, size_t new_size)
 	return (new_ptr);
 }
 
+
+static char	**init_environ(void)
+{
+	char	**tmp;
+	char	*str;
+	char	cwd[1024];
+
+	tmp = (char **)malloc(4 * sizeof(char *));
+	if (!tmp)
+		error_init("malloc", 1);
+	if (getcwd(cwd, sizeof(cwd)) == NULL)
+		error_init("getcwd", 1);
+	str = ft_strdup("PWD=");
+	if (!str)
+		error_init("malloc", 1);
+	str = ft_strjoin(str, cwd);
+	tmp[0] = ft_strdup(str);
+	free(str);
+	tmp[1] = ft_strdup("SHLVL=1");
+	tmp[2] = ft_strdup("_=/usr/bin/env");
+	tmp[3] = NULL;
+	return (tmp);
+
+}
+
 /**
  * @brief 
  * Allocates memory for the environment variables.
@@ -128,11 +153,31 @@ void	alloc_environ(t_minishell *data)
 {
 	char		**tmp;
 	extern char	**environ;
+	int			i;
+	char		*str;
+	int			num;
 
 	if (data->access_environ == 0)
 	{
-		tmp = ft_dstrdup(environ);
-		environ = tmp;
+		if (environ && ft_dstrlen(environ) > 2)
+		{
+			tmp = ft_dstrdup(environ);
+			environ = tmp;
+			i = 0;
+			while (ft_strncmp("SHLVL", environ[i], 5))
+				i++;
+			if (!ft_strncmp("SHLVL", environ[i], 5))
+			{
+				num = ft_atoi(&environ[i][6]);
+				free(environ[i]);
+				environ[i] = ft_strdup("SHLVL=");
+				str = ft_itoa(num + 1);
+				environ[i] = ft_strjoin(environ[i], str);
+				free(str);
+			}
+		}
+		else
+			environ = init_environ();
 		data->access_environ = 1;
 	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_command_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 10:15:38 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/07 08:23:46 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/10 09:53:51 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,35 @@ static int	builtins(t_command cmd)
 
 /**
  * @brief 
+ * Prints an error message and returns EXIT_FAILURE.
+ *
+ * @param cmd The command that was not found.
+ * @return Always returns EXIT_FAILURE.
+ */
+static void	print_error(char *cmd, int type)
+{
+	char	*path;
+
+	if (type == ERROR_CMD_NAME)
+	{
+		path = getenv("PATH");
+		if (!path)
+		{
+			ft_putstr_fd("minishell: ", 2);
+			ft_putstr_fd(cmd, 2);
+			ft_putstr_fd(": No such file or directory\n", STDERR_FILENO);
+		}
+		else
+		{
+			ft_putstr_fd("minishell: ", STDERR_FILENO);
+			ft_putstr_fd(cmd, 2);
+			ft_putstr_fd(": command not found\n", STDERR_FILENO);
+		}
+	}
+}
+
+/**
+ * @brief 
  * Executes a command.
  *
  * @details
@@ -105,7 +134,10 @@ static int	execute_command_logic(t_command *cmd, t_minishell *data)
 	else if (cmd->type > 0 && cmd->type < 8)
 		return (builtins(*cmd));
 	else if (cmd->type == ERROR_CMD_NAME || cmd->type == ERROR_REDIR)
+	{
+		print_error(cmd->name, cmd->type);
 		return (cmd->type);
+	}
 	return (EXIT_SUCCESS);
 }
 

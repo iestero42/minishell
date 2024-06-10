@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_envVariable_bonus.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 10:24:02 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/07 07:45:07 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/10 09:23:13 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ static char	*expand_env_variable(char *token, int *start, int *position,
 	free(str);
 	*position += i;
 	*start = *position + 1;
-	return (env_var);
+	return (ft_strdup(env_var));
 }
 
 /**

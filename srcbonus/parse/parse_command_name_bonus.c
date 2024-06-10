@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_command_name_bonus.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 08:18:57 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/06 12:57:29 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/10 09:54:24 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,30 +18,6 @@
  */
 
 #include "minishell_bonus.h"
-
-/**
- * @brief 
- * Prints an error message and returns EXIT_FAILURE.
- *
- * @param cmd The command that was not found.
- * @return Always returns EXIT_FAILURE.
- */
-static int	print_error(char *cmd, char **dirs)
-{
-	if (dirs)
-	{
-		ft_putstr_fd("minishell: ", STDERR_FILENO);
-		ft_putstr_fd(cmd, 2);
-		ft_putstr_fd(": command not found\n", STDERR_FILENO);
-	}
-	else
-	{
-		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(cmd, 2);
-		ft_putstr_fd(": No such file or directory\n", STDERR_FILENO);
-	}
-	return (EXIT_FAILURE);
-}
 
 /**
  * @brief 
@@ -81,7 +57,7 @@ static int	check_path(char *token, char **dirs, t_command *cmd)
 			}
 		}
 		if (cmd->name == NULL)
-			return (print_error(token, dirs));
+			return (EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);
 }
@@ -183,5 +159,7 @@ int	parse_command_name(char **tokens, t_command *cmd, char **cmd_list)
 	error = check_path(tokens[i], dirs, cmd);
 	if (dirs)
 		double_free(dirs);
+	if (error == EXIT_FAILURE)
+		cmd->name = ft_strdup(tokens[i]);
 	return (error);
 }

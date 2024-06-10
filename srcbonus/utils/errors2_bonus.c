@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errors2_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 14:23:35 by yunlovex          #+#    #+#             */
-/*   Updated: 2024/06/07 08:23:38 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/10 09:53:39 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ int	error_operands(char **tokens)
 int	error_command(t_command *cmd, char **tokens, int type_error)
 {
 	cmd->type = type_error;
-	cmd->name = NULL;
 	cmd->args = NULL;
 	double_free(tokens);
 	return (EXIT_SUCCESS);
