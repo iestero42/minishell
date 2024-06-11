@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 08:50:36 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/11 09:03:58 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/11 12:21:38 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,10 @@ static int	parse_subcmd(char **tokens, t_command *cmd, t_minishell *data,
 {
 	char	**new_tokens;
 
+	cmd->name = NULL;
+	cmd->args = NULL;
+	cmd->output_redirect = -2;
+	cmd->input_redirect = -2;
 	new_tokens = trim_args(tokens, data->last_status_cmd);
 	if (!new_tokens)
 		error_init("malloc", 1);

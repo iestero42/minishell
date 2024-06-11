@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 10:58:12 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/11 09:03:58 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/11 12:05:58 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,7 @@ static int	error_export(char **var, char *arg)
 
 	if (!var)
 		error_init("malloc", 1);
-	if (arg[0] == '=' || ft_isdigit(arg[0])
-		|| error_unclosed_quotes(var[1], ft_strlen(var[1])))
+	if (arg[0] == '=' || ft_isdigit(arg[0]))
 	{
 		error_export_msg(arg);
 		return (EXIT_FAILURE);

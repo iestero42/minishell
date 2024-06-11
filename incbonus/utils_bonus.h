@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 09:29:41 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/07 08:22:09 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/11 12:05:34 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ char		**print_estd(char **tokens, int mode, int i, t_minishell *data);
 //***********ERRORS***********//
 int			error_redir(char *org, char *control);
 void		error_export_msg(char *arg);
-int			error_unclosed_quotes(char *arg, int len);
 int			error_init(char *msg, int error);
 int			error_split_operands(int count, int quotes);
 int			error_operands(char **tokens);

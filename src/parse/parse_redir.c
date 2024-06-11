@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 09:21:16 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/11 09:03:58 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/11 12:21:57 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,8 +133,6 @@ int	parse_redirect(char **tokens, t_command *cmd, char *control,
 	int	i;
 
 	i = -1;
-	cmd->output_redirect = -2;
-	cmd->input_redirect = -2;
 	rm_slash5(tokens);
 	while (tokens[++i] != NULL && data->status != STOPPED)
 	{

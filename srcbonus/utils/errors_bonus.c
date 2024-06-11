@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 11:53:30 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/06 11:46:33 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/11 12:03:54 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,33 +88,4 @@ void	error_export_msg(char *arg)
 	ft_putstr_fd(arg, STDERR_FILENO);
 	ft_putstr_fd("': not a valid identifier", STDERR_FILENO);
 	ft_putchar_fd('\n', STDERR_FILENO);
-}
-
-/**
- * @brief 
- * Checks for unclosed quotes in a string.
- *
- * @details
- * Iterates over the characters in a string. If it finds an unclosed quote, 
- * it returns the quote character.
- *
- * @param arg The string to check.
- * @param len The length of the string.
- * @return The unclosed quote character, or 0 if all quotes are closed.
- */
-int	error_unclosed_quotes(char *arg, int len)
-{
-	int		i;
-	char	quotes;
-
-	i = -1;
-	quotes = 0;
-	while (++i < len)
-	{
-		if ((arg[i] == '\'' || arg[i] == '"') && !quotes)
-			quotes = arg[i];
-		else if (arg[i] == quotes && quotes)
-			quotes = 0;
-	}
-	return (quotes);
 }

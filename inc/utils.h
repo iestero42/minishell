@@ -22,7 +22,6 @@ char		**print_estd(char **tokens, int mode, int i, t_minishell *data);
 //***********ERRORS***********//
 int			error_redir(char *org, char *control);
 void		error_export_msg(char *arg);
-int			error_unclosed_quotes(char *arg, int len);
 int			error_init(char *msg, int error);
 int			error_split_operands(int count, int quotes);
 int			error_operands(char **tokens);

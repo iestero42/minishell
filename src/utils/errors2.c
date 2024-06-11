@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 14:23:35 by yunlovex          #+#    #+#             */
-/*   Updated: 2024/06/11 09:03:58 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/11 12:09:37 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,9 @@ int	error_command(t_command *cmd, char **tokens, int type_error)
  */
 void	check_err_heredoc(char *line, int n_line, char *delimiter)
 {
+	extern char	**environ;
+
+	double_free(environ);
 	if (line == NULL)
 	{
 		ft_putstr_fd("-minishell: warning: here-document at line ",
