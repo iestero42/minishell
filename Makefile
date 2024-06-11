@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+         #
+#    By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/07 10:56:39 by yunlovex          #+#    #+#              #
-#    Updated: 2024/06/10 12:49:33 by iestero-         ###   ########.fr        #
+#    Updated: 2024/06/11 08:59:42 by yunlovex         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -84,36 +84,40 @@ ARFLAGS 			= 	rsc
 
 MAIN_FILES		=	minishell.c
 
-PARSE_FILES		=	parse_data.c			\
-					parse_command.c			\
-					parse_command_name.c	\
-					parse_envVariable.c		\
-					parse_args.c			\
-					parse_redir.c			\
-					parse_output.c			\
-					parse_input.c			\
+PARSE_FILES		=	parse_data.c				\
+					parse_command.c				\
+					parse_command_name.c		\
+					parse_envVariable.c			\
+					parse_args.c				\
+					parse_redir.c				\
+					parse_output.c				\
+					parse_input.c				\
+					parse_wildcard.c			\
 
 STRING_UTILS_FILES	=	split_command.c		\
-						split_pipes.c		\
 						string_utils.c		\
 						string_utils2.c		\
+						string_utils3.c		\
 						trim_command.c		\
 				
-UTILS_FILES		=	errors.c			\
-					exec_command.c		\
-					proc_minishell.c	\
-					frees.c				\
-					signal_handler.c 	\
-					configurations.c	\
-					misc.c				\
+UTILS_FILES		=	errors.c				\
+					errors2.c				\
+					exec_command.c			\
+					proc_minishell.c		\
+					frees.c					\
+					signal_handler.c 		\
+					configurations.c		\
+					misc.c					\
+					check_error_sintax.c 	\
+					alloc_environ.c			\
 
-BUILTINS_FILES	=	built_cd.c		\
-					built_echo.c	\
-					built_env.c		\
-					built_exit.c	\
-					built_export.c	\
-					built_pwd.c		\
-					built_unset.c	\
+BUILTINS_FILES	=	built_cd.c			\
+					built_echo.c		\
+					built_env.c			\
+					built_exit.c		\
+					built_export.c		\
+					built_pwd.c			\
+					built_unset.c		\
 									
 
 SRCS_FILES	= 	$(addprefix $(MAIN_DIR)/, $(MAIN_FILES)) 					\
@@ -158,7 +162,8 @@ UTILS_FILES_BONUS		=	errors_bonus.c				\
 							signal_handler_bonus.c 		\
 							configurations_bonus.c		\
 							misc_bonus.c				\
-							check_error_sintax.c 		\
+							check_error_sintax_bonus.c 	\
+							alloc_environ_bonus.c		\
 
 BUILTINS_FILES_BONUS	=	built_cd_bonus.c		\
 							built_echo_bonus.c		\

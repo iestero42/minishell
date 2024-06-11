@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 09:19:54 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/06 10:00:55 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/06/11 09:01:53 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,24 +15,23 @@
 
 # include "structs.h"
 
-int			parse_command(char *command_str, t_command *cmd, t_minishell *data,
-				int pos);
+//***********MAIN_PARSE***********//
+int			parse_data(char *command_line, t_minishell *data);
+int			parse_command(char *command_str, t_minishell *data);
 
-int			parse_data(const char *command_line, t_minishell *data);
-
+//***********REDIRECTIONS***********//
 int			parse_redirect(char **tokens, t_command *cmd,
-				int pos, t_minishell *data);
-
-int			parse_output(char **tokens, t_command *cmd,
-				int pos, t_minishell *data);
-
+				char *control, t_minishell *data);
 int			parse_input(char **tokens, t_command *cmd,
-				int pos, t_minishell *data);
+				char *control, t_minishell *data);
+int			parse_output(char **tokens, t_command *cmd, char *control);
 
-int			parse_command_name(char **tokens, t_command *cmd, char **cmd_list);
-
+//***********EXPANDS***********//
 char		*parse_env_variable(char *token, int last_status, int quote);
+char		**parse_wildcard(char **token);
 
+//***********COMMAND***********//
 int			parse_args(t_command *cmd, char **tokens);
+int			parse_command_name(char **tokens, t_command *cmd, char **cmd_list);
 
 #endif

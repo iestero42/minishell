@@ -3,15 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   built_unset.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 10:58:27 by iestero-          #+#    #+#             */
-/*   Updated: 2024/04/16 09:41:02 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/06/11 09:03:58 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+/**
+ * @file built_unset_bonus.c
+ * @brief Contains the built_unset function for unsetting environment variables.
+ * @author yunlovex <yunlovex@student.42.fr>
+ * @date 2024/05/23
+ */
+
 #include "minishell.h"
 
+/**
+ * @brief 
+ * Unsets an environment variable.
+ *
+ * @details
+ * If the environment variable starts with the same string as the argument 
+ * and the next character is '=', it frees the environment variable and shifts 
+ * the rest of the environment variables to the left.
+ *
+ * @param env The environment variable to unset.
+ * @param arg The argument.
+ */
 static void	unset_aux(char **env, char *arg)
 {
 	char	**p;
@@ -29,6 +48,17 @@ static void	unset_aux(char **env, char *arg)
 	}
 }
 
+/**
+ * @brief 
+ * Unsets environment variables.
+ *
+ * @details
+ * Iterates over the arguments. For each argument, it iterates over 
+ * the environment variables and unsets the environment variable.
+ *
+ * @param args The array of arguments.
+ * @return EXIT_SUCCESS.
+ */
 int	built_unset(char **args)
 {
 	int			i;

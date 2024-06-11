@@ -3,22 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   built_env.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 10:58:52 by iestero-          #+#    #+#             */
-/*   Updated: 2024/04/11 09:32:23 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/06/11 09:03:58 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+/**
+ * @file built_env_bonus.c
+ * @brief Contains the built_env function for printing environment variables.
+ * @author yunlovex <yunlovex@student.42.fr>
+ * @date 2024/05/23
+ */
+
 #include "minishell.h"
 
+/**
+ * @brief 
+ * Prints the environment variables to the standard output.
+ *
+ * @details
+ * Iterates over the environment variables. For each variable, 
+ * if the variable is not "LINES" or "COLUMNS", it prints the variable 
+ * and a newline.
+ *
+ * @return EXIT_SUCCESS.
+ */
 int	built_env(void)
 {
 	int			i;
 	extern char	**environ;
 
 	i = 0;
-	while (environ[i] != NULL)
+	while (environ && environ[i] != NULL)
 	{
 		if (ft_strncmp(environ[i], "LINES", 5)
 			&& ft_strncmp(environ[i], "COLUMNS", 7))

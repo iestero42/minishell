@@ -3,60 +3,58 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 07:29:18 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/13 10:46:09 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/06/11 09:03:58 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+/**
+ * @file minishell_bonus.c
+ * @brief Main entry point for the minishell program.
+ * @author yunlovex <yunlovex@student.42.fr>
+ * @date 2024/05/23
+ */
+
 #include "minishell.h"
 
-volatile sig_atomic_t	g_signal = 0;
-
-static int	open_pipes(t_minishell *data)
-{
-	int	i;
-
-	i = 0;
-	while (i < data->n_commands - 1)
-	{
-		if (pipe(data->pipes + 2 * i) < 0)
-			error_init("pipe", 1);
-		i++;
-	}
-	return (EXIT_SUCCESS);
-}
-
+/**
+ * @brief
+ * Executes the minishell program.
+ *
+ * @details
+ * If the command tree has both left and right nodes, it processes the
+ * minishell with the command tree. Otherwise, it executes the command
+ * in the content of the command tree. After execution, it frees the
+ * allocated memory.
+ *
+ * @param data The minishell data.
+ * @return Always returns EXIT_SUCCESS.
+ */
 static int	minishell(t_minishell *data)
 {
-	pid_t	*pids;
-	int		i;
-
-	if (data->n_commands > 1)
-	{
-		data->pipes = (int *) malloc(sizeof(int) * 2 * (data->n_commands - 1));
-		if (!data->pipes)
-			error_init("malloc", 1);
-		open_pipes(data);
-		pids = (pid_t *) malloc(sizeof(pid_t) * data->n_commands);
-		if (!pids)
-			error_init("malloc", 1);
-		i = -1;
-		while (++i < data->n_commands)
-			pids[i] = create_process(&data->command_split[i], data->pipes, i,
-					data);
-		close_pipes(data);
-		free(data->pipes);
-		controller(data, pids);
-		free(pids);
-	}
+	if (data->cmd_tree->left != NULL && data->cmd_tree->right != NULL)
+		data->last_status_cmd = proc_minishell(data, data->cmd_tree);
 	else
-		execute_command(&data->command_split[0], data);
+		data->last_status_cmd = exec_command(data->cmd_tree->content, data);
 	full_free(data);
 	return (EXIT_SUCCESS);
 }
 
+/**
+ * @brief
+ * The main function of the minishell program.
+ *
+ * @details 
+ * This function initializes the minishell data, then enters a loop where it
+ * reads lines from the input until the status is STOPPED. For each line, if
+ * it's not empty, it adds the line to the history, sets up a signal handler,
+ * parses the data, and runs the minishell with the parsed data. After the
+ * loop, it deinitializes the data and returns 0.
+ *
+ * @return 0 on successful execution.
+ */
 int	main(void)
 {
 	t_minishell	data;
@@ -66,16 +64,16 @@ int	main(void)
 	while (data.status != STOPPED)
 	{
 		signal(SIGINT, signal_handler_readline);
-		line = readline_main();
+		line = readline(MINISHELL_ENTRY);
 		if (line == NULL)
 		{
-			print_exit();
+			printf("exit\n");
 			break ;
 		}
 		if (*line != '\0')
 		{
+			data.n_line++;
 			add_history(line);
-			signal(SIGINT, signal_handler);
 			if (parse_data(line, &data) == EXIT_SUCCESS)
 				minishell(&data);
 		}

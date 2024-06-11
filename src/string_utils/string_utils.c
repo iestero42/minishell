@@ -6,12 +6,32 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 10:05:08 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/27 16:56:32 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/11 09:03:58 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+/**
+ * @file string_utils_bonus.c
+ * @brief Contains utility functions for strings.
+ * @author yunlovex <yunlovex@student.42.fr>
+ * @date 2024/05/23
+ */
+
 #include "minishell.h"
 
+/**
+ * @brief 
+ * Compares two strings.
+ *
+ * @details
+ * Compares two strings using ft_strncmp. The length of the longest string 
+ * is used as the length parameter.
+ *
+ * @param s1 The first string to compare.
+ * @param s2 The second string to compare.
+ * @return An integer less than, equal to, or greater than zero if s1 is found, 
+ * 	respectively, to be less than, to match, or be greater than s2.
+ */
 int	ft_strcmp(char *s1, char *s2)
 {
 	int	len_s1;
@@ -26,21 +46,55 @@ int	ft_strcmp(char *s1, char *s2)
 }
 
 /**
- * Function that free a double pointer
- * @param str the double pointer to free
-*/
-void	double_free(char **str)
+ * @brief 
+ * Appends a string to an array of strings.
+ *
+ * @details
+ * Creates a new array of strings with an additional space for the new string.
+ * Copies the strings from the original array to the new array, then adds the 
+ * new string to the end.
+ *
+ * @param arr1 The original array of strings.
+ * @param str The string to append.
+ * @return The new array of strings with the appended string.
+ */
+char	**ft_append(char **arr1, char *str)
 {
-	int	i;
+	int		len1;
+	int		i;
+	char	**combined;
 
-	i = 0;
-	while (str[i])
-		i++;
-	while (i >= 0)
-		free(str[i--]);
-	free(str);
+	if (arr1 == NULL)
+		len1 = 0;
+	else
+		len1 = ft_dstrlen(arr1);
+	combined = malloc(sizeof(char *) * (len1 + 2));
+	if (combined == NULL)
+		error_init("malloc", 1);
+	i = -1;
+	while (++i < len1)
+		combined[i] = arr1[i];
+	combined[len1] = ft_strdup(str);
+	if (!combined[len1])
+		error_init("malloc", 1);
+	combined[len1 + 1] = NULL;
+	free(arr1);
+	return (combined);
 }
 
+/**
+ * @brief 
+ * Creates a subarray from an array of strings.
+ *
+ * @details
+ * Allocates memory for a new array of strings, then copies a 
+ * range of strings from the original array to the new array.
+ *
+ * @param str_array The original array of strings.
+ * @param start_index The start index of the range.
+ * @param end_index The end index of the range.
+ * @return A pointer to the new array of strings, or NULL if an error occurs.
+ */
 char	**ft_dsubstr(char **str_array, int start_index, int end_index)
 {
 	int		num_elements;
@@ -67,16 +121,38 @@ char	**ft_dsubstr(char **str_array, int start_index, int end_index)
 	return (sub_array);
 }
 
+/**
+ * @brief 
+ * Calculates the length of an array of strings.
+ *
+ * @details
+ * Counts the number of strings in the array.
+ *
+ * @param str The array of strings.
+ * @return The number of strings in the array.
+ */
 int	ft_dstrlen(char **str)
 {
 	int	i;
 
 	i = 0;
-	while (str[i] != 0)
+	while (str[i] != NULL)
 		i++;
 	return (i);
 }
 
+/**
+ * @brief 
+ * Joins two arrays of strings.
+ *
+ * @details
+ * Allocates memory for a new array of strings, then copies the 
+ * strings from the first array and the second array to the new array.
+ *
+ * @param arr1 The first array of strings.
+ * @param arr2 The second array of strings.
+ * @return A pointer to the new array of strings, or NULL if an error occurs.
+ */
 char	**ft_dstrjoin(char **arr1, char **arr2)
 {
 	int		len1;

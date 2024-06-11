@@ -3,23 +3,36 @@
 /*                                                        :::      ::::::::   */
 /*   parse_command_name.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 08:18:57 by iestero-          #+#    #+#             */
-/*   Updated: 2024/04/23 13:17:40 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/06/11 09:03:58 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+/**
+ * @file parse_command_name_bonus.c
+ * @brief Contains the functions for parsing command names.
+ * @author yunlovex <yunlovex@student.42.fr>
+ * @date 2024/05/23
+ */
+
 #include "minishell.h"
 
-static int	print_error(char *cmd)
-{
-	ft_putstr_fd("minishell: ", 2);
-	ft_putstr_fd(cmd, 2);
-	ft_putstr_fd(": command not found\n", 2);
-	return (EXIT_FAILURE);
-}
-
+/**
+ * @brief 
+ * Checks if the token is a path command.
+ *
+ * @details
+ * If the command name is not set, it iterates over the directories,
+ * constructs the absolute path, and checks if it is executable.
+ * If it is, it sets the command name and type.
+ *
+ * @param token The token to check.
+ * @param dirs The directories to check.
+ * @param cmd The command structure to modify.
+ * @return EXIT_SUCCESS on success, EXIT_FAILURE on failure.
+ */
 static int	check_path(char *token, char **dirs, t_command *cmd)
 {
 	char	abs_path[1024];
@@ -28,7 +41,7 @@ static int	check_path(char *token, char **dirs, t_command *cmd)
 	if (!cmd->name)
 	{
 		i = -1;
-		while (dirs[++i] != NULL)
+		while (dirs != NULL && dirs[++i] != NULL)
 		{
 			ft_memset(abs_path, 0, sizeof(abs_path));
 			ft_strlcat(abs_path, dirs[i], sizeof(abs_path));
@@ -44,11 +57,23 @@ static int	check_path(char *token, char **dirs, t_command *cmd)
 			}
 		}
 		if (cmd->name == NULL)
-			return (print_error(token));
+			return (EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);
 }
 
+/**
+ * @brief 
+ * Checks if the token is a relative path command.
+ *
+ * @details
+ * If the command name is not set, it checks if the token is executable.
+ * If it is, it sets the command name and type.
+ *
+ * @param token The token to check.
+ * @param cmd The command structure to modify.
+ * @return Always returns EXIT_SUCCESS.
+ */
 static int	check_relative_path(char *token, t_command *cmd)
 {
 	if (!cmd->name)
@@ -64,6 +89,19 @@ static int	check_relative_path(char *token, t_command *cmd)
 	return (EXIT_SUCCESS);
 }
 
+/**
+ * @brief 
+ * Checks if the token is an own command.
+ *
+ * @details
+ * Iterates over the command list and compares each command with the token.
+ * If they match, it sets the command name and type.
+ *
+ * @param token The token to check.
+ * @param cmd The command structure to modify.
+ * @param cmd_list The list of own commands.
+ * @return Always returns EXIT_SUCCESS.
+ */
 static int	check_own_command(char *token, t_command *cmd, char **cmd_list)
 {
 	int		i;
@@ -82,30 +120,46 @@ static int	check_own_command(char *token, t_command *cmd, char **cmd_list)
 	return (EXIT_SUCCESS);
 }
 
+/**
+ * @brief 
+ * Parses the command name from the tokens.
+ *
+ * @details
+ * Converts the tokens, gets the PATH environment variable, 
+ * splits it into directories, and checks if the first non-empty 
+ * token is an own command, a relative path command,
+ * or a path command.
+ *
+ * @param tokens The tokens to parse.
+ * @param cmd The command structure to fill.
+ * @param cmd_list The list of own commands.
+ * @return EXIT_SUCCESS on success, EXIT_FAILURE on failure.
+ */
 int	parse_command_name(char **tokens, t_command *cmd, char **cmd_list)
 {
 	int		i;
 	char	*path;
+	int		error;
 	char	**dirs;
 
 	cmd->name = NULL;
 	cmd->type = -1;
-	path = getenv("PATH");
-	dirs = ft_split(path, ':');
-	if (!dirs)
-		error_init("malloc", 1);
 	i = 0;
-	while (tokens[i] != NULL && tokens[i][0] == '\0')
+	convert_tokens(tokens);
+	path = getenv("PATH");
+	while (tokens[i] != NULL && (tokens[i][0] == '\0' || tokens[i][0] == '\5'))
 		i++;
-	if (tokens[i] == NULL)
-		return (EXIT_FAILURE);
+	if (tokens[i] == NULL || tokens[i][0] == '\0')
+		return (EXIT_SUCCESS);
+	dirs = ft_split(path, ':');
+	if (!dirs && path)
+		error_init("malloc", 1);
 	check_own_command(tokens[i], cmd, cmd_list);
 	check_relative_path(tokens[i], cmd);
-	if (check_path(tokens[i], dirs, cmd) == EXIT_FAILURE)
-	{
+	error = check_path(tokens[i], dirs, cmd);
+	if (dirs)
 		double_free(dirs);
-		return (EXIT_FAILURE);
-	}
-	double_free(dirs);
-	return (EXIT_SUCCESS);
+	if (error == EXIT_FAILURE)
+		cmd->name = ft_strdup(tokens[i]);
+	return (error);
 }

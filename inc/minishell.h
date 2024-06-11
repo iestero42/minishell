@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 07:29:23 by iestero-          #+#    #+#             */
-/*   Updated: 2024/04/23 12:45:24 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/06/11 09:01:24 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "title.h"
 # include "libft.h"
 # include "get_next_line.h"
+# include "binary_tree.h"
 # include "builtins.h"
 # include "structs.h"
 # include "parse.h"
@@ -39,23 +40,20 @@
 # include <readline/history.h>
 # include <sys/ioctl.h>
 
-//*****Signals*****//
+//***********SIGNALS***********//
 void		signal_handler(int signum);
+int			controller(t_minishell *data, pid_t *pid);
 void		signal_handler_readline(int signum);
-void		controller(t_minishell *data, pid_t *pid);
+void		signal_free_environ(int signum);
 
-//*****Command Execution*****//
-int			execute_command(t_command *cmd, t_minishell *data);
-void		exec_command(t_command *cmd);
-void		exec_command_special(t_command *cmd, t_minishell *data);
-pid_t		create_process(t_command *cmd, int *pipes,
-				int pos, t_minishell *data);
+//***********EXECUTION***********//
+int			exec_command(t_command *cmd, t_minishell *data);
+int			proc_minishell(t_minishell *data, t_tree *tree);
 
-//*****Configurations*****//
-void		hide_eof_symbol(struct termios *term);
-void		show_eof_symbol(struct termios *term);
+//***********CONFIG***********//
+void		hide_eof_symbol(void);
+void		show_eof_symbol(void);
 void		configurations(void);
-void		print_exit(void);
 void		deinit(t_minishell *data);
 void		init(t_minishell *data);
 

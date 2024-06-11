@@ -3,33 +3,67 @@
 /*                                                        :::      ::::::::   */
 /*   frees.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 11:33:49 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/13 11:27:09 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/06/11 09:03:58 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+/**
+ * @file frees_bonus.c
+ * @brief Contains functions for freeing memory and closing file descriptors.
+ * @author yunlovex <yunlovex@student.42.fr>
+ * @date 2024/05/23
+ */
+
 #include "minishell.h"
 
-void	free_cmd(t_command *cmd)
+/**
+ * @brief 
+ * Frees a command structure.
+ *
+ * @details
+ * Frees the name and arguments of the command, and closes the input and output 
+ * redirection file descriptors.
+ *
+ * @param cmd The command to free.
+ */
+void	free_cmd(void *cmd)
 {
-	if (cmd->args != NULL)
-		double_free(cmd->args);
-	if (cmd->name != NULL)
-		free(cmd->name);
-	if (cmd->output_redirect > -1)
-		close(cmd->output_redirect);
-	if (cmd->input_redirect > -1)
-		close(cmd->input_redirect);
+	t_command	*ptr;
+
+	ptr = (t_command *) cmd;
+	if (ptr)
+	{
+		if (ptr->args != NULL)
+			double_free(ptr->args);
+		if (ptr->name != NULL)
+			free(ptr->name);
+		if (ptr->output_redirect > -1)
+			close(ptr->output_redirect);
+		if (ptr->input_redirect > -1)
+			close(ptr->input_redirect);
+	}
+	free(ptr);
 }
 
+/**
+ * @brief 
+ * Closes the pipe file descriptors.
+ *
+ * @details
+ * Closes the read and write ends of the pipe. If an error occurs, 
+ * it prints an error message.
+ *
+ * @param data The shell data structure.
+ */
 void	close_pipes(t_minishell *data)
 {
 	int	i;
 
 	i = 0;
-	while (i < 2 * (data->n_commands - 1))
+	while (i < 2)
 	{
 		if (close(data->pipes[i]) < 0)
 			perror("end");
@@ -37,17 +71,19 @@ void	close_pipes(t_minishell *data)
 	}
 }
 
+/**
+ * @brief 
+ * Frees all allocated memory and restores the standard input and output.
+ *
+ * @details
+ * Frees the command tree, and duplicates the standard input 
+ * and output file descriptors to their original values.
+ *
+ * @param data The shell data structure.
+ */
 void	full_free(t_minishell *data)
 {
-	int	i;
-
-	i = 0;
-	while (i < data->n_commands)
-	{
-		free_cmd(&data->command_split[i]);
-		i++;
-	}
-	free(data->command_split);
+	ft_clean_tree(&data->cmd_tree, free_cmd);
 	dup2(data->std_fileno[0], 0);
 	dup2(data->std_fileno[1], 1);
 }

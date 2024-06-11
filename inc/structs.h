@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   structs.h                                          :+:      :+:    :+:   */
+/*   structs.h                                    		:+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 09:20:30 by iestero-          #+#    #+#             */
-/*   Updated: 2024/04/23 09:22:55 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/06/07 07:46:54 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,19 @@
 # define RUNNING 1
 # define STOPPED 2
 
+# define PIPE 		0
+# define SEMICOLON 	1
+# define AND 		2
+
 # define OUTPUT 0
 # define INPUT 	1
 
 # define UNQUOTED 		0
 
-# define PATH_COMMAND	0
-# define ERROR_COMMAND	-1
+# define ERROR_REDIR		512
+# define ERROR_CMD_NAME		32512
+# define NO_EXEC_COMMAND	-2
+# define PATH_COMMAND		0
 
 # define ECHO_COMMAND	1
 # define CD_COMMAND		2
@@ -35,6 +41,11 @@
 # define EXIT_COMMAND	7
 
 # define NUM_COMMANDS	7
+
+# define WILDCARD		'\1'
+# define INPUT_REDIR	'\3'
+# define OUTPUT_REDIR	'\4'
+# define ENVP_VAR		'\5'
 
 # include <termios.h>
 
@@ -49,14 +60,14 @@ typedef struct s_command
 
 typedef struct s_minishell
 {
-	t_command		*command_split;
+	char			*cmd_list[NUM_COMMANDS];
+	t_tree			*cmd_tree;
 	struct termios	original_term;
-	int				n_commands;
+	int				std_fileno[2];
+	int				pipes[2];
 	int				status;
 	int				last_status_cmd;
-	int				std_fileno[2];
-	char			*cmd_list[NUM_COMMANDS];
-	int				*pipes;
+	int				n_line;
 	int				access_environ;
 }	t_minishell;
 

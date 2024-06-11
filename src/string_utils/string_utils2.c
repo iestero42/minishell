@@ -3,80 +3,60 @@
 /*                                                        :::      ::::::::   */
 /*   string_utils2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 09:31:16 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/06 10:42:25 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/06/11 09:03:58 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+/**
+ * @file string_utils2_bonus.c
+ * @brief Contains utility functions for strings.
+ * @author yunlovex <yunlovex@student.42.fr>
+ * @date 2024/05/23
+ */
+
 #include "minishell.h"
 
-char	*ft_copy(const char *token, char *new_token, int start, int len)
+/**
+ * @brief 
+ * Frees a double pointer.
+ *
+ * @details
+ * Frees each string in the array, then frees the array itself.
+ *
+ * @param str The double pointer to free.
+ */
+void	double_free(char **str)
 {
-	char	*tmp;
+	int	i;
 
-	tmp = ft_substr(token, start + 1, len);
-	if (!tmp)
-		error_init("malloc", 1);
-	new_token = ft_strjoin((char *) new_token, (char *) tmp);
-	if (!new_token)
-		error_init("malloc", 1);
-	free(tmp);
-	return (new_token);
+	i = 0;
+	while (str[i])
+		i++;
+	while (i >= 0)
+		free(str[i--]);
+	free(str);
 }
 
-char	**ft_append(char **arr1, char *str)
-{
-	int		len1;
-	int		i;
-	char	**combined;
-
-	if (arr1 == NULL)
-		len1 = 0;
-	else
-		len1 = ft_dstrlen(arr1);
-	combined = malloc(sizeof(char *) * (len1 + 2));
-	if (combined == NULL)
-		error_init("malloc", 1);
-	i = -1;
-	while (++i < len1)
-		combined[i] = arr1[i];
-	combined[len1] = ft_strdup(str);
-	if (!combined[len1])
-		error_init("malloc", 1);
-	combined[len1 + 1] = NULL;
-	free(arr1);
-	return (combined);
-}
-
-char	**ft_realloc(char **ptr, char *arg, int count, int expand)
-{
-	char	**new_ptr;
-	int		i;
-
-	if (ptr == NULL)
-		return ((char **) ft_calloc(count + expand, sizeof(char *)));
-	new_ptr = (char **) ft_calloc(count + expand, sizeof(char *));
-	if (new_ptr == NULL)
-		error_init("malloc", 1);
-	i = -1;
-	while (++i < count)
-		new_ptr[i] = ptr[i];
-	new_ptr[i] = ft_strdup(arg);
-	if (new_ptr[i] == NULL)
-		error_init("malloc", 1);
-	new_ptr[i + 1] = NULL;
-	free(ptr);
-	return (new_ptr);
-}
-
+/**
+ * @brief 
+ * Duplicates an array of strings.
+ *
+ * @details
+ * Creates a new array of strings with the same size as the original array.
+ * Copies the strings from the original array to the new array.
+ *
+ * @param str The original array of strings.
+ * @return The new array of strings with the copied strings.
+ */
 char	**ft_dstrdup(char **str)
 {
 	char	**dup;
 	int		i;
 
-	dup = (char **) ft_calloc(ft_dstrlen(str) + 1, sizeof(char *));
+	dup = (char **) malloc((ft_dstrlen(str) + 1) * sizeof(char *));
 	if (!dup)
 		return (NULL);
 	i = 0;
@@ -87,4 +67,47 @@ char	**ft_dstrdup(char **str)
 	}
 	dup[i] = NULL;
 	return (dup);
+}
+
+/**
+ * @brief Reallocates memory block.
+ *
+ * @details This function changes the size of the memory block pointed to by 
+ * `ptr` to `new_size` bytes. The contents will be unchanged to the minimum 
+ * of the old and new sizes; newly allocated memory will be uninitialized. 
+ * If `ptr` is NULL, then the call is equivalent to `malloc(new_size)`, for 
+ * all values of `new_size`. If `new_size` is equal to zero, and `ptr` is not 
+ * NULL, then the call is equivalent to `free(ptr)`. Unless `ptr` is NULL, 
+ * it must have been returned by an earlier call to `malloc()`, `calloc()` or 
+ * `realloc()`. If the area pointed to was moved, a `free(ptr)` is done.
+ *
+ * @param ptr Pointer to the memory area to be reallocated.
+ * @param old_size Size of the old memory block.
+ * @param new_size New size for the memory block.
+ * @return Pointer to the newly allocated memory, or NULL if the allocation 
+ * failed.
+ */
+void	*ft_realloc(void *ptr, size_t old_size, size_t new_size)
+{
+	void	*new_ptr;
+	size_t	copy_size;
+
+	if (new_size == 0 && ptr != NULL)
+	{
+		free(ptr);
+		return (NULL);
+	}
+	if (ptr == NULL)
+		return (malloc(new_size));
+	new_ptr = malloc(new_size);
+	if (new_ptr == NULL)
+		return (NULL);
+	ft_memset(new_ptr, 0, new_size);
+	if (new_size < old_size)
+		copy_size = new_size;
+	else
+		copy_size = old_size;
+	ft_memcpy(new_ptr, ptr, copy_size);
+	free(ptr);
+	return (new_ptr);
 }

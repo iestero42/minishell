@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_cd_bonus.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 10:57:42 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/10 12:57:19 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/06/11 08:48:38 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,8 @@ static int	change_pwd(char *dir)
 		environ[len] = ft_strjoin(tmp, oldpwd);
 		environ[len + 1] = NULL;
 	}
+	if (tmp[0] == 'O')
+		free(tmp);
 	change_env_var("PWD", dir, 3, ft_strlen(dir));
 	return (EXIT_SUCCESS);
 }
