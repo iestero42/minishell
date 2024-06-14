@@ -1,6 +1,6 @@
 proximo dia:
 
-	arreglar el control + \
+	arreglar el control + \ en 42
 
 	hacer pruebas locas con los argumentos desordenados y de todo
 	
