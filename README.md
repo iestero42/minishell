@@ -1,6 +1,6 @@
 proximo dia:
 
-	posible mejora muy tocha es que vayas mirando token por token y haciendo las llamadas de parseo correctas para cada token
+	arreglar el control + \
 
 	hacer pruebas locas con los argumentos desordenados y de todo
 	

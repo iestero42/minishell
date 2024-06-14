@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 11:47:55 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/07 07:49:54 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/14 08:25:53 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,15 +39,19 @@ static int	open_input_simple(char **tokens, t_command *cmd,
 	{
 		if (cmd->input_redirect > -1)
 			close(cmd->input_redirect);
-		if (tokens[1] != NULL && *tokens[1] != '\0'
-			&& tokens[1][0] != INPUT_REDIR && tokens[1][0] != OUTPUT_REDIR
-			&& *tokens[1] != ENVP_VAR)
+		if (tokens[1] != NULL && tokens[1][0] != INPUT_REDIR
+			&& tokens[1][0] != OUTPUT_REDIR && *tokens[1] != ENVP_VAR)
 		{
 			cmd->input_redirect = open(tokens[1], O_RDONLY, 0644);
 			if (cmd->input_redirect < 0)
+			{
+				ft_putstr_fd("minishell: ", STDERR_FILENO);
+				if (!*tokens[1])
+					ft_putstr_fd(": ", STDERR_FILENO);
 				perror(tokens[1]);
-			*tokens[1] = '\0';
-			*tokens[0] = '\0';
+			}
+			*tokens[1] = '\5';
+			*tokens[0] = '\5';
 		}
 		else
 			return (error_redir(tokens[1], control));
@@ -154,9 +158,8 @@ static int	open_input_double(char **tokens, t_command *cmd,
 	{
 		if (cmd->input_redirect > -1)
 			close(cmd->output_redirect);
-		if (tokens[1] != NULL && *tokens[1] != '\0'
-			&& tokens[1][0] != INPUT_REDIR && tokens[1][0] != OUTPUT_REDIR
-			&& *tokens[1] != ENVP_VAR)
+		if (tokens[1] != NULL && tokens[1][0] != INPUT_REDIR
+			&& tokens[1][0] != OUTPUT_REDIR && *tokens[1] != ENVP_VAR)
 		{
 			if (pipe(pipes) < 0)
 				error_init("pipe", 1);

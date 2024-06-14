@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 10:22:28 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/07 08:25:50 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/14 07:15:46 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,9 +77,9 @@ void	signal_free_environ(int signum)
 {
 	extern char	**environ;
 
-	double_free(environ);
 	if (signum == SIGINT)
-		exit(130);
+		double_free(environ);
+	exit(130);
 }
 
 /**

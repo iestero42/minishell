@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_command_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 10:15:38 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/10 12:02:29 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/06/14 07:29:32 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ static int	print_error(char *cmd, int type)
 	if (type == ERROR_CMD_NAME)
 	{
 		path = getenv("PATH");
-		if (!path)
+		if (!path || !*path)
 		{
 			ft_putstr_fd("minishell: ", 2);
 			ft_putstr_fd(cmd, 2);
