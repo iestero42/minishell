@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 10:15:38 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/14 07:29:32 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/16 20:57:29 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,7 @@ static int	execute_command_logic(t_command *cmd, t_minishell *data)
 			error_init("fork", 1);
 		if (pid == 0)
 		{
+			signal(SIGQUIT, signal_free_environ);
 			if (execve(cmd->name, cmd->args, environ) < 0)
 				exit((print_error(cmd->name, ERROR_CMD_NAME) >> 8) & 0xFF);
 			exit(EXIT_SUCCESS);
