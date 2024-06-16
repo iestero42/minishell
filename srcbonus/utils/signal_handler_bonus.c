@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 10:22:28 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/16 21:03:32 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/16 21:07:25 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,10 +81,7 @@ void	signal_free_environ(int signum)
 	if (signum == SIGINT)
 		exit(130);
 	else if (signum == SIGQUIT)
-	{
-		ft_putstr_fd("Quit (core dumped)\n", 2);
 		exit(131);
-	}
 }
 
 /**
