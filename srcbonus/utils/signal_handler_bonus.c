@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 10:22:28 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/16 21:07:25 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/16 21:15:38 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ int	controller(t_minishell *data, pid_t *pid)
 	if (status_cmd == 2)
 	{
 		ft_putstr_fd("\n", data->std_fileno[0]);
-		status_cmd = 130 << 8;
+		return (130 << 8);
 	}
 	return (status_cmd);
 }

@@ -1,6 +1,6 @@
 proximo dia:
 
-	arreglar el control + \ en 42
+	pasar todo al src de nuevo
 
 	hacer pruebas locas con los argumentos desordenados y de todo
 	
