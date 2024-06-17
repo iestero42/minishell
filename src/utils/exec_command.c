@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 10:15:38 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/11 09:03:58 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/17 08:31:34 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ static int	print_error(char *cmd, int type)
 	if (type == ERROR_CMD_NAME)
 	{
 		path = getenv("PATH");
-		if (!path)
+		if (!path || !*path)
 		{
 			ft_putstr_fd("minishell: ", 2);
 			ft_putstr_fd(cmd, 2);
@@ -126,6 +126,7 @@ static int	execute_command_logic(t_command *cmd, t_minishell *data)
 			error_init("fork", 1);
 		if (pid == 0)
 		{
+			signal(SIGQUIT, signal_free_environ);
 			if (execve(cmd->name, cmd->args, environ) < 0)
 				exit((print_error(cmd->name, ERROR_CMD_NAME) >> 8) & 0xFF);
 			exit(EXIT_SUCCESS);

@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 11:53:30 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/14 08:04:50 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/17 08:26:36 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,15 @@ int	error_init(char *msg, int error)
 {
 	perror(msg);
 	exit(error);
+}
+
+static void	print_error_redir(char *org)
+{
+	ft_putstr_fd("syntax error near unexpected token ", STDERR_FILENO);
+	if (*org == INPUT_REDIR)
+		ft_putstr_fd("`<'\n", STDERR_FILENO);
+	else
+		ft_putstr_fd("`>'\n", STDERR_FILENO);
 }
 
 /**
@@ -66,12 +75,8 @@ int	error_redir(char *org, char *control)
 			ft_putstr_fd(org, STDERR_FILENO);
 			ft_putstr_fd(": ambiguous redirect\n", STDERR_FILENO);
 		}
-		else if (*org == '<' || *org == '>')
-		{
-			ft_putstr_fd("syntax error near unexpected token ", STDERR_FILENO);
-			ft_putstr_fd(org, STDERR_FILENO);
-			ft_putstr_fd("\n", STDERR_FILENO);
-		}
+		else if (*org == INPUT_REDIR || *org == OUTPUT_REDIR)
+			print_error_redir(org);
 	}
 	return (EXIT_FAILURE);
 }

@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 10:24:02 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/11 09:03:58 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/17 08:31:34 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ static char	*expand_env_variable(char *token, int *start, int *position,
 	if (str == NULL)
 		error_init("malloc", 1);
 	env_var = getenv(str);
-	if (!env_var)
+	if (!env_var || !*env_var)
 		env_var = ft_strdup("\5");
 	if (env_var == NULL)
 		error_init("malloc", 1);

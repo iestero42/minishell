@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 10:48:47 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/16 20:15:10 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/17 08:16:49 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ int	parse_data(char *command_line, t_minishell *data)
 		free(tmp);
 		return (EXIT_FAILURE);
 	}
+	add_history(command_line);
 	result = parse_command(tmp, data);
 	free(tmp);
 	return (result);

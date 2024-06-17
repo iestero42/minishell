@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 08:50:36 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/11 12:21:38 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/17 08:31:34 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,6 +208,8 @@ int	parse_command(char *command_str, t_minishell *data)
 	if (!data->cmd_tree)
 		error_init("malloc", 1);
 	result = parse_command_rec(tokens, data, data->cmd_tree, NULL);
+	if (result == EXIT_FAILURE)
+		ft_clean_tree(&data->cmd_tree, free_cmd);
 	double_free(tokens);
 	return (result);
 }

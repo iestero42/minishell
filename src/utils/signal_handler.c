@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 10:22:28 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/11 09:03:58 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/17 08:31:34 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,8 @@ void	signal_free_environ(int signum)
 	double_free(environ);
 	if (signum == SIGINT)
 		exit(130);
+	else if (signum == SIGQUIT)
+		exit(131);
 }
 
 /**
@@ -103,10 +105,18 @@ int	controller(t_minishell *data, pid_t *pid)
 	status_cmd = -1;
 	signal(SIGINT, SIG_IGN);
 	waitpid(*pid, &status_cmd, 0);
+	if (WIFSIGNALED(status_cmd))
+	{
+		if (WTERMSIG(status_cmd) == SIGQUIT)
+		{
+			ft_putstr_fd("Quit (core dumped)\n", STDOUT_FILENO);
+			return (131 << 8);
+		}
+	}
 	if (status_cmd == 2)
 	{
 		ft_putstr_fd("\n", data->std_fileno[0]);
-		status_cmd = 130 << 8;
+		return (130 << 8);
 	}
 	return (status_cmd);
 }
