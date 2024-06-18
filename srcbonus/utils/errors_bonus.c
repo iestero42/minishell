@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errors_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 11:53:30 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/17 08:26:36 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/18 09:28:02 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int	error_redir(char *org, char *control)
  */
 void	error_export_msg(char *arg)
 {
-	ft_putstr_fd("export: '", STDERR_FILENO);
+	ft_putstr_fd("minishell: export: '", STDERR_FILENO);
 	ft_putstr_fd(arg, STDERR_FILENO);
 	ft_putstr_fd("': not a valid identifier", STDERR_FILENO);
 	ft_putchar_fd('\n', STDERR_FILENO);
