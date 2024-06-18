@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 10:15:38 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/18 14:58:12 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/18 18:46:36 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,26 +18,6 @@
  */
 
 #include "minishell_bonus.h"
-
-/**
- * @brief 
- * Duplicates a file descriptor.
- *
- * @details
- * Duplicates the specified file descriptor to the specified mode.
- * If an error occurs, it prints an error message and exits the program.
- *
- * @param fd The file descriptor to duplicate.
- * @param mode The mode to duplicate to.
- */
-static void	dupping(int fd, int mode)
-{
-	if (dup2(fd, mode) < 0)
-	{
-		perror("dup");
-		exit(1);
-	}
-}
 
 /**
  * @brief 
@@ -68,6 +48,24 @@ static int	builtins(t_command cmd)
 	return (EXIT_SUCCESS);
 }
 
+static int	print_error_aux(struct stat path_stat, char *cmd)
+{
+	if (access(cmd, X_OK) != 0 && S_ISREG(path_stat.st_mode))
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(cmd, 2);
+		ft_putstr_fd(": Permission denied\n", STDERR_FILENO);
+		return (126);
+	}
+	else
+	{
+		ft_putstr_fd("minishell: ", STDERR_FILENO);
+		ft_putstr_fd(cmd, 2);
+		ft_putstr_fd(": command not found\n", STDERR_FILENO);
+	}
+	return (127);
+}
+
 /**
  * @brief 
  * Prints an error message and returns EXIT_FAILURE.
@@ -77,23 +75,28 @@ static int	builtins(t_command cmd)
  */
 static int	print_error(char *cmd, int type)
 {
-	char	*path;
+	char		*path;
+	struct stat	path_stat;
 
 	if (type == ERROR_CMD_NAME)
 	{
+		stat(cmd, &path_stat);
 		path = getenv("PATH");
-		if (!path || !*path)
+		if (!path || !*path || (ft_strchr(cmd, '/')
+				&& !S_ISREG(path_stat.st_mode)))
 		{
 			ft_putstr_fd("minishell: ", 2);
 			ft_putstr_fd(cmd, 2);
-			ft_putstr_fd(": No such file or directory\n", STDERR_FILENO);
+			if (S_ISDIR(path_stat.st_mode))
+			{
+				ft_putstr_fd(": Is a directory\n", STDERR_FILENO);
+				return (126 << 8);
+			}
+			else
+				ft_putstr_fd(": No such file or directory\n", STDERR_FILENO);
 		}
 		else
-		{
-			ft_putstr_fd("minishell: ", STDERR_FILENO);
-			ft_putstr_fd(cmd, 2);
-			ft_putstr_fd(": command not found\n", STDERR_FILENO);
-		}
+			return (print_error_aux(path_stat, cmd) << 8);
 	}
 	return (type);
 }

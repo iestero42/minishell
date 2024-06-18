@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 11:33:39 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/07 08:24:51 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/18 18:42:14 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,4 +91,24 @@ char	**print_estd(char **tokens, int mode, int i, t_minishell *data)
 	data->last_status_cmd = (2 << 8);
 	double_free(tokens);
 	return (NULL);
+}
+
+/**
+ * @brief 
+ * Duplicates a file descriptor.
+ *
+ * @details
+ * Duplicates the specified file descriptor to the specified mode.
+ * If an error occurs, it prints an error message and exits the program.
+ *
+ * @param fd The file descriptor to duplicate.
+ * @param mode The mode to duplicate to.
+ */
+void	dupping(int fd, int mode)
+{
+	if (dup2(fd, mode) < 0)
+	{
+		perror("dup");
+		exit(1);
+	}
 }
