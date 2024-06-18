@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 10:15:38 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/18 18:50:54 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/18 21:38:01 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,10 +80,11 @@ static int	print_error(char *cmd, int type)
 
 	if (type == ERROR_CMD_NAME)
 	{
+		path_stat.st_mode = 0;
 		stat(cmd, &path_stat);
 		path = getenv("PATH");
 		if (!path || !*path || (ft_strchr(cmd, '/')
-				&& !S_ISREG(path_stat.st_mode)))
+				&& (!path_stat.st_mode || !S_ISREG(path_stat.st_mode))))
 		{
 			ft_putstr_fd("minishell: ", 2);
 			ft_putstr_fd(cmd, 2);
@@ -131,8 +132,10 @@ static int	execute_command_logic(t_command *cmd, t_minishell *data)
 		{
 			signal(SIGQUIT, signal_free_environ);
 			if (execve(cmd->name, cmd->args, environ) < 0)
+			{
+				double_free(environ);
 				exit((print_error(cmd->name, ERROR_CMD_NAME) >> 8) & 0xFF);
-			exit(EXIT_SUCCESS);
+			}
 		}
 		return (controller(data, &pid));
 	}

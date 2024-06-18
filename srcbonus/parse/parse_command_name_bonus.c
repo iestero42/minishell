@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 08:18:57 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/18 15:54:04 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/18 21:42:23 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,8 @@ static int	check_own_command(char *token, t_command *cmd, char **cmd_list)
  */
 static int	check_relative_path(char *token, t_command *cmd)
 {
-	int	len;
+	int			len;
+	struct stat	path_stat;
 
 	if (!cmd->name)
 	{
@@ -117,11 +118,10 @@ static int	check_relative_path(char *token, t_command *cmd)
 			|| (len > 2 && token[0] == '.'
 				&& token[1] == '.' && token[2] == '/'))
 		{
-			if (!access(token, X_OK))
+			stat(token, &path_stat);
+			if (!access(token, X_OK) && S_ISREG(path_stat.st_mode))
 			{
 				cmd->name = ft_strdup(token);
-				if (!cmd->name)
-					error_init("malloc", 1);
 				cmd->type = PATH_COMMAND;
 			}
 		}
