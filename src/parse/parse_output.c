@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_output.c                                     :+:      :+:    :+:   */
+/*   parse_output_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 11:35:45 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/17 08:31:34 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/18 15:16:31 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
  * @date 2024/05/23
  */
 
-#include "minishell.h"
+#include "minishell_bonus.h"
 
 /**
  * @brief 
@@ -42,7 +42,8 @@ static int	open_output_simple(char **tokens, t_command *cmd,
 		if (tokens[1] != NULL && tokens[1][0] != OUTPUT_REDIR
 			&& tokens[1][0] != INPUT_REDIR && *tokens[1] != ENVP_VAR)
 		{
-			cmd->output_redirect = open(tokens[1], O_RDWR | O_CREAT, 0666);
+			cmd->output_redirect = open(tokens[1], O_RDWR
+					| O_CREAT | O_TRUNC, 0666);
 			if (cmd->output_redirect < 0)
 			{
 				ft_putstr_fd("minishell: ", STDERR_FILENO);

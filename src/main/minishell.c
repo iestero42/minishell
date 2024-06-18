@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   minishell_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 07:29:18 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/17 08:31:34 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/18 15:27:14 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
  * @date 2024/05/23
  */
 
-#include "minishell.h"
+#include "minishell_bonus.h"
 
 /**
  * @brief
@@ -80,5 +80,5 @@ int	main(void)
 		free(line);
 	}
 	deinit(&data);
-	return (0);
+	return (data.last_status_cmd >> 8 & 0xFF);
 }

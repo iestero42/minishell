@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   split_command.c                                    :+:      :+:    :+:   */
+/*   split_command_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 09:03:49 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/17 08:31:34 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/07 08:34:40 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
  * @date 2024/05/23
  */
 
-#include "minishell.h"
+#include "minishell_bonus.h"
 
 static char	**alloc_subtrings(char **substrings)
 {

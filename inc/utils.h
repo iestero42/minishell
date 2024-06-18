@@ -18,6 +18,7 @@
 //***********MISC***********//
 void		assign_operand(char **tokens, t_tree *tree, int i);
 char		**print_estd(char **tokens, int mode, int i, t_minishell *data);
+void		dupping(int fd, int mode);
 
 //***********ERRORS***********//
 int			error_redir(char *org, char *control);
