@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 08:18:57 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/10 12:54:55 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/06/18 12:44:03 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static int	check_path(char *token, char **dirs, t_command *cmd)
 	char	abs_path[1024];
 	int		i;
 
-	if (!cmd->name)
+	if (!cmd->name && !ft_strchr(token, '/'))
 	{
 		i = -1;
 		while (dirs != NULL && dirs[++i] != NULL)
@@ -58,33 +58,6 @@ static int	check_path(char *token, char **dirs, t_command *cmd)
 		}
 		if (cmd->name == NULL)
 			return (EXIT_FAILURE);
-	}
-	return (EXIT_SUCCESS);
-}
-
-/**
- * @brief 
- * Checks if the token is a relative path command.
- *
- * @details
- * If the command name is not set, it checks if the token is executable.
- * If it is, it sets the command name and type.
- *
- * @param token The token to check.
- * @param cmd The command structure to modify.
- * @return Always returns EXIT_SUCCESS.
- */
-static int	check_relative_path(char *token, t_command *cmd)
-{
-	if (!cmd->name)
-	{
-		if (!access(token, X_OK))
-		{
-			cmd->name = ft_strdup(token);
-			if (!cmd->name)
-				error_init("malloc", 1);
-			cmd->type = PATH_COMMAND;
-		}
 	}
 	return (EXIT_SUCCESS);
 }
@@ -155,11 +128,13 @@ int	parse_command_name(char **tokens, t_command *cmd, char **cmd_list)
 	if (!dirs && path)
 		error_init("malloc", 1);
 	check_own_command(tokens[i], cmd, cmd_list);
-	check_relative_path(tokens[i], cmd);
 	error = check_path(tokens[i], dirs, cmd);
+	if (cmd->name == NULL)
+	{
+		cmd->name = ft_strdup(tokens[i]);
+		cmd->type = PATH_COMMAND;
+	}
 	if (dirs)
 		double_free(dirs);
-	if (error == EXIT_FAILURE)
-		cmd->name = ft_strdup(tokens[i]);
-	return (error);
+	return (EXIT_SUCCESS);
 }

@@ -2,6 +2,8 @@ proximo dia:
 
 	pasar todo al src de nuevo
 
+	comprobar bien lo del path relativo
+
 	hacer pruebas locas con los argumentos desordenados y de todo
 	
 

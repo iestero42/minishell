@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_command_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 10:15:38 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/16 20:57:29 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/18 13:00:36 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,13 +172,11 @@ int	exec_command(t_command *cmd, t_minishell *data)
 	}
 	else if (cmd->input_redirect < 0 && cmd->output_redirect > -1)
 	{
-		dupping(data->std_fileno[0], STDIN_FILENO);
 		dupping(cmd->output_redirect, STDOUT_FILENO);
 	}
 	else if (cmd->input_redirect > -1 && cmd->output_redirect < 0)
 	{
 		dupping(cmd->input_redirect, STDIN_FILENO);
-		dupping(data->std_fileno[1], STDOUT_FILENO);
 	}
 	result = execute_command_logic(cmd, data);
 	if (cmd->input_redirect < 0)

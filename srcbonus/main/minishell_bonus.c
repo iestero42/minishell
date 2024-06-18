@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 07:29:18 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/18 12:32:03 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/06/18 13:03:32 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,5 +80,5 @@ int	main(void)
 		free(line);
 	}
 	deinit(&data);
-	return (data.last_status_cmd);
+	return (data.last_status_cmd >> 8 & 0xFF);
 }
