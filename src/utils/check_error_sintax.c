@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   check_error_sintax.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 06:27:23 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/10 12:58:37 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/06/18 18:50:54 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell_bonus.h"
+#include "minishell.h"
 
 /**
  * @brief Appends a line token to the tokens array.
