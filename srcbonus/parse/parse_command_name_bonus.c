@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 08:18:57 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/18 15:48:38 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/18 15:54:04 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ static int	check_relative_path(char *token, t_command *cmd)
 				cmd->type = PATH_COMMAND;
 			}
 		}
-		else
+		if (!cmd->name)
 		{
 			cmd->name = ft_strdup(token);
 			return (EXIT_FAILURE);
