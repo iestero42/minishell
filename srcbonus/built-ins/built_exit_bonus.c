@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_exit_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 10:59:11 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/07 09:02:46 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/18 09:32:19 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static int	check_args(char **args)
 		{
 			if (!ft_isdigit(args[i][j]))
 			{
-				ft_putstr_fd("exit: ", 2);
+				ft_putstr_fd("minishell: exit: ", 2);
 				ft_putstr_fd(args[i], 2);
 				ft_putstr_fd(": numeric argument required\n", 2);
 				return (EXIT_FAILURE);
@@ -83,7 +83,7 @@ int	built_exit(char **args)
 		return (EXIT_FAILURE << 8);
 	if (i > 2)
 	{
-		ft_putstr_fd("exit: too many arguments\n", 2);
+		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
 		return (EXIT_FAILURE << 8);
 	}
 	else
