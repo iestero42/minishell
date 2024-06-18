@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_input.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 11:47:55 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/17 08:31:34 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/18 09:15:12 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ static int	write_here_doc(char *delimiter, int last_status,
 		signal(SIGINT, signal_free_environ);
 		close(pipes[0]);
 		line = readline("> ");
-		while (line != NULL && ft_strncmp(line, delimiter, ft_strlen(line) - 1))
+		while (line != NULL && ft_strncmp(line, delimiter, ft_strlen(line)))
 		{
 			line = ft_strjoin(line, "\n");
 			tmp = parse_env_variable(line, last_status, '\0');
