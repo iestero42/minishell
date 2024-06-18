@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_command_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 10:15:38 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/18 13:00:36 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/06/18 14:58:12 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,19 +165,10 @@ int	exec_command(t_command *cmd, t_minishell *data)
 
 	if (cmd->input_redirect < 0)
 		show_eof_symbol();
-	if (cmd->input_redirect > -1 && cmd->output_redirect > -1)
-	{
-		dupping(cmd->input_redirect, STDIN_FILENO);
+	if (cmd->output_redirect > -1)
 		dupping(cmd->output_redirect, STDOUT_FILENO);
-	}
-	else if (cmd->input_redirect < 0 && cmd->output_redirect > -1)
-	{
-		dupping(cmd->output_redirect, STDOUT_FILENO);
-	}
-	else if (cmd->input_redirect > -1 && cmd->output_redirect < 0)
-	{
+	if (cmd->input_redirect > -1)
 		dupping(cmd->input_redirect, STDIN_FILENO);
-	}
 	result = execute_command_logic(cmd, data);
 	if (cmd->input_redirect < 0)
 		hide_eof_symbol();

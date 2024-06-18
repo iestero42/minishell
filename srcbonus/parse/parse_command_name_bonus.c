@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_command_name_bonus.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 08:18:57 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/18 12:44:03 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/06/18 15:29:46 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,9 @@ static int	check_path(char *token, char **dirs, t_command *cmd)
 				break ;
 			}
 		}
-		if (cmd->name == NULL)
-			return (EXIT_FAILURE);
 	}
+	if (cmd->name == NULL)
+		cmd->type = PATH_COMMAND;
 	return (EXIT_SUCCESS);
 }
 
@@ -112,7 +112,6 @@ int	parse_command_name(char **tokens, t_command *cmd, char **cmd_list)
 {
 	int		i;
 	char	*path;
-	int		error;
 	char	**dirs;
 
 	cmd->name = NULL;
@@ -120,20 +119,16 @@ int	parse_command_name(char **tokens, t_command *cmd, char **cmd_list)
 	i = 0;
 	convert_tokens(tokens);
 	path = getenv("PATH");
-	while (tokens[i] != NULL && (tokens[i][0] == '\0' || tokens[i][0] == '\5'))
+	while (tokens[i] != NULL && tokens[i][0] == '\5')
 		i++;
-	if (tokens[i] == NULL || tokens[i][0] == '\0')
+	if (tokens[i] == NULL || tokens[i][0] == '\5')
 		return (EXIT_SUCCESS);
 	dirs = ft_split(path, ':');
 	if (!dirs && path)
 		error_init("malloc", 1);
 	check_own_command(tokens[i], cmd, cmd_list);
-	error = check_path(tokens[i], dirs, cmd);
-	if (cmd->name == NULL)
-	{
-		cmd->name = ft_strdup(tokens[i]);
-		cmd->type = PATH_COMMAND;
-	}
+	check_path(tokens[i], dirs, cmd);
+	check_relative_path(tokens[i], cmd); //TODO
 	if (dirs)
 		double_free(dirs);
 	return (EXIT_SUCCESS);
