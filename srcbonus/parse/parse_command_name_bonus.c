@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 08:18:57 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/18 15:29:46 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/18 15:48:38 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,9 @@
  */
 static int	check_path(char *token, char **dirs, t_command *cmd)
 {
-	char	abs_path[1024];
-	int		i;
+	char		abs_path[1024];
+	int			i;
+	struct stat	path_stat;
 
 	if (!cmd->name && !ft_strchr(token, '/'))
 	{
@@ -47,7 +48,8 @@ static int	check_path(char *token, char **dirs, t_command *cmd)
 			ft_strlcat(abs_path, dirs[i], sizeof(abs_path));
 			ft_strlcat(abs_path, "/", sizeof(abs_path));
 			ft_strlcat(abs_path, token, sizeof(abs_path));
-			if (!access(abs_path, X_OK))
+			stat(abs_path, &path_stat);
+			if (!access(abs_path, X_OK) && !S_ISDIR(path_stat.st_mode))
 			{
 				cmd->name = ft_strdup(abs_path);
 				if (!cmd->name)
@@ -57,8 +59,6 @@ static int	check_path(char *token, char **dirs, t_command *cmd)
 			}
 		}
 	}
-	if (cmd->name == NULL)
-		cmd->type = PATH_COMMAND;
 	return (EXIT_SUCCESS);
 }
 
@@ -95,6 +95,47 @@ static int	check_own_command(char *token, t_command *cmd, char **cmd_list)
 
 /**
  * @brief 
+ * Checks if the token is a relative path command.
+ *
+ * @details
+ * If the command name is not set, it checks if the token is executable.
+ * If it is, it sets the command name and type.
+ *
+ * @param token The token to check.
+ * @param cmd The command structure to modify.
+ * @return Always returns EXIT_SUCCESS.
+ */
+static int	check_relative_path(char *token, t_command *cmd)
+{
+	int	len;
+
+	if (!cmd->name)
+	{
+		len = ft_strlen(token);
+		if ((len > 1 && token[0] == '.' && token[1] == '/')
+			|| (len > 0 && token[0] == '/')
+			|| (len > 2 && token[0] == '.'
+				&& token[1] == '.' && token[2] == '/'))
+		{
+			if (!access(token, X_OK))
+			{
+				cmd->name = ft_strdup(token);
+				if (!cmd->name)
+					error_init("malloc", 1);
+				cmd->type = PATH_COMMAND;
+			}
+		}
+		else
+		{
+			cmd->name = ft_strdup(token);
+			return (EXIT_FAILURE);
+		}
+	}
+	return (EXIT_SUCCESS);
+}
+
+/**
+ * @brief 
  * Parses the command name from the tokens.
  *
  * @details
@@ -113,6 +154,7 @@ int	parse_command_name(char **tokens, t_command *cmd, char **cmd_list)
 	int		i;
 	char	*path;
 	char	**dirs;
+	int		error;
 
 	cmd->name = NULL;
 	cmd->type = -1;
@@ -128,8 +170,8 @@ int	parse_command_name(char **tokens, t_command *cmd, char **cmd_list)
 		error_init("malloc", 1);
 	check_own_command(tokens[i], cmd, cmd_list);
 	check_path(tokens[i], dirs, cmd);
-	check_relative_path(tokens[i], cmd); //TODO
+	error = check_relative_path(tokens[i], cmd);
 	if (dirs)
 		double_free(dirs);
-	return (EXIT_SUCCESS);
+	return (error);
 }

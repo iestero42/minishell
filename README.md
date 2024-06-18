@@ -2,7 +2,7 @@ proximo dia:
 
 	pasar todo al src de nuevo
 
-	comprobar bien lo del path relativo
+	poner bien los errores del comando
 
 	hacer pruebas locas con los argumentos desordenados y de todo
 	
