@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 11:35:45 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/18 15:16:31 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/19 13:44:40 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static int	open_output_simple(char **tokens, t_command *cmd,
 			return (error_redir(tokens[1], control));
 	}
 	if (cmd->output_redirect == -1)
-		return (EXIT_FAILURE);
+		return (EXIT_FAILURE << 8);
 	return (EXIT_SUCCESS);
 }
 
@@ -101,7 +101,7 @@ static int	open_output_double(char **tokens, t_command *cmd,
 			return (error_redir(tokens[1], control));
 	}
 	if (cmd->output_redirect == -1)
-		return (EXIT_FAILURE);
+		return (EXIT_FAILURE << 8);
 	return (EXIT_SUCCESS);
 }
 
@@ -121,12 +121,17 @@ static int	open_output_double(char **tokens, t_command *cmd,
 int	parse_output(char **tokens, t_command *cmd,
 		char *control)
 {
+	int	error;
+
+	error = 0;
 	if (tokens[0][0] != '"' && tokens[0][0] != '\'')
 	{
-		if (open_output_double(tokens, cmd, control) == EXIT_FAILURE)
-			return (EXIT_FAILURE);
-		if (open_output_simple(tokens, cmd, control) == EXIT_FAILURE)
-			return (EXIT_FAILURE);
+		error = open_output_double(tokens, cmd, control);
+		if (error)
+			return (error);
+		error = open_output_simple(tokens, cmd, control);
+		if (error)
+			return (error);
 	}
-	return (EXIT_SUCCESS);
+	return (error);
 }

@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 08:50:36 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/18 15:18:15 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/19 13:28:36 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ static int	parse_subcmd(char **tokens, t_command *cmd, t_minishell *data,
 		char *control)
 {
 	char	**new_tokens;
+	int		error;
 
 	cmd->name = NULL;
 	cmd->args = NULL;
@@ -119,16 +120,16 @@ static int	parse_subcmd(char **tokens, t_command *cmd, t_minishell *data,
 	new_tokens = trim_args(tokens, data->last_status_cmd);
 	if (!new_tokens)
 		error_init("malloc", 1);
-	if (parse_redirect(new_tokens, cmd, control, data) == EXIT_FAILURE
-		&& data->status != STOPPED)
-		return (error_command(cmd, new_tokens, ERROR_REDIR));
+	error = parse_redirect(new_tokens, cmd, control, data);
+	if (error && data->status != STOPPED)
+		return (error_command(cmd, new_tokens, error));
 	if (data->status == STOPPED)
 	{
 		double_free(new_tokens);
 		data->status = RUNNING;
 		return (EXIT_FAILURE);
 	}
-	if (parse_command_name(new_tokens, cmd, data->cmd_list) == EXIT_FAILURE)
+	if (parse_command_name(new_tokens, cmd, data->cmd_list))
 		return (error_command(cmd, new_tokens, ERROR_CMD_NAME));
 	parse_args(cmd, new_tokens);
 	double_free(new_tokens);

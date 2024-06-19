@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 10:15:38 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/18 21:40:16 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/19 13:43:43 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
  * @date 2024/05/23
  */
 
-#include "minishell.h"
+#include "minishell_bonus.h"
 
 /**
  * @brief 
@@ -141,7 +141,7 @@ static int	execute_command_logic(t_command *cmd, t_minishell *data)
 	}
 	else if (cmd->type > 0 && cmd->type < 8)
 		return (builtins(*cmd));
-	else if (cmd->type == ERROR_CMD_NAME || cmd->type == ERROR_REDIR)
+	else if (cmd->type)
 		return (print_error(cmd->name, cmd->type));
 	return (EXIT_SUCCESS);
 }

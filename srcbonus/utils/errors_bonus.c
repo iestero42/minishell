@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errors_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 11:53:30 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/18 09:28:02 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/06/19 13:46:09 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int	error_redir(char *org, char *control)
 		else if (*org == INPUT_REDIR || *org == OUTPUT_REDIR)
 			print_error_redir(org);
 	}
-	return (EXIT_FAILURE);
+	return (ERROR_REDIR);
 }
 
 /**

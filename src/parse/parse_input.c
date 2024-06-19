@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 11:47:55 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/18 18:50:54 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/19 13:51:08 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static int	open_input_simple(char **tokens, t_command *cmd,
 			return (error_redir(tokens[1], control));
 	}
 	if (cmd->input_redirect == -1)
-		return (EXIT_FAILURE);
+		return (EXIT_FAILURE << 8);
 	return (EXIT_SUCCESS);
 }
 
@@ -172,7 +172,7 @@ static int	open_input_double(char **tokens, t_command *cmd,
 			return (error_redir(tokens[1], control));
 	}
 	if (cmd->input_redirect == -1)
-		return (EXIT_FAILURE);
+		return (EXIT_FAILURE << 8);
 	return (EXIT_SUCCESS);
 }
 
@@ -193,13 +193,18 @@ static int	open_input_double(char **tokens, t_command *cmd,
 int	parse_input(char **tokens, t_command *cmd,
 		char *control, t_minishell *data)
 {
+	int	error;
+
+	error = 0;
 	show_eof_symbol();
 	if (tokens[0][0] != '"' && tokens[0][0] != '\'')
 	{
-		if (open_input_double(tokens, cmd, control, data) == EXIT_FAILURE)
-			return (EXIT_FAILURE);
-		if (open_input_simple(tokens, cmd, control) == EXIT_FAILURE)
-			return (EXIT_FAILURE);
+		error = open_input_double(tokens, cmd, control, data);
+		if (error)
+			return (error);
+		error = open_input_simple(tokens, cmd, control);
+		if (error)
+			return (error);
 	}
 	hide_eof_symbol();
 	return (EXIT_SUCCESS);
