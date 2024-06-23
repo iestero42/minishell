@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 10:55:57 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/16 20:20:33 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/23 11:40:55 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,8 +116,7 @@ void	init(t_minishell *data)
 	data->access_environ = 0;
 	data->last_status_cmd = 0;
 	data->n_line = 1;
-	if (tcgetattr(STDIN_FILENO, &data->original_term) == -1)
-		error_init("tcgetattr", 1);
+	tcgetattr(STDIN_FILENO, &data->original_term);
 	hide_eof_symbol();
 }
 

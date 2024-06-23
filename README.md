@@ -1,9 +1,4 @@
 proximo dia:
-
-	pasar todo al src de nuevo
-
-	poner bien los errores del comando
-
 	hacer pruebas locas con los argumentos desordenados y de todo
 	
 
