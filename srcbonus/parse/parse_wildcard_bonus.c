@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_wildcard_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 11:53:17 by iestero-          #+#    #+#             */
-/*   Updated: 2024/05/24 08:38:02 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/25 10:11:06 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,11 +138,10 @@ char	**parse_wildcard(char **token)
 		return (NULL);
 	new_token = NULL;
 	i = -1;
-	while (token[++i] != NULL)
+	while (token[++i] != NULL && ft_strchr(token[i], WILDCARD))
 	{
 		expand = NULL;
-		if (ft_strchr(token[i], WILDCARD))
-			expand = expand_wildcard(token[i]);
+		expand = expand_wildcard(token[i]);
 		if (expand == NULL)
 			expand = ft_strdup(token[i]);
 		convert_char(expand, '*', WILDCARD, 0);

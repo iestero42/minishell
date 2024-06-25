@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_command_name.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 08:18:57 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/18 21:40:47 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/25 10:09:14 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,9 +161,9 @@ int	parse_command_name(char **tokens, t_command *cmd, char **cmd_list)
 	i = 0;
 	convert_tokens(tokens);
 	path = getenv("PATH");
-	while (tokens[i] != NULL && tokens[i][0] == '\5')
+	while (tokens[i] != NULL && tokens[i][0] == ENVP_VAR)
 		i++;
-	if (tokens[i] == NULL || tokens[i][0] == '\5')
+	if (tokens[i] == NULL || tokens[i][0] == ENVP_VAR)
 		return (EXIT_SUCCESS);
 	dirs = ft_split(path, ':');
 	if (!dirs && path)

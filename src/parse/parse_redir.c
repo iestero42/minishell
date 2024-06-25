@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_redir.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 09:21:16 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/19 13:51:49 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/25 10:05:09 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,8 @@ static char	*remove_char(char *token)
 		else
 			j++;
 	}
+	if (tmp)
+		free(token);
 	return (tmp);
 }
 

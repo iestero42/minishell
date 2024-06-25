@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   trim_command.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 11:53:17 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/18 18:50:54 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/25 10:17:23 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,10 +202,7 @@ char	**trim_command(char *token, int last_status)
 			error_init("malloc", 1);
 		new_token[0] = ft_strdup(token);
 		if (!new_token[0])
-		{
-			free(new_token);
-			return (NULL);
-		}
+			return (free(new_token), NULL);
 		new_token[1] = NULL;
 	}
 	tmp = parse_wildcard(new_token);
@@ -214,5 +211,7 @@ char	**trim_command(char *token, int last_status)
 		double_free(new_token);
 		new_token = tmp;
 	}
+	else if (tmp)
+		double_free(tmp);
 	return (new_token);
 }

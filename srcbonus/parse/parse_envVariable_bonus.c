@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_envVariable_bonus.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 10:24:02 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/14 07:54:51 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/25 10:21:56 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,14 +79,16 @@ static char	*expand_env_variable(char *token, int *start, int *position,
 	if (str == NULL)
 		error_init("malloc", 1);
 	env_var = getenv(str);
-	if (!env_var || !*env_var)
+	if (env_var && *env_var)
+		env_var = ft_strdup(env_var);
+	else if (!env_var || !*env_var)
 		env_var = ft_strdup("\5");
 	if (env_var == NULL)
 		error_init("malloc", 1);
 	free(str);
 	*position += i;
 	*start = *position + 1;
-	return (ft_strdup(env_var));
+	return (env_var);
 }
 
 /**

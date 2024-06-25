@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_redir_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 09:21:16 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/19 13:39:57 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/25 10:08:41 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,15 @@
 
 /**
  * @brief 
- * Checks if a token contains only '\5' characters.
+ * Checks if a token contains only ENVP_VAR characters.
  *
  * @details
- * Counts the number of '\5' characters and other characters in the token.
- * If the token contains only '\5' characters or no '\5' characters, 
+ * Counts the number of ENVP_VAR characters and other characters in the token.
+ * If the token contains only ENVP_VAR characters or no ENVP_VAR characters, 
  * it returns 1. Otherwise, it returns 0.
  *
  * @param token The token to check.
- * @return 1 if the token contains only '\5' characters or no '\5' 
+ * @return 1 if the token contains only ENVP_VAR characters or no ENVP_VAR 
  * 	characters, 0 otherwise.
  */
 static int	check_slash5(char *token)
@@ -43,7 +43,7 @@ static int	check_slash5(char *token)
 	i = -1;
 	while (token[++i] != '\0')
 	{
-		if (token[i] == '\5')
+		if (token[i] == ENVP_VAR)
 			slash5_count++;
 		else
 			other_count++;
@@ -56,10 +56,10 @@ static int	check_slash5(char *token)
 
 /**
  * @brief 
- * Removes '\5' characters from a token.
+ * Removes ENVP_VAR characters from a token.
  *
  * @details
- * Iterates over the token. If it finds a '\5' character, 
+ * Iterates over the token. If it finds a ENVP_VAR character, 
  * it removes it from the token.
  *
  * @param token The token to modify.
@@ -76,7 +76,7 @@ static char	*remove_char(char *token)
 	j = 0;
 	while (tmp[j] != '\0')
 	{
-		if (tmp[j] == '\5')
+		if (tmp[j] == ENVP_VAR)
 		{
 			before = ft_substr(token, 0, j);
 			after = ft_substr(token, j + 1, ft_strlen(token) - j - 1);
@@ -87,15 +87,17 @@ static char	*remove_char(char *token)
 		else
 			j++;
 	}
+	if (tmp)
+		free(token);
 	return (tmp);
 }
 
 /**
  * @brief 
- * Removes '\5' characters from tokens.
+ * Removes ENVP_VAR characters from tokens.
  *
  * @details
- * Iterates over the tokens. If a token contains '\5' characters,
+ * Iterates over the tokens. If a token contains ENVP_VAR characters,
  * it removes them.
  *
  * @param token The tokens to modify.
@@ -118,7 +120,7 @@ static void	rm_slash5(char **token)
  * Parses the redirections in the tokens.
  *
  * @details
- * Removes '\5' characters from the tokens, then parses 
+ * Removes ENVP_VAR characters from the tokens, then parses 
  * the output and input redirections.
  *
  * @param tokens The tokens to parse.

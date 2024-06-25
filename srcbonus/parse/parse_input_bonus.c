@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_input_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iestero- <iestero-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 11:47:55 by iestero-          #+#    #+#             */
-/*   Updated: 2024/06/19 13:44:29 by yunlovex         ###   ########.fr       */
+/*   Updated: 2024/06/25 10:08:41 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ static int	open_input_simple(char **tokens, t_command *cmd,
 					ft_putstr_fd(": ", STDERR_FILENO);
 				perror(tokens[1]);
 			}
-			*tokens[1] = '\5';
-			*tokens[0] = '\5';
+			*tokens[1] = ENVP_VAR;
+			*tokens[0] = ENVP_VAR;
 		}
 		else
 			return (error_redir(tokens[1], control));
@@ -165,8 +165,8 @@ static int	open_input_double(char **tokens, t_command *cmd,
 				error_init("pipe", 1);
 			cmd->input_redirect = write_here_doc(tokens[1],
 					data->last_status_cmd, pipes, data);
-			*tokens[1] = '\5';
-			*tokens[0] = '\5';
+			*tokens[1] = ENVP_VAR;
+			*tokens[0] = ENVP_VAR;
 		}
 		else
 			return (error_redir(tokens[1], control));
